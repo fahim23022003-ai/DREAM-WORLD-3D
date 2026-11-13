@@ -1,0 +1,29 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS main scene opens to menu
+PASS settings opens through GUI
+PASS sensitivity applies
+PASS start button enters game
+PASS W moves forward relative to camera
+PASS Shift runs faster than walking
+PASS S moves backward
+PASS A moves left
+PASS D moves right and solid wall blocks movement
+PASS sofa collision blocks walking through furniture
+PASS sofa proximity detects usable seat
+PASS E seats player with visible pose transition
+PASS avatar legs transition into seated pose
+PASS E stands at clear exit point
+PASS mouse orbit responds and clamps pitch
+PASS scroll changes zoom
+PASS SpringArm retracts at back wall
+PASS Escape opens pause
+PASS pause prevents movement
+PASS Resume button restores play
+PASS main-menu button returns home
+PASS local position and settings survive reload
+PHASE ONE: 22/22 checks passed
+Invoking Quit button; expect process exit 0

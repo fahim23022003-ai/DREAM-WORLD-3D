@@ -1,6 +1,6 @@
 # Dream World 3D — Rosewater House
 
-Phase 1 playable slice with the **Phase 1B visual overhaul**. Godot **4.6.x**, GDScript, Windows PC target.
+Phase 1 playable slice with **Phase 1B art + Phase 1C Make It Mine, Play & Unlock**. Godot **4.6.x**, GDScript, Windows PC target.
 Entry point: `scenes/main.tscn`. Open `project.godot` in Godot 4.6.x and press **F5**.
 No downloads, asset packs, services, accounts or application network access required.
 
@@ -9,19 +9,25 @@ No downloads, asset packs, services, accounts or application network access requ
 - Choose **Come on in** / **Continue home**. WASD moves relative to the camera; Shift runs.
 - Move the mouse to orbit; scroll to zoom. The spring arm retracts against room geometry.
 - Approach the front of the sofa from either side of the coffee table. Press **E** at the prompt to sit; E stands.
-- **Esc** pauses and releases the mouse. Resume or return to the main menu.
-- Settings changes mouse sensitivity, fullscreen and sunlight shadows. Menus also accept keyboard focus/Enter.
+- **C** opens Personalize; name, hair and outfit colors preview on the actual avatar. Apply saves; Cancel/Esc restores.
+- **B** opens Decor: choose rug/cushion/curtain palettes independently or preview a whole theme. Apply confirms.
+- Approach the little card box on the coffee table, face it and press **E** for Cozy Pairs. Find six pairs; no timer or failure penalty.
+- The first completed round unlocks Lavender Dream. Apply it immediately or keep your style and select it later in Decor. Replays improve your own best.
+- **Esc** closes the topmost UI or pauses. Panels release the mouse and block world input; opening one while seated keeps you seated.
+- Small hints can be hidden; completion/dismissal survives Continue.
+- Settings changes mouse sensitivity, fullscreen, sunlight shadows and UI sound volume/mute. Menus also accept keyboard focus/Enter.
 - Position and settings save every 20 seconds, on pause, on menu return and on quit.
   A seated player reloads at the clear standing point, rather than inside the sofa.
 - Local save: `user://rosewater.cfg` (Windows: `%APPDATA%/Godot/app_userdata/Dream World 3D/`).
-  Delete that file to reset. Failed writes show “Save unavailable”.
+  Schema 2 migration preserves Phase 1B position/settings and makes a `.v1.bak`; atomic writes retain `.last_good`.
+  Failed writes retain the previous save. Previews and unfinished puzzle rounds are never saved.
 
 ## Structure
 
 `scenes/` contains independent room, prop, avatar, player, camera, interaction and menu scenes.
 `scripts/forms.gd` shares rounded original geometry and cached materials; `prop.gd` is a small reusable furniture catalogue.
 The avatar separates hair, face, blouse, pinafore and pivoted limbs. `save_data.gd` keeps persistence separate from gameplay.
-`docs/MASTER_SPEC.md` retains the supplied future vision; only Phase 1 is implemented.
+`docs/MASTER_SPEC.md` retains the supplied future vision; only the bounded Phase 1/1B/1C features are implemented.
 Future creator/catalogue/house/minigame systems can add content alongside these scenes without replacing movement or UI.
 `assets/textures/` contains original vector linen, ash wood, botanical print and rug art; no downloaded assets are used.
 The root `AGENTS.md` requires genuine committed gameplay screenshots at the end of future tasks.
@@ -60,10 +66,12 @@ tailored furnishings, tapered hair, expressive facial detail, layered clothes, a
 production character sculpting and high quality contact shadows.
 Idle/walk/run and sitting use procedural part animation, not a production skeletal animation set.
 The room has no ceiling to preserve the playable slice's open composition. Windows show a stylized static garden.
-No audio, customization, decoration editor, second floor, profiles or minigames in Phase 1.
+Phase 1C adds lightweight personalization, palette decor and one memory game. No furniture placement editor, second floor or profiles.
+Four short original UI sounds are bundled; cloud audible playback remains unverified.
 Linux Godot 4.6.3 was used for verification; Windows executable export and desktop performance remain unverified.
 For Windows distribution, install matching Godot export templates and create a Windows Desktop export in the editor.
 The project uses the Compatibility renderer for broad desktop support. Geometry and materials are original;
 there are no third-party art assets.
 
-Recommended next phase: art refinement of this one room/avatar before expanding gameplay scope.
+Current scope, save schema and actual extension points: [PROJECT_STATUS.md](docs/PROJECT_STATUS.md).
+Latest commands, results and genuine review images: [Phase 1C report](docs/review/phase1c/RESULTS.md).

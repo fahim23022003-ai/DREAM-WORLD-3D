@@ -2,6 +2,11 @@ extends CanvasLayer
 signal start_requested
 signal resume_requested
 signal main_requested
+signal sound_requested(kind: String)
+signal audio_changed(volume: float, muted: bool)
+signal guidance_changed(dismissed: bool)
+signal personalize_requested
+signal decor_requested
 signal quit_requested
 signal settings_changed(sensitivity: float, fullscreen: bool, shadows: bool)
 var root: Control
@@ -14,6 +19,11 @@ var saved := false
 var sensitivity := 1.0
 var fullscreen := false
 var shadows := true
+var ui_volume := 0.55
+var muted := false
+var home_label: Label
+var guide: PanelContainer
+var notice_timer: Timer
 
 func style(color: String, radius: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
@@ -55,7 +65,7 @@ func button(text: String, callback: Callable, primary: bool = false) -> Button:
 	focus.border_color = Color("d2a56c")
 	focus.set_border_width_all(2)
 	b.add_theme_stylebox_override("focus",focus)
-	b.pressed.connect(callback)
+	b.pressed.connect(func(): sound_requested.emit("click"); callback.call())
 	return b
 
 func style_toggle(toggle: CheckButton) -> void:
@@ -85,13 +95,14 @@ func _ready() -> void:
 	badge.add_theme_stylebox_override("panel",style("fff8f0ed",18))
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud.add_child(badge)
-	badge.add_child(label("✦   ROSEWATER HOUSE",13,"756578"))
+	home_label = label("✦   ROSEWATER HOUSE",13,"756578")
+	badge.add_child(home_label)
 	var legend := PanelContainer.new()
-	legend.position = Vector2(258,660)
+	legend.position = Vector2(216,660)
 	legend.add_theme_stylebox_override("panel",style("fff8f0ed",18))
 	legend.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud.add_child(legend)
-	var controls := label("WASD  Move    ·    SHIFT  Run    ·    MOUSE  Look    ·    SCROLL  Zoom    ·    ESC  Pause",13,"756578")
+	var controls := label("WASD Move  ·  SHIFT Run  ·  MOUSE Look  ·  SCROLL Zoom  ·  C Personalize  ·  B Decor  ·  ESC Pause",13,"756578")
 	controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	legend.add_child(controls)
 	prompt = label("",17,"fff8ef")
@@ -104,6 +115,10 @@ func _ready() -> void:
 	notice = label("",13,"66586e")
 	notice.position = Vector2(970,26)
 	hud.add_child(notice)
+	notice_timer = Timer.new()
+	notice_timer.one_shot = true
+	notice_timer.timeout.connect(func(): notice.text="")
+	add_child(notice_timer)
 	show_page("main")
 
 func show_page(page: String) -> void:
@@ -112,6 +127,7 @@ func show_page(page: String) -> void:
 	if is_instance_valid(panel):
 		root.remove_child(panel)
 		panel.queue_free()
+		panel = null
 	if page == "game": return
 	panel = PanelContainer.new()
 	panel.position = Vector2(48,98) if page == "main" else Vector2(438,130)
@@ -140,6 +156,8 @@ func show_page(page: String) -> void:
 		col.add_child(label("Take a little breath",27,"73505a"))
 		col.add_child(label("Your corner of the world can wait.",15,"8b7569"))
 		col.add_child(button("Resume  →",func(): resume_requested.emit(),true))
+		col.add_child(button("Personalize  ·  C",func(): personalize_requested.emit()))
+		col.add_child(button("Decorate  ·  B",func(): decor_requested.emit()))
 		col.add_child(button("Settings",func(): show_page("settings_pause")))
 		col.add_child(button("Save & main menu",func(): main_requested.emit()))
 		col.add_child(button("Save & quit",func(): quit_requested.emit()))
@@ -166,6 +184,22 @@ func show_page(page: String) -> void:
 		shadow.button_pressed = shadows
 		shadow.toggled.connect(func(value): shadows=value; emit_settings())
 		col.add_child(shadow)
+		col.add_child(label("UI sound volume",15))
+		var volume := HSlider.new()
+		volume.name = "UiVolume"
+		volume.min_value = 0
+		volume.max_value = 1
+		volume.step = 0.05
+		volume.value = ui_volume
+		volume.custom_minimum_size.y = 24
+		volume.value_changed.connect(func(value): ui_volume=value; audio_changed.emit(ui_volume,muted))
+		col.add_child(volume)
+		var mute := CheckButton.new()
+		mute.text = "Mute UI sounds"
+		style_toggle(mute)
+		mute.button_pressed = muted
+		mute.toggled.connect(func(value): muted=value; audio_changed.emit(ui_volume,muted))
+		col.add_child(mute)
 		col.add_child(label("Settings save automatically on this PC.",13,"8b7569"))
 		col.add_child(button("Done",func(): show_page("pause" if page == "settings_pause" else "main"),true))
 	var first := col.find_children("*","Button",true,false)
@@ -177,3 +211,33 @@ func emit_settings() -> void:
 func set_prompt(text: String) -> void:
 	prompt.text = text
 	prompt.visible = not text.is_empty()
+
+func show_notice(text: String) -> void:
+	notice.text = text
+	notice_timer.start(3.5)
+
+func update_guidance(data: Dictionary) -> void:
+	if is_instance_valid(guide):
+		hud.remove_child(guide)
+		guide.queue_free()
+	guide = PanelContainer.new()
+	guide.position = Vector2(830,78)
+	guide.add_theme_stylebox_override("panel",style("fff8f0ed",16))
+	hud.add_child(guide)
+	var col := VBoxContainer.new()
+	guide.add_child(col)
+	if data.dismissed or data.reward_applied:
+		var b := button("Tips",func(): guidance_changed.emit(false); data.dismissed=false; update_guidance(data))
+		b.custom_minimum_size=Vector2(80,30)
+		col.add_child(b)
+		guide.position.x=1120
+		if data.reward_applied: guide.hide()
+		return
+	var text := "C  ·  Make your avatar your own"
+	if data.personalized: text="B  ·  Preview a palette for your room"
+	if data.personalized and data.decorated: text="E  ·  Try the card box on the coffee table"
+	if data.played: text="B  ·  Your Lavender Dream theme is unlocked"
+	col.add_child(label(text,14,"796179"))
+	var dismiss := button("Hide tips",func(): guidance_changed.emit(true); data.dismissed=true; update_guidance(data))
+	dismiss.custom_minimum_size=Vector2(110,30)
+	col.add_child(dismiss)

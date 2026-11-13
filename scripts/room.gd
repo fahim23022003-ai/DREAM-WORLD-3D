@@ -43,10 +43,14 @@ func _ready() -> void:
 	F.box(self,Vector3(0,0.064,-0.5),Vector3(5.24,0.012,3.94),"eee2cc",0.005)
 	var rug := F.picture(self,Vector3(0,0.083,-0.5),Vector2(5.24,3.94),"res://assets/textures/rug.svg")
 	rug.rotation.x = -PI/2
+	F.channel(rug,"decor.rug")
 	for i in range(17):
 		for z in [-2.7,1.7]: F.rod(self,Vector3(-2.5+i*0.31,0.045,z),Vector3(-2.5+i*0.31,0.045,z+(-0.12 if z<0 else 0.12)),0.012,"f5ead9")
 	prop("sofa",Vector3(0,0,-3.25))
 	prop("table",Vector3(0,0,-0.8))
+	var cards := preload("res://scripts/card_box.gd").new()
+	cards.position = Vector3(0,0.835,-0.4)
+	add_child(cards)
 	prop("shelf",Vector3(-4.65,0,-4.52))
 	prop("lamp",Vector3(2.55,0,-3.55))
 	prop("plant",Vector3(4.85,0,-3.85)).scale = Vector3.ONE*1.6
@@ -132,6 +136,7 @@ func curtain(center: float) -> void:
 	var m := n.material_override.duplicate() as StandardMaterial3D
 	m.cull_mode = BaseMaterial3D.CULL_DISABLED
 	n.material_override = m
+	F.channel(n,"decor.curtains")
 
 func lighting() -> void:
 	var env := WorldEnvironment.new()
@@ -158,3 +163,15 @@ func lighting() -> void:
 	fill.light_energy = 0.12
 	fill.omni_range = 11
 	add_child(fill)
+
+func apply_decor(data: Dictionary) -> void:
+	var presets = preload("res://scripts/style_data.gd").PRESETS
+	for node in find_children("*","MeshInstance3D",true,false):
+		var channel: String = node.get_meta("style_channel","")
+		if not channel.begins_with("decor."): continue
+		var surface := channel.trim_prefix("decor.")
+		var preset: String = data.get(surface,"rosewater")
+		if not presets.has(preset): preset = "rosewater"
+		var base: Color = node.get_meta("style_base")
+		node.material_override.albedo_color = base if preset=="rosewater" else presets[preset][surface]
+		node.set_meta("object_id",preload("res://scripts/style_data.gd").SURFACE_IDS[surface])

@@ -24,7 +24,6 @@ func _physics_process(delta: float) -> void:
 	if not enabled:
 		avatar.animate(delta,0,false,seated)
 		return
-	if Input.is_action_just_pressed("interact"): interact()
 	if seated:
 		global_position = global_position.lerp(pose_target,1-exp(-12*delta))
 		avatar.rotation.y = lerp_angle(avatar.rotation.y,0,1-exp(-12*delta))

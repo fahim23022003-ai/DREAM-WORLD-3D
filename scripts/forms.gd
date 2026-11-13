@@ -4,6 +4,14 @@ extends RefCounted
 static var materials: Dictionary = {}
 static var meshes: Dictionary = {}
 
+static func channel(node: MeshInstance3D, id: String, shade: float = 1.0) -> MeshInstance3D:
+	# Only explicitly opted-in surfaces become customizable. Never mutate the shared cache.
+	node.material_override = node.material_override.duplicate()
+	node.set_meta("style_channel",id)
+	node.set_meta("style_base",node.material_override.albedo_color)
+	node.set_meta("style_shade",shade)
+	return node
+
 static func finish(node: MeshInstance3D, kind: String) -> MeshInstance3D:
 	var base: StandardMaterial3D = node.material_override
 	var key := base.albedo_color.to_html() + kind

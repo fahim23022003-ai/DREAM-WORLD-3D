@@ -21,20 +21,20 @@ func _ready() -> void:
 	outfit.name = "Outfit_PeriwinklePinafore"
 	body.add_child(outfit)
 	F.finish(F.ball(outfit,Vector3(0,1.07,0),Vector3(0.43,0.48,0.31),"fff1e3"),"fabric")
-	F.finish(F.box(outfit,Vector3(0,1.02,0.15),Vector3(0.32,0.31,0.07),"b7c4df",0.065),"fabric")
+	F.channel(F.finish(F.box(outfit,Vector3(0,1.02,0.15),Vector3(0.32,0.31,0.07),"b7c4df",0.065),"fabric"),"accent",1.0)
 	skirt = Node3D.new()
 	skirt.name = "Skirt"
 	skirt.position.y = 0.98
 	outfit.add_child(skirt)
-	F.finish(F.lathe(skirt,Vector3.ZERO,[Vector2(0.32,-0.43),Vector2(0.345,-0.4),Vector2(0.33,-0.34),Vector2(0.285,-0.18),Vector2(0.215,0.02),Vector2(0.2,0.04)],"b7c4df"),"fabric")
+	F.channel(F.finish(F.lathe(skirt,Vector3.ZERO,[Vector2(0.32,-0.43),Vector2(0.345,-0.4),Vector2(0.33,-0.34),Vector2(0.285,-0.18),Vector2(0.215,0.02),Vector2(0.2,0.04)],"b7c4df"),"fabric"),"accent",1.0)
 	F.finish(F.lathe(skirt,Vector3.ZERO,[Vector2(0.324,-0.43),Vector2(0.347,-0.4),Vector2(0.345,-0.375)],"e8e5f0"),"fabric")
 	for x in [-0.11,0.11]:
-		F.finish(F.box(outfit,Vector3(x,1.17,0.12),Vector3(0.05,0.28,0.045),"a2b2d2",0.02),"fabric")
+		F.channel(F.finish(F.box(outfit,Vector3(x,1.17,0.12),Vector3(0.05,0.28,0.045),"a2b2d2",0.02),"fabric"),"accent",0.88)
 		F.finish(F.ball(outfit,Vector3(x,1.08,0.197),Vector3.ONE*0.038,"d7bc87"),"brass")
 	for x in [-0.055,0.055]:
 		var collar := F.ball(outfit,Vector3(x,1.225,0.14),Vector3(0.14,0.1,0.06),"fff9ee")
 		collar.rotation.z = x*3
-	F.finish(F.box(outfit,Vector3(0,0.982,0.197),Vector3(0.15,0.12,0.02),"c6cfe5",0.035),"fabric")
+	F.channel(F.finish(F.box(outfit,Vector3(0,0.982,0.197),Vector3(0.15,0.12,0.02),"c6cfe5",0.035),"fabric"),"accent",1.07)
 	for i in range(5): F.ball(outfit,Vector3(cos(i*TAU/5)*0.026,0.99+sin(i*TAU/5)*0.026,0.212),Vector3(0.033,0.033,0.008),"fff6df")
 	F.ball(outfit,Vector3(0,0.99,0.22),Vector3(0.023,0.023,0.008),"d9b77b")
 	F.finish(F.ball(body,Vector3(0,1.3,0),Vector3(0.16,0.22,0.16),"edc6b0"),"skin")
@@ -49,7 +49,7 @@ func _ready() -> void:
 	var hair := Node3D.new()
 	hair.name = "Hair_ChestnutBob"
 	head.add_child(hair)
-	F.finish(F.ball(hair,Vector3(0,0.045,-0.095),Vector3(0.73,0.67,0.58),"77574f"),"hair")
+	F.channel(F.finish(F.ball(hair,Vector3(0,0.045,-0.095),Vector3(0.73,0.67,0.58),"77574f"),"hair"),"hair",0.9)
 	F.finish(F.ball(head,Vector3(0,-0.055,0.105),Vector3(0.59,0.5,0.455),"f4cfb8"),"skin")
 	for i in range(5):
 		var x := -0.225+i*0.108
@@ -100,7 +100,7 @@ func lock(parent: Node3D, points: Array[Vector3], color: String, width: float) -
 				var ring := int(c.y)
 				st.add_vertex(centers[ring]+Vector3(cos(a)*radii[ring],0,sin(a)*radii[ring]*0.6))
 	st.generate_normals()
-	F.finish(F.mesh(parent,st.commit(),Vector3.ZERO,color),"hair")
+	F.channel(F.finish(F.mesh(parent,st.commit(),Vector3.ZERO,color),"hair"),"hair")
 
 func limb(pos: Vector3, leg: bool) -> Node3D:
 	var pivot := Node3D.new()
@@ -145,3 +145,11 @@ func animate(delta: float, speed: float, running: bool, seated: bool) -> void:
 	body.rotation.x = lerpf(body.rotation.x,-0.09*run_blend*gait,1-exp(-10*delta))
 	skirt.rotation.x = -sit_blend*0.8
 	head.rotation.z = sin(idle_clock*1.5)*0.018*(1-gait)
+
+func apply_appearance(data: Dictionary) -> void:
+	for node in find_children("*","MeshInstance3D",true,false):
+		var channel: String = node.get_meta("style_channel","")
+		if channel in ["hair","accent"]:
+			var color: Color = data.get(channel,node.get_meta("style_base"))
+			var shade: float = node.get_meta("style_shade",1.0)
+			node.material_override.albedo_color = Color(minf(color.r*shade,1),minf(color.g*shade,1),minf(color.b*shade,1),1)

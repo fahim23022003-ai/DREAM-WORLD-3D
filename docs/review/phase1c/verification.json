@@ -1,0 +1,49 @@
+{
+  "engine": "4.6.3",
+  "editor_import_exit_code": 0,
+  "suites": {
+    "regression": {
+      "passed": 22,
+      "checks": 22,
+      "observed_exit_code": 0
+    },
+    "save_contract": {
+      "passed": 12,
+      "checks": 12,
+      "observed_exit_code": 0
+    },
+    "style_contract": {
+      "passed": 17,
+      "checks": 17,
+      "observed_exit_code": 0
+    },
+    "pairs_contract": {
+      "passed": 16,
+      "checks": 16,
+      "observed_exit_code": 0
+    },
+    "session_contract": {
+      "passed": 17,
+      "checks": 17,
+      "observed_exit_code": 0
+    },
+    "flow-fresh": {
+      "passed": 33,
+      "checks": 33,
+      "observed_exit_code": 0
+    },
+    "flow-legacy": {
+      "passed": 31,
+      "checks": 31,
+      "observed_exit_code": 0
+    },
+    "focus": {
+      "passed": 7,
+      "checks": 7,
+      "observed_exit_code": 0
+    }
+  },
+  "total_checks": 155,
+  "audio": "PCM decoded; dummy driver; audible output unverified",
+  "windows": "not tested"
+}

@@ -1,0 +1,78 @@
+{
+  "engine": "Godot 4.6.3",
+  "source": "unedited running game viewport captures",
+  "captures": [
+    {
+      "path": "after/applied_room.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "7976dc1e096e6be265208fdd8473942c82ceaeff51393e84ee3c6d734d5c00a4"
+    },
+    {
+      "path": "after/continued_legacy.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "9f29cce384baaf458b01ebc14a464c8434d95ac72b43563d895548fac8fc1b59"
+    },
+    {
+      "path": "after/continued_room.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "16572d6f142a005e7f80a615c4f5bf43f826a4108a0b8991f5a4db63b7588d60"
+    },
+    {
+      "path": "after/decor_preview.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "f7c8251dffece1259e7d7ae45e0c99adeae0eeeba96f498c37cdcd7385fdaa96"
+    },
+    {
+      "path": "after/earned_reward.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "0ee1852a51e6abeb2c833b197eff91e63a70ce77e1d6a2e1483a11814c6ffc15"
+    },
+    {
+      "path": "after/personalization.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "d0445201d012c42449e710ab2e31bde644d794de6d16814ff5b34b3b0b6be530"
+    },
+    {
+      "path": "after/puzzle_in_progress.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "44171f9bf1b20b08e74abd6d0ca5853962c39563f48d583a3cadf13dcbdeaa6a"
+    },
+    {
+      "path": "before/avatar_menu.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "f4b0f7df49029b48bee804845ca6bc605f7de4fec0386db04a06f6ab8c865509"
+    },
+    {
+      "path": "before/room_gameplay.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "45669b9343f16770e62f75d5eb8173a2e61f8263f6be56e37be36fa4817788fe"
+    }
+  ]
+}

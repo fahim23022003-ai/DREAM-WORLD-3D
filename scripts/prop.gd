@@ -13,20 +13,22 @@ func sofa() -> void:
 	F.box(self,Vector3(0,1.02,-0.46),Vector3(3.5,1.04,0.36),"edb0b9",0.17)
 	for x in [-1.7,1.7]: F.box(self,Vector3(x,0.83,0.04),Vector3(0.36,0.78,1.32),"e7a2af",0.17)
 	for x in [-1.08,0.0,1.08]:
-		F.box(self,Vector3(x,0.71,0.12),Vector3(1.02,0.24,0.98),"f4c4c8",0.11)
-		F.box(self,Vector3(x,1.1,-0.23),Vector3(1.02,0.72,0.27),"f1bdc5",0.13)
+		F.channel(F.box(self,Vector3(x,0.71,0.12),Vector3(1.02,0.24,0.98),"f4c4c8",0.11),"decor.cushions")
+		F.channel(F.box(self,Vector3(x,1.1,-0.23),Vector3(1.02,0.72,0.27),"f1bdc5",0.13),"decor.cushions")
 		# Tailored cushion piping and hand-covered buttons.
-		F.box(self,Vector3(x,0.687,0.125),Vector3(1.025,0.026,0.98),"e5aebb",0.012)
-		for bx in [-0.25,0.25]: F.ball(self,Vector3(x+bx,1.18,-0.078),Vector3(0.043,0.043,0.02),"d79ba9")
+		F.channel(F.box(self,Vector3(x,0.687,0.125),Vector3(1.025,0.026,0.98),"e5aebb",0.012),"decor.cushions")
+		for bx in [-0.25,0.25]: F.channel(F.ball(self,Vector3(x+bx,1.18,-0.078),Vector3(0.043,0.043,0.02),"d79ba9"),"decor.cushions")
 	for x in [-1.19,1.17]:
-		var pillow := F.box(self,Vector3(x,1.06,0.12),Vector3(0.56,0.56,0.2),"d7c9e5" if x < 0 else "bdd6cb",0.13)
+		var pillow := F.channel(F.box(self,Vector3(x,1.06,0.12),Vector3(0.56,0.56,0.2),"d7c9e5" if x < 0 else "bdd6cb",0.13),"decor.cushions")
 		pillow.rotation.z = -0.18 if x < 0 else 0.2
 	# Cream knitted throw drapes over one arm rather than floating above it.
 	F.box(self,Vector3(-1.69,1.23,0.17),Vector3(0.41,0.035,0.7),"eee7d9",0.016)
 	F.box(self,Vector3(-1.9,0.9,0.17),Vector3(0.035,0.68,0.7),"eee7d9",0.016)
 	for i in range(7): F.rod(self,Vector3(-1.91,0.56,-0.1+i*0.09),Vector3(-1.91,0.48,-0.1+i*0.09),0.012,"eee7d9")
 	for child in get_children():
-		if child is MeshInstance3D and child.position.y>0.3: F.finish(child,"fabric")
+		if child is MeshInstance3D and child.position.y>0.3:
+			F.finish(child,"fabric")
+			if child.has_meta("style_channel"): child.material_override = child.material_override.duplicate()
 	F.solid(self,Vector3(0,0.62,0),Vector3(3.9,1.24,1.3))
 
 func table() -> void:

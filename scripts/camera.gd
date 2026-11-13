@@ -5,6 +5,7 @@ var pitch := 0.25
 var distance := 5.6
 var sensitivity := 0.0024
 var enabled := false
+var focus_offset := Vector3.ZERO
 var arm: SpringArm3D
 var camera: Camera3D
 
@@ -33,6 +34,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if not target: return
-	global_position = global_position.lerp(target.global_position+Vector3(0,1.25,0),1-exp(-10*delta))
+	global_position = global_position.lerp(target.global_position+focus_offset+Vector3(0,1.25,0),1-exp(-10*delta))
 	rotation = Vector3(-pitch,yaw,0)
 	arm.spring_length = lerpf(arm.spring_length,distance,1-exp(-12*delta))
