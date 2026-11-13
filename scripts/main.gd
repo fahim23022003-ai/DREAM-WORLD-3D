@@ -70,10 +70,13 @@ func _ready() -> void:
 	home=preload("res://scripts/home_controller.gd").new()
 	add_child(home)
 	home.setup(self)
+	home.neighborhood=preload("res://scripts/neighborhood_controller.gd").new()
+	add_child(home.neighborhood)
+	home.neighborhood.setup(home)
 	get_tree().auto_accept_quit = false
 
 func setup_input() -> void:
-	var bindings := {"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"run":KEY_SHIFT,"interact":KEY_E,"pause":KEY_ESCAPE,"personalize":KEY_C,"decorate":KEY_B,"cozy_hint":KEY_H,"daily_goals":KEY_Q,"home_catalog":KEY_J}
+	var bindings := {"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"run":KEY_SHIFT,"interact":KEY_E,"pause":KEY_ESCAPE,"personalize":KEY_C,"decorate":KEY_B,"cozy_hint":KEY_H,"daily_goals":KEY_Q,"home_catalog":KEY_J,"journal":KEY_L,"hint_toggle":KEY_T}
 	for action in bindings:
 		if InputMap.has_action(action): continue
 		InputMap.add_action(action)
@@ -141,7 +144,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif ui.mode=="settings_main": ui.show_page("main")
 		get_viewport().set_input_as_handled()
 	elif state==State.PLAY:
-		if event.is_action_pressed("daily_goals"): home.open_goals()
+		if event.is_action_pressed("hint_toggle"): toggle_hints()
+		elif event.is_action_pressed("journal"): home.neighborhood.journal()
+		elif event.is_action_pressed("daily_goals"): home.open_goals()
 		elif event.is_action_pressed("home_catalog"): home.open_catalog()
 		elif event.is_action_pressed("cozy_hint"):
 			ui.guidance_mode="cozy"
@@ -176,7 +181,8 @@ func activate_interaction() -> bool:
 			if not room.plant_control.water(): return false
 			audio.play("water")
 		_:
-			if home.handles(interaction_target.interaction_id): home.activate(interaction_target.interaction_id)
+			if home.neighborhood.handles(interaction_target.interaction_id): home.neighborhood.activate(interaction_target.interaction_id)
+			elif home.handles(interaction_target.interaction_id): home.activate(interaction_target.interaction_id)
 			else: return false
 	return true
 
@@ -340,3 +346,10 @@ func room_state_changed(message: String = "") -> void:
 		ui.show_notice("Cozy corner made! Shelf keepsake saved." if written else "Cozy corner made — not saved yet.")
 	elif written and not message.is_empty(): ui.show_notice(message)
 	if not message.is_empty() and home: home.record("water")
+
+func toggle_hints() -> void:
+	save.onboarding.dismissed=not save.onboarding.dismissed
+	persist(true)
+	refresh_guidance()
+	home.update_hint()
+	ui.show_notice("Hints hidden · T restores them" if save.onboarding.dismissed else "Hints restored")

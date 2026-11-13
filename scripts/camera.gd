@@ -36,4 +36,12 @@ func _process(delta: float) -> void:
 	if not target: return
 	global_position = global_position.lerp(target.global_position+focus_offset+Vector3(0,1.25,0),1-exp(-10*delta))
 	rotation = Vector3(-pitch,yaw,0)
+	var small_room: bool=target.position.z>5 and target.position.x<6 and focus_offset.length()<0.2
 	arm.spring_length = lerpf(arm.spring_length,distance,1-exp(-12*delta))
+	if enabled:
+		camera.fov=lerpf(camera.fov,64.0 if small_room and arm.get_hit_length()<2.8 else 56.0,1-exp(-5*delta))
+	var head: Vector3=target.global_position+Vector3(0,1.55,0)
+	if is_instance_valid(target.avatar): target.avatar.visible=camera.global_position.distance_to(head)>1.05
+
+	for actor in get_tree().get_nodes_in_group("camera_characters"):
+		if is_instance_valid(actor.avatar): actor.avatar.visible=camera.global_position.distance_to(actor.global_position+Vector3(0,1.55,0))>1.35

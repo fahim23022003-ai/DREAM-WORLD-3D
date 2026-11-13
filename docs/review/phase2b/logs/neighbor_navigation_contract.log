@@ -1,0 +1,14 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS visitor arrives using real collision movement: mimi
+PASS visitor stays on safe garden navigation points: mimi
+PASS visitor arrives using real collision movement: noah
+PASS visitor stays on safe garden navigation points: noah
+PASS Mimi and Noah have distinct procedural silhouettes
+PASS talking holds a safe social interaction position
+PASS visitor collision cannot walk through a blocking wall
+PASS visitor pauses before crossing through the player
+PASS visitor leaves along gate route and removes invisible collision
+PASS arrival chooses a clear gate position instead of spawning inside the player
+PASS recurring visitor can arrive again naturally
+NEIGHBOR NAVIGATION: 11/11

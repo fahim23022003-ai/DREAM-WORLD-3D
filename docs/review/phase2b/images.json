@@ -1,0 +1,119 @@
+{
+  "source": "Running Godot 4.6.3; genuine GUI/movement interactions on isolated fixtures",
+  "images": [
+    {
+      "path": "docs/review/phase2b/01_garden_wide.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "beaba5e6b65f577e9e610bfd3c8471495a45a0e558d77032ca495cacda81630f"
+    },
+    {
+      "path": "docs/review/phase2b/02_garden_planting.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "f7f978ea9198aaf5d89506a8fc5e95cc526739426fe374a067e43b940ad38077"
+    },
+    {
+      "path": "docs/review/phase2b/03_garden_growing.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "1f7600b77a2348d23d738c760d0be591b0407d509a8c208bba576ecf1b843017"
+    },
+    {
+      "path": "docs/review/phase2b/04_garden_harvest.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "f6f3e5e594b045565fad8c946a5ce43137ca15c23b403ff8e520f624db22098e"
+    },
+    {
+      "path": "docs/review/phase2b/05_mimi_arrival.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "24466e4f60d47aeb25c3fddcb46e787a8decb754cd20461d5a63d76aa285a691"
+    },
+    {
+      "path": "docs/review/phase2b/06_noah_garden.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "b36143a8d2fe945bfd08ba0a203f666b17893f40fd4bf41abc7a55ddcbf38bab"
+    },
+    {
+      "path": "docs/review/phase2b/07_visitor_conversation.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "ca44c0f4d79716af15ee2dbed8b6ff5d089e0d78aa4f1dc58f2d36b55569e3ff"
+    },
+    {
+      "path": "docs/review/phase2b/08_visitor_request.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "577d538e1577e007e83c9dc9ea098f242fef9a7d1075345fdb3a77a01118c00e"
+    },
+    {
+      "path": "docs/review/phase2b/09_friendship_reward.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "06ab11353072d6ed1746faef0b8978e92da21b1732ed82fa2e59102c05f4498a"
+    },
+    {
+      "path": "docs/review/phase2b/10_dynamic_event.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "a6a49650b151cddda2c565e40fb9cd6e413148cfaa6da7a41e49a76f50018ef1"
+    },
+    {
+      "path": "docs/review/phase2b/11_new_daily_goals.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "9c2ebb28fd4b56e56ca8d31ba8343e9d2e3b2044968706cbb4e0e6117acd8a4b"
+    },
+    {
+      "path": "docs/review/phase2b/12_progress_journal.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "64039b9650f3fca54980ad84fbf00b96c290d7e107d1b3b60dbf8e93e7fefc68"
+    },
+    {
+      "path": "docs/review/phase2b/13_garden_decor.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "65e4809bb4e71190e0dc0f60874010f09f77eb2284e03011db0a4ab1924e3449"
+    },
+    {
+      "path": "docs/review/phase2b/14_evening_garden.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "c95b5b8fbcb5f585141b73e205a2e3228aafee53a9b61711fa101fb003ae9c63"
+    },
+    {
+      "path": "docs/review/phase2b/15_camera_improvement.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "2cb1009c4d8d15fd94455281b1b854ca4c21333246ff40536aa33de9a1a698b7"
+    },
+    {
+      "path": "docs/review/phase2b/16_quit_continue_restored.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "9118ab2d77e5a53a0b798d3edee95dba0667c8ffab05a497003f17e6ac478ec8"
+    },
+    {
+      "path": "docs/review/phase2b/17_journal_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "5cc3903e8d27b9dfed1ac451edee5ccd698584084f88b169719b07b82aa368bf"
+    },
+    {
+      "path": "docs/review/phase2b/18_house_garden_entrance.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "60107b905cbdd834471c941bd09fbec7d365ac91b4c15acea368796dc87f0be6"
+    },
+    {
+      "path": "docs/review/phase2b/19_earned_and_future_keepsakes.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "5fee53691f4beefb72dfeb42be77af5b7f6a2a3a5e3cd8adc620e5b3be436d1e"
+    }
+  ]
+}

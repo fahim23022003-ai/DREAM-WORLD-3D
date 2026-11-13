@@ -1,0 +1,20 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS Noah journey starts with genuinely harvested produce and unchanged saved coins
+PASS event card presents a genuinely completed garden bloom
+PASS genuine capture: 10_dynamic_event
+PASS actual movement reaches waypoint (13.55, 0.0, -3.2)
+PASS actual movement reaches waypoint (13.55, 0.0, -0.2)
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects noah
+PASS real E opens authored conversation with noah
+PASS Noah's own authored conversation earns independent friendship
+PASS Noah requests real harvested carrots
+PASS genuine capture: 08_visitor_request
+PASS real request claim consumes exactly one carrot
+PASS Noah becomes Friend and the correct daily objective reward joins the request coins
+PASS genuine capture: 06_noah_garden
+PHASE 2B SOCIAL: 14/14

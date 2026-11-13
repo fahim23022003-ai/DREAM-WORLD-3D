@@ -1,6 +1,6 @@
 extends "res://tests/phase2a_flow.gd"
 func run() -> void:
- output="res://docs/review/phase2a/"
+ output="/tmp/dream-phase2a-review/"
  root.size=Vector2i(1280,720)
  file="user://phase2a_effects_"+str(Time.get_ticks_usec())+".cfg"
  await load_game()

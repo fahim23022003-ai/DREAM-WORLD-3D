@@ -3,6 +3,7 @@ extends Node
 const RULES=preload("res://scripts/home_rules.gd")
 const COOKING=preload("res://scripts/cooking_rules.gd")
 const PANEL=preload("res://scripts/home_panel.gd")
+var neighborhood: Node
 var game: Node3D
 var rooms: Node3D
 var rules: RefCounted
@@ -47,9 +48,10 @@ func setup(owner_game: Node3D) -> void:
  hint_panel.add_child(hint)
  refresh()
 func refresh() -> void:
- strip.text="Day %d · %s · %d Cozy Coins   |   Q Goals · J Catalog" % [rules.data.day,rules.period(),rules.data.coins]
+ strip.text="Day %d · %s · %d Cozy Coins   |   Q Goals · J Catalog · L Journal" % [rules.data.day,rules.period(),rules.data.coins]
  update_hint()
  rooms.apply_home(rules.data)
+ if neighborhood: neighborhood.refresh()
  rooms.show_meal(meal.recipe,meal.stage) if meal.stage!="done" else rooms.show_meal(meal.recipe,"ready")
 func _process(delta: float) -> void:
  hint_clock+=delta
@@ -66,8 +68,13 @@ func update_hint() -> void:
   next="Your first meal → blue fridge · E to choose a recipe" if game.player.position.z>5 and game.player.position.x<0 else "Your first cozy day\nKitchen: left arch behind the living room → fridge"
  elif next=="" and rules.data.day==1:
   next="Q: today's goals · J: room finishes\nBed: E at foot to make · E by pillows to sleep" if game.player.position.z>5 and game.player.position.x>0 else "Q: today's goals · J: room finishes\nBedroom: right arch · bed starts the next day"
+ if neighborhood:
+  var priority: String=neighborhood.priority_hint()
+  if not priority.is_empty(): next=priority
+ # One guidance surface owns automatic hints; H still explicitly opens the cozy checklist.
+ if is_instance_valid(game.ui.guide) and game.ui.guidance_mode!="cozy": game.ui.guide.hide()
  hint.text=next
- hint_panel.visible=not next.is_empty() and (not game.save.onboarding.dismissed or meal.stage in ["ingredients","prepared","ready"])
+ hint_panel.visible=not next.is_empty() and not game.save.onboarding.dismissed
 func commit(mutate: Callable) -> bool:
  var before: Dictionary=rules.data.duplicate(true)
  mutate.call()
@@ -148,6 +155,7 @@ func open_shell(title: String,wide: bool=false) -> void:
  panel.exit_requested.connect(close)
 func close() -> void:
  if sleep_busy: return
+ if neighborhood: neighborhood.end_talk()
  rooms.cooking=false
  game.player.avatar.home_action=""
  if is_instance_valid(panel): game.ui.root.remove_child(panel); panel.queue_free()
@@ -164,14 +172,20 @@ func close() -> void:
 func station_view(point: Vector3) -> void:
  panel.panel.position.x=766
  game.camera_rig.focus_offset=point-game.player.position-Vector3(0,1.25,0)
- game.camera_rig.yaw=1.0
- game.camera_rig.pitch=0.36
- game.camera_rig.distance=3.8
+ game.camera_rig.yaw=0.85
+ game.camera_rig.pitch=0.24
+ game.camera_rig.distance=4.2
 func open_recipes() -> void:
  open_shell("The recipe pantry")
  panel.text("Choose ingredients here, then walk to the prep board and stove. Supplies are free.")
  if meal.stage not in ["idle","done"]:
   panel.text("In progress: "+RULES.RECIPES[meal.recipe].name+"\nClose to continue, or choose another recipe to start over.",14)
+ var topping:=CheckButton.new()
+ topping.text="Use harvest topping if available (+2 coins)"
+ topping.add_theme_font_size_override("font_size",13)
+ topping.button_pressed=rules.data.neighborhood.bonus_enabled
+ topping.toggled.connect(func(value): commit(func(): rules.data.neighborhood.bonus_enabled=value))
+ panel.col.add_child(topping)
  for id in RULES.RECIPES:
   panel.text(RULES.RECIPES[id].ingredients,13)
   panel.button(RULES.RECIPES[id].name,func():
@@ -229,7 +243,7 @@ func timing_hit(cook: bool,ingredient: String="") -> void:
   update_step_status(cook)
 func serve() -> void:
  var before: int=rules.data.coins
- var ok:=commit(func(): rules.event("meal",meal.serial,{"recipe":meal.recipe,"quality":meal.quality()}))
+ var ok:=commit(func(): rules.event("meal",meal.serial,{"recipe":meal.recipe,"quality":meal.quality(),"garden_bonus":rules.data.neighborhood.bonus_enabled}))
  last_gain=rules.data.coins-before
  open_shell(RULES.RECIPES[meal.recipe].name+" · "+meal.quality())
  station_view(Vector3(-5,1.25,9.25))
@@ -248,13 +262,20 @@ func serve() -> void:
 func open_goals() -> void:
  open_shell("Daily cozy goals",true)
  panel.text("Day %d · %s · %d Cozy Coins" % [rules.data.day,rules.period(),rules.data.coins],20)
+ var cards:=HBoxContainer.new()
+ cards.add_theme_constant_override("separation",12)
+ panel.col.add_child(cards)
  for id in rules.goals():
-  panel.text(("✓  " if id in rules.data.goals_done else "○  ")+RULES.GOALS[id]+"   ·   3 coins",18)
- panel.text("Full set: +6 coins automatically, once per day. "+("Complete and saved!" if rules.data.set_paid else "No claim button needed."),15)
- panel.text("Find cooking at the left arch; rest and bed at the right arch. Evening meals: rest on the bedroom bench to advance the light.",14)
- panel.text("MY FIRST COZY WEEK · %d / 7 cozy days completed" % rules.data.completed_days.size(),19)
- panel.text("3 completed days: amber bedside keepsake +10 coins\n7 completed days: seven-star bedroom frame +20 coins",15)
- panel.text("Milestones: "+(", ".join(rules.data.milestones) if not rules.data.milestones.is_empty() else "A new story begins."),14)
+  var done: bool=id in rules.data.goals_done
+  var card: PanelContainer=panel.card(("✓  " if done else "○  ")+rules.goal_definitions()[id],"Completed and saved" if done else "One small, real activity", "3 coins",done,260)
+  panel.col.remove_child(card);cards.add_child(card)
+ var section: PanelContainer=panel.card("MY FIRST COZY WEEK","%d / 7 cozy days completed · 3 days: bedside keepsake · 7 days: commemorative frame" % rules.data.completed_days.size(),"Set bonus: 6 coins"+(" ✓" if rules.data.set_paid else ""),rules.data.set_paid,840)
+ panel.text("Optional today: "+(RULES.NB.E.DEFINITIONS[rules.data.neighborhood.event.id].name)+(" ✓" if rules.data.neighborhood.event.done else " · L for details"),14)
+ var extras:=HBoxContainer.new();extras.add_theme_constant_override("separation",12);panel.col.add_child(extras)
+ var journal: Button=game.ui.button("Cozy Connections · L",func(): neighborhood.journal() if neighborhood else close(),false,"home")
+ journal.custom_minimum_size.x=410;extras.add_child(journal)
+ var hints: Button=game.ui.button("Hints: "+("Off" if game.save.onboarding.dismissed else "On")+" · T",func(): game.toggle_hints();open_goals())
+ hints.custom_minimum_size.x=410;extras.add_child(hints)
  panel.footer()
 func open_catalog() -> void:
  draft=rules.data.equipped.duplicate()
@@ -264,12 +285,13 @@ func catalog_page() -> void:
  panel.text("%d Cozy Coins · Preview is free. Buy & equip saves both cost and ownership together." % rules.data.coins,15)
  var scroll:=ScrollContainer.new()
  scroll.custom_minimum_size=Vector2(840,335)
+ scroll.follow_focus=true
  panel.col.add_child(scroll)
  var list:=VBoxContainer.new()
  list.size_flags_horizontal=Control.SIZE_EXPAND_FILL
  scroll.add_child(list)
- for id in RULES.CATALOG:
-  var def: Dictionary=RULES.CATALOG[id]
+ for id in rules.catalog():
+  var def: Dictionary=rules.catalog()[id]
   var row:=HBoxContainer.new()
   row.add_theme_constant_override("separation",12)
   list.add_child(row)
@@ -289,7 +311,7 @@ func catalog_page() -> void:
  panel.text("Preview color appears on the physical furnishings. Ownership is permanent; equipping an owned finish is free.",14)
  panel.footer()
 func buy_finish(id: String) -> void:
- if not id in rules.data.owned and rules.data.coins<RULES.CATALOG[id].cost: return
+ if not id in rules.data.owned and rules.data.coins<rules.catalog()[id].cost: return
  var ok:=commit(func():
   if not id in rules.data.owned: rules.purchase(id)
   rules.equip(id))
@@ -299,16 +321,20 @@ func buy_finish(id: String) -> void:
   catalog_page()
  else: panel.status.text="Not saved. No coins deducted and no ownership changed. Retry or close."
 func preview_finish(id: String) -> void:
- var def: Dictionary=RULES.CATALOG[id]
+ var def: Dictionary=rules.catalog()[id]
  draft[def.slot]=id
  open_shell(def.name+" · Preview")
  panel.panel.position.x=766
  rooms.apply_home(rules.data,draft)
+ if neighborhood: neighborhood.world.apply(rules.data.neighborhood,rules.data,draft)
  var point:=Vector3(3.5,1.15,11.15) if def.room=="Bedroom" else Vector3(-4.8,1.4,10.1)
+ if def.room=="Garden": point=Vector3(12,1.0,-0.8)
  game.camera_rig.focus_offset=point-game.player.position-Vector3(0,1.25,0)
  game.camera_rig.yaw=PI+0.4 if def.room=="Bedroom" else 1.0
  game.camera_rig.pitch=0.42
  game.camera_rig.distance=5.2 if def.room=="Bedroom" else 3.8
+ if def.room=="Garden":
+  game.camera_rig.yaw=0.45;game.camera_rig.pitch=0.24;game.camera_rig.distance=5.6
  panel.text("%d coins · %s" % [def.cost,"Permanently owned" if id in rules.data.owned else "Locked until purchased"],20)
  panel.text("This is a free preview on the actual furnishing. Close / Esc restores your saved home. No coins have been spent.",15)
  var b: Button=panel.button("Equip" if id in rules.data.owned else "Buy & equip",func(): buy_finish(id),true,"check")

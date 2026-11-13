@@ -1,0 +1,90 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS six new purchasable finishes extend stable base catalog
+PASS current existing goals are retained before neighborhood discovery
+PASS free seed plants distinct strawberry
+PASS occupied spot rejects duplicate seed
+PASS seed is a distinct stable visual stage
+PASS watered seed becomes sprout
+PASS repeated watering cannot grant anything
+PASS free seed plants distinct carrot
+PASS occupied spot rejects duplicate seed
+PASS seed is a distinct stable visual stage
+PASS watered seed becomes sprout
+PASS repeated watering cannot grant anything
+PASS free seed plants distinct lavender
+PASS occupied spot rejects duplicate seed
+PASS seed is a distinct stable visual stage
+PASS watered seed becomes sprout
+PASS repeated watering cannot grant anything
+PASS meaningful time event grows visible plants
+PASS sleep readies watered plants without real-world waiting
+PASS ready crops make a legitimate harvest daily objective
+PASS ready crop harvests
+PASS same plot cannot harvest twice
+PASS ready crop harvests
+PASS same plot cannot harvest twice
+PASS ready crop harvests
+PASS same plot cannot harvest twice
+PASS bounded inventory stores all three discoveries
+PASS harvested spot can replant with free seeds
+PASS unwatered plant waits safely instead of dying
+PASS six unique authored dialogue lines for mimi
+PASS real conversation discovers mimi
+PASS conversation spam cannot farm friendship
+PASS six unique authored dialogue lines for noah
+PASS real conversation discovers noah
+PASS conversation spam cannot farm friendship
+PASS Mimi request accepts
+PASS accepted request survives reload
+PASS unmade food cannot complete request
+PASS existing free-supply cooking completes visitor condition
+PASS one legitimate request reaches friendship threshold
+PASS request reward cannot duplicate
+PASS one rewarded request per visitor/day
+PASS harvested carrot fulfills Noah's first request
+PASS produce request consumes exactly one item
+PASS friendship and request achievements earn permanent physical keepsake records
+PASS event recent-history cooldown at day 1
+PASS event recent-history cooldown at day 2
+PASS event recent-history cooldown at day 3
+PASS event recent-history cooldown at day 4
+PASS event recent-history cooldown at day 5
+PASS event recent-history cooldown at day 6
+PASS event recent-history cooldown at day 7
+PASS event recent-history cooldown at day 8
+PASS event recent-history cooldown at day 9
+PASS event recent-history cooldown at day 10
+PASS event recent-history cooldown at day 11
+PASS event recent-history cooldown at day 12
+PASS event recent-history cooldown at day 13
+PASS event recent-history cooldown at day 14
+PASS event recent-history cooldown at day 15
+PASS event recent-history cooldown at day 16
+PASS event recent-history cooldown at day 17
+PASS event recent-history cooldown at day 18
+PASS all six event activities enter the schedule
+PASS legitimate world event action completes bloom
+PASS event receipt prevents duplicate bloom
+PASS legitimate world event action completes moon
+PASS event receipt prevents duplicate moon
+PASS legitimate world event action completes lost
+PASS event receipt prevents duplicate lost
+PASS friendship afternoon uses a real social action
+PASS baking event observes actual recipe completion
+PASS friendship advances over days and has a firm cap
+PASS Close Friend needs seven meaningful social days rather than conversation spam
+PASS garden social and event state round trips safely
+PASS full basket leaves ready crop safely in its bed
+PASS optional cooking consumes produce only when requested
+PASS malformed neighborhood values are bounded and safe
+PASS thirty days retain three valid objectives without immediate repeated combinations
+PASS request has a legitimate achievable completion: mimi.pancakes
+PASS request has a legitimate achievable completion: mimi.cupcakes
+PASS Good-quality request rejects a Cozy meal
+PASS request has a legitimate achievable completion: mimi.good
+PASS request has a legitimate achievable completion: noah.carrots
+PASS request has a legitimate achievable completion: noah.lavender
+PASS request has a legitimate achievable completion: noah.help
+PASS declining a request never makes future content missable
+NEIGHBORHOOD RULES: 87/87

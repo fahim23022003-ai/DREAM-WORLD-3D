@@ -1,0 +1,45 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS fresh room has safe settled defaults and no unearned keepsake
+PASS unknown resolved ID never launches Cozy Pairs
+PASS reachable lamp target and prompt agree
+PASS one E switches lamp without opening puzzle
+PASS lamp off reaches zero local light
+PASS rapid lamp reversals settle at fixed on energy and warm emission
+PASS repeated toggles cannot accumulate brightness
+PASS facing away cannot switch lamp
+PASS across-room activation rejected
+PASS wall occlusion blocks lamp
+PASS world E blocked in modal state 2
+PASS world E blocked in modal state 3
+PASS world E blocked in modal state 4
+PASS world E blocked in modal state 5
+PASS curtain targets use absolute positions instead of adding world coordinates
+PASS curtain pull is reachable and wins one target
+PASS curtains visibly unfold and tiebacks retract
+PASS closed window fill is restrained and collision remains intact
+PASS curtain motion preserves palette rosewater
+PASS curtain motion preserves palette mint
+PASS curtain motion preserves palette lavender_dream
+PASS Decor Cancel does not reopen curtains
+PASS Decor Apply preserves curtain position state
+PASS rapid curtain reversals reopen to exact baseline light and ties
+PASS chosen existing plant is reachable
+PASS watering shows drops; first-watering flag waits for completion
+PASS watering anti-spam cannot stack effects
+PASS water response completes and reuses hidden effect pool
+PASS watering with lamp off cannot complete goal
+PASS correct settled combination earns keepsake through E
+PASS later changes and repeat watering neither revoke nor duplicate reward/effects
+PASS settled room state and permanent goal survive reload
+PASS new instance restores a settled room without replaying water effects
+WARNING: Could not write local save: Can't create
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] room_state_changed (res://scripts/main.gd:342)
+         [2] <anonymous lambda> (res://scripts/room.gd:123)
+         [3] toggle (res://scripts/lamp_control.gd:35)
+         [4] run (res://tests/phase1d_room_contract.gd:130)
+PASS failed interaction save reports error and preserves last good file
+PHASE 1D ROOM: 34/34

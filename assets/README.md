@@ -22,3 +22,9 @@ and a reusable nine-drop watering effect. No external art or audio was introduce
 Phase 2A furnishings, three ingredient/preparation/finished-food sets, cookware and the
 three-day/seven-day keepsakes are original procedural geometry. Eight additional quiet
 mono PCM cues were synthesized locally, with no downloaded samples or music.
+
+Phase 2B adds original procedural garden geometry, three crop stage sets, two distinct
+visitor silhouettes, six social/garden keepsakes and six catalog upgrades. Eight more
+quiet mono PCM cues (plant, water, harvest, arrival, conversation, friendship, event,
+garden chime ambience) were synthesized locally with no samples or copyrighted music.
+All 22 cues use the existing volume/mute system; audible playback remains unverified.

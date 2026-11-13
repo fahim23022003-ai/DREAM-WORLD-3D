@@ -131,6 +131,8 @@ func _ready() -> void:
 	hud.add_child(prompt)
 	notice = label("",13,"66586e")
 	notice.position = Vector2(970,26)
+	notice.custom_minimum_size.x = 280
+	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hud.add_child(notice)
 	notice_timer = Timer.new()
 	notice_timer.one_shot = true

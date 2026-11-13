@@ -74,3 +74,23 @@ func _process(delta: float) -> void:
  cooking_rules.tick(delta)
  target_mark.position.x=cooking_rules.target*420-36
  cursor_mark.position.x=cooking_rules.cursor()*420-2
+
+func card(title: String,body: String,reward: String,done: bool=false,width: float=430,progress_value: float=-1.0) -> PanelContainer:
+ var frame:=PanelContainer.new()
+ frame.custom_minimum_size.x=width
+ frame.add_theme_stylebox_override("panel",ui.style("e2eee5" if done else "eee7f0",16))
+ col.add_child(frame)
+ var content:=VBoxContainer.new();content.add_theme_constant_override("separation",8);frame.add_child(content)
+ for entry in [[title,17,"796179"],[body,13,"756578"],[reward,14,"8e6b8a"]]:
+  var l: Label=ui.label(entry[0],entry[1],entry[2]);l.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;l.custom_minimum_size.x=width-44;content.add_child(l)
+ var progress:=ProgressBar.new();progress.max_value=1;progress.value=progress_value if progress_value>=0 else (1 if done else 0);progress.show_percentage=false;progress.custom_minimum_size.y=7;content.add_child(progress)
+ return frame
+
+func speech(words: String) -> void:
+ var scroll:=ScrollContainer.new()
+ scroll.custom_minimum_size=Vector2(430,104)
+ col.add_child(scroll)
+ var line: Label=ui.label(words,14)
+ line.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+ line.custom_minimum_size.x=416
+ scroll.add_child(line)

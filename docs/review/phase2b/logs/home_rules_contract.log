@@ -1,0 +1,48 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS fresh day has achievable introductory goals
+PASS actual content has thirteen goals, six finishes and three recipes
+PASS recipe begins: cloud_pancakes
+PASS input determines Perfect for cloud_pancakes
+PASS recipe begins: cloud_pancakes
+PASS input determines Good for cloud_pancakes
+PASS recipe begins: cloud_pancakes
+PASS input determines Cozy for cloud_pancakes
+PASS recipe begins: berry_cupcakes
+PASS input determines Perfect for berry_cupcakes
+PASS recipe begins: berry_cupcakes
+PASS input determines Good for berry_cupcakes
+PASS recipe begins: berry_cupcakes
+PASS input determines Cozy for berry_cupcakes
+PASS recipe begins: starry_soup
+PASS input determines Perfect for starry_soup
+PASS recipe begins: starry_soup
+PASS input determines Good for starry_soup
+PASS recipe begins: starry_soup
+PASS input determines Cozy for starry_soup
+PASS invalid recipe cannot complete an economic objective
+PASS meal earns six plus real goal and advances morning
+PASS duplicate result cannot pay twice
+PASS three real goals pay once plus daily set
+PASS new repeated action token cannot farm an already paid goal
+PASS unknown purchase and unowned equipment rejected
+PASS purchase deducts cost and owns equipable finish
+PASS owned finish never costs twice
+PASS unaffordable purchase leaves balance intact
+PASS third same-recipe meal earns no farmable coins
+PASS sleep refreshes daily fields and keeps purchased ownership
+PASS day 1 completes through matching actual event types
+PASS day 2 completes through matching actual event types
+PASS day 3 completes through matching actual event types
+PASS third completed day grants one permanent keepsake
+PASS day 4 completes through matching actual event types
+PASS day 5 completes through matching actual event types
+PASS day 6 completes through matching actual event types
+PASS day 7 completes through matching actual event types
+PASS seventh completed day grants commemorative frame
+PASS day 8 completes through matching actual event types
+PASS day eight continues goals and recipes
+PASS after-sunset goal remains possible at night
+PASS all rule state survives sanitized reload
+PASS malformed progression and cross-slot equipment default safely
+HOME RULES: 45/45

@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS schema-2 migration preserves exact backup
+PASS legacy position and settings preserved
+PASS appearance and decor survive schema-3 migration
+PASS old rewards/score/onboarding preserved
+PASS new defaults preserve lamp state and dismissed guidance intent
+PASS schema-3 room state writes atomically
+PASS new version retains unknown fields
+PASS last-good phase-1C file survives migration
+PASS room and keepsake flags persist
+PASS malformed room flags cannot wipe valid phase-1C data
+PHASE 1D SAVE: 10/10

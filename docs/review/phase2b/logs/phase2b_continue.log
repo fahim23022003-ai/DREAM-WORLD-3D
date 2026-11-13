@@ -1,0 +1,15 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS new process preserves the exact earned and spent Cozy Coin balance
+PASS new process restores garden progress and day
+PASS produce inventory survives actual Quit and Continue
+PASS meaningful shared-day friendship record persists without duplicate conversation days
+PASS friendship completed request and physical reward records persist
+PASS garden purchase retains permanent ownership and equipment
+PASS Continue restores safe actors without transient watering or dialogue
+PASS genuine capture: 16_quit_continue_restored
+PASS genuine capture: 18_house_garden_entrance
+PHASE 2B CONTINUE: 9/9

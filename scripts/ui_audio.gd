@@ -4,7 +4,7 @@ var volume := 0.55
 var muted := false
 var players: Dictionary = {}
 func _ready() -> void:
-	for kind in ["click","flip","match","reward","switch","water","fridge","prepare","cook","complete","purchase","bedroom","sleep","goal"]:
+	for kind in ["click","flip","match","reward","switch","water","fridge","prepare","cook","complete","purchase","bedroom","sleep","goal","plant","garden_water","harvest","arrival","conversation","friendship","event","garden"]:
 		var player := AudioStreamPlayer.new()
 		var file: String = "res://assets/audio/"+kind+".wav"
 		if ResourceLoader.exists(file): player.stream = load(file)

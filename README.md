@@ -1,6 +1,6 @@
 # Dream World 3D — Rosewater House
 
-Phase 1 playable slice with **Phase 2A A Living, Playable Cozy Home**. Godot **4.6.x**, GDScript, Windows PC target.
+Phase 1 playable slice with **Phase 2B A Living Neighborhood**. Godot **4.6.x**, GDScript, Windows PC target.
 Entry point: `scenes/main.tscn`. Open `project.godot` in Godot 4.6.x and press **F5**.
 No downloads, asset packs, services, accounts or application network access required.
 
@@ -13,6 +13,12 @@ No downloads, asset packs, services, accounts or application network access requ
 - **H** toggles the optional cozy-corner checklist. Lamp on + curtains closed + a watered plant earns a permanent bookshelf keepsake; there is no timer.
 - Walk through the **left rear arch** into the kitchen or **right rear arch** into the bedroom. Both rooms connect physically; no teleport buttons.
 - Kitchen: **E at the blue fridge** chooses free recipe ingredients → E at the wooden board prepares → E at the stove cooks → E at the board plates. Space/click times actions; cupcakes and soup also use ingredient choices **1/2/3**. Every attempt produces Cozy, Good or Perfect food; supplies are never lost.
+- Walk through the **right-side living-room doorway** into the garden. **E** at any of three planters selects free strawberry, carrot or lavender seeds. Water once; cooking/rest shows growth, then sleep readies the crop. Harvest and replant; plants never die offline. The basket holds 9 of each crop.
+- Meet **Mimi** and **Noah** on the garden paths and press **E**. Choose a conversation, accept a small request, or share freshly cooked food. Requests have no deadline and survive sleep/Continue. **L** opens Cozy Connections: relationships, invitations, optional events, produce discoveries and permanent keepsakes.
+- Friend: 4 XP. Close Friend: 10 XP **and seven distinct shared in-game days**. Daily chats, shared food and requests have reward limits; repeated clicks cannot farm friendship. There are no real-world login timers.
+- One optional event varies each day: a surprise visit, garden bloom, baking day, lost ribbon, friendship afternoon or moonlit patio. Event details in L point to the real activity. The garden bench advances the light.
+- The recipe pantry offers an **optional harvest topping** (+2 coins, consumes one matching produce if available). Existing free supplies and all three recipes still work without gardening.
+- **T** hides/restores hints. Cooking, visitor promises and garden discoveries share one priority hint instead of competing boxes.
 - **Q** opens Daily Cozy Goals and **J** opens kitchen/bedroom finishes. Catalog previews cost nothing. Buy & equip confirms cost and permanent ownership together; owned finishes equip free.
 - Meals, the card game and the bedroom rest bench advance Morning → Afternoon → Evening → Night. At the bed, **E near its foot makes it**, and **E by the left pillow offers sleep**. Sleeping saves a new morning and fresh goals; there is no hunger, energy or offline penalty.
 - Three daily goals pay 3 coins each; completing the set pays 6. First meal per recipe/day pays 6, second pays 2, further practice pays no meal coins. Goals and milestones never pay twice. Complete three cozy days for a bedside keepsake and seven for a commemorative frame; daily play continues afterward.
@@ -26,7 +32,7 @@ No downloads, asset packs, services, accounts or application network access requ
 - Position and settings save every 20 seconds, on pause, on menu return and on quit.
   A seated player reloads at the clear standing point, rather than inside the sofa.
 - Local save: `user://rosewater.cfg` (Windows: `%APPDATA%/Godot/app_userdata/Dream World 3D/`).
-  Schema 4 migration preserves prior data and makes a `.v1.bak`, `.v2.bak` or `.v3.bak`; atomic writes retain `.last_good`.
+  Schema 5 migration preserves prior data and makes a `.v1.bak`, `.v2.bak`, `.v3.bak` or `.v4.bak`; atomic writes retain `.last_good`.
   Failed writes retain the previous save. Previews and unfinished puzzle rounds are never saved.
 
 ## Structure
@@ -34,7 +40,7 @@ No downloads, asset packs, services, accounts or application network access requ
 `scenes/` contains independent room, prop, avatar, player, camera, interaction and menu scenes.
 `scripts/forms.gd` shares rounded original geometry and cached materials; `prop.gd` is a small reusable furniture catalogue.
 The avatar separates hair, face, blouse, pinafore and pivoted limbs. `save_data.gd` keeps persistence separate from gameplay.
-`docs/MASTER_SPEC.md` retains the supplied future vision; only the bounded Phase 1/1B/1C/1D/2A features are implemented.
+`docs/MASTER_SPEC.md` retains the supplied future vision; only the bounded Phase 1/1B/1C/1D/2A/2B features are implemented.
 Future creator/catalogue/house/minigame systems can add content alongside these scenes without replacing movement or UI.
 `assets/textures/` contains original vector linen, ash wood, botanical print and rug art; no downloaded assets are used.
 The root `AGENTS.md` requires genuine committed gameplay screenshots at the end of future tasks.
@@ -54,7 +60,7 @@ pause/resume, main menu, save reload and quit. They write screenshots to `/tmp/d
 Headless import: `godot --headless --editor --path . --import --quit`.
 The full integration pass requires a display for captured-mouse verification.
 
-Verified in Godot **4.6.3** on the cloud Linux desktop: **22/22 integration checks passed**,
+Original Phase 1 verification in Godot **4.6.3** on the cloud Linux desktop: **22/22 integration checks passed**,
 followed by a clean exit code 0 through the Quit button. Editor import completed without script/resource errors.
 Rendered screenshots were inspected: [room](docs/screenshots/living-room.png),
 [sitting](docs/screenshots/sofa-interaction.png), [main menu](docs/screenshots/main-menu.png).
@@ -73,13 +79,13 @@ tailored furnishings, tapered hair, expressive facial detail, layered clothes, a
 production character sculpting and high quality contact shadows.
 Idle/walk/run and sitting use procedural part animation, not a production skeletal animation set.
 The room has no ceiling to preserve the playable slice's open composition. Windows show a stylized static garden.
-Phase 2A adds two rooms, three station-based recipes, day/goal progression and six purchasable room finishes. The seven daily combinations repeat after the first week; there is no furniture placement editor, second floor, NPC simulation or profiles.
-Fourteen short original UI/interaction sounds are bundled; cloud audible playback remains unverified.
+Phase 2A adds two rooms, three station-based recipes, day/goal progression and six purchasable room finishes. After neighborhood discovery, three daily goals vary with garden readiness and recent activities. Phase 2B adds a garden, two recurring visitors, friendships, requests, six optional events and six further catalog upgrades. Visitors use collision-safe garden/patio waypoints; there is no town-wide simulation, furniture placement editor, second floor or profiles.
+Twenty-two short original UI/interaction sounds are bundled; cloud audible playback remains unverified.
 Linux Godot 4.6.3 was used for verification; Windows executable export and desktop performance remain unverified.
 For Windows distribution, install matching Godot export templates and create a Windows Desktop export in the editor.
 The project uses the Compatibility renderer for broad desktop support. Geometry and materials are original;
 there are no third-party art assets.
 
 Current scope, save schema and actual extension points: [PROJECT_STATUS.md](docs/PROJECT_STATUS.md).
-Phase 2A passed **482/482 checks**, including the original regression baseline.
-Latest commands, results and genuine review images: [Phase 2A report](docs/review/phase2a/RESULTS.md).
+Phase 2B verification passes **762/762 checks across 30 suites**, including the complete Phase 2A **482-check regression baseline**. Genuine gardening/social/cooking journeys, two process-restart Continue checks, schema 1–4 migrations and failed-write retries are covered. Windows, hardware performance and audible playback remain unverified.
+Latest commands, results and genuine review images: [Phase 2B report](docs/review/phase2b/RESULTS.md).

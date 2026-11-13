@@ -1,0 +1,88 @@
+extends "res://tests/phase_one.gd"
+const S=preload("res://scripts/save_data.gd")
+const H=preload("res://scripts/home_rules.gd")
+func ray(a: Vector3,b: Vector3) -> Dictionary:
+ return game.player.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(a,b,1,[game.player.get_rid()]))
+func run() -> void:
+ for version in [1,2,3,4]:
+  var path:="user://nb_legacy_%d_%s.cfg" % [version,str(Time.get_unix_time_from_system())]
+  var cfg:=ConfigFile.new();cfg.set_value("meta","schema_version",version)
+  var old_home:=H.defaults();old_home.coins=41;old_home.owned=["bed.strawberry"];old_home.equipped.bedding="bed.strawberry";old_home.set_paid=true;old_home.goals_done=["meal","water","bed"]
+  old_home.erase("neighborhood")
+  cfg.set_value("home","life",old_home);cfg.set_value("future","untouched",{"kept":42});cfg.set_value("appearance","display_name","Meadow");cfg.set_value("progress","first_cozy_corner",true);cfg.save(path)
+  var bytes:=FileAccess.get_file_as_bytes(path)
+  var data:=S.new();data.path=path;data.load_local()
+  check(FileAccess.get_file_as_bytes(path+".v%d.bak" % version)==bytes,"schema %d retains exact migration backup" % version)
+  check(data.home.coins==41 and data.home.owned==["bed.strawberry"] and data.home.set_paid and data.home.goals_done==["meal","water","bed"] and data.appearance.display_name=="Meadow" and data.cozy_corner_completed,"schema %d preserves money ownership claims and original achievements" % version)
+  check(data.write_local(Vector3(12,0,2))==OK,"schema %d writes safely into expanded garden" % version)
+  data=S.new();data.path=path;data.load_local();cfg.load(path)
+  check(data.player_position==Vector3(12,0,2) and cfg.get_value("future","untouched")=={"kept":42},"schema %d retains new position and unknown fields" % version)
+ game=load("res://scenes/main.tscn").instantiate();game.save_path="user://nb_session_"+str(Time.get_unix_time_from_system())+".cfg";root.add_child(game);game.start_game()
+ var nb: Node=game.home.neighborhood
+ await frames(6)
+ check(ray(Vector3(5,1,3.65),Vector3(7,1,3.65)).is_empty(),"garden entrance is a physical doorway")
+ check(not ray(Vector3(5,1,2),Vector3(7,1,2)).is_empty(),"old solid wall assertion remains valid at z=2")
+ check(not ray(Vector3(12,0.2,0),Vector3(12,-1,0)).is_empty(),"garden has safe collision floor")
+ check(not ray(Vector3(16,1,0),Vector3(18,1,0)).is_empty(),"garden fence safely bounds traversal")
+ check(nb.actors.values().all(func(npc): return npc.mode==npc.Mode.AWAY and npc.collision_layer==0),"away visitors leave no invisible collision")
+ var result: Dictionary=nb.transact("plant",{"plot":0,"crop":"strawberry"})
+ check(result.ok and nb.data().plots[0].stage==1,"planting transaction updates real model state")
+ var bytes:=FileAccess.get_file_as_bytes(game.save_path)
+ DirAccess.make_dir_absolute(game.save_path+".tmp")
+ result=nb.transact("garden_water",{"plot":0})
+ check(not result.ok and nb.data().plots[0].stage==1 and FileAccess.get_file_as_bytes(game.save_path)==bytes,"real failed water save rolls back growth and retains prior file")
+ DirAccess.remove_absolute(game.save_path+".tmp")
+ check(nb.transact("garden_water",{"plot":0}).ok and nb.data().plots[0].stage==2,"retry waters exactly once")
+ check(not nb.transact("garden_water",{"plot":0}).ok,"duplicate water cannot progress or reward")
+ nb.transact("chat",{"npc":"mimi"});nb.transact("accept",{"npc":"mimi"})
+ game.home.commit(func(): game.home.rules.event("meal","nb-real-rule-meal",{"recipe":"cloud_pancakes","quality":"Good"}))
+ bytes=FileAccess.get_file_as_bytes(game.save_path)
+ DirAccess.make_dir_absolute(game.save_path+".tmp")
+ var coins: int=game.home.rules.data.coins
+ result=nb.transact("claim",{"npc":"mimi"})
+ check(not result.ok and game.home.rules.data.coins==coins and nb.data().people.mimi.requests_done==0 and nb.data().people.mimi.request_ready and FileAccess.get_file_as_bytes(game.save_path)==bytes,"failed visitor claim preserves request money friendship and file together")
+ DirAccess.remove_absolute(game.save_path+".tmp")
+ result=nb.transact("claim",{"npc":"mimi"})
+ check(result.ok and nb.data().people.mimi.requests_done==1 and nb.data().people.mimi.xp==4,"claim retry succeeds once with valid friendship progression")
+ coins=game.home.rules.data.coins
+ nb.transact("claim",{"npc":"mimi"})
+ check(game.home.rules.data.coins==coins,"repeated visitor claim never duplicates economic reward")
+ game.home.commit(func(): game.home.rules.sleep_next_day())
+ check(nb.data().plots[0].stage==4,"saved sleep readies watered crop")
+ var before_harvest:=FileAccess.get_file_as_bytes(game.save_path)
+ DirAccess.make_dir_absolute(game.save_path+".tmp")
+ var failed_harvest: Dictionary=nb.transact("harvest",{"plot":0})
+ check(not failed_harvest.ok and nb.data().plots[0].stage==4 and nb.data().produce.strawberry==0 and FileAccess.get_file_as_bytes(game.save_path)==before_harvest,"failed harvest keeps ripe crop basket and previous file intact")
+ DirAccess.remove_absolute(game.save_path+".tmp")
+ nb.transact("harvest",{"plot":0})
+ var saved:=S.new();saved.path=game.save_path;saved.load_local()
+ check(saved.home.neighborhood.produce.strawberry==1 and saved.home.neighborhood.plots[0].stage==0 and saved.home.neighborhood.people.mimi.xp==4,"schema 5 saves crop harvest and friendship consistently")
+ var clone=load("res://scenes/main.tscn").instantiate();clone.save_path=game.save_path;root.add_child(clone)
+ check(clone.home.neighborhood.data()==nb.data() and not clone.home.neighborhood.world.drops.visible and clone.home.neighborhood.actors.mimi.mode==nb.actors.mimi.Mode.AWAY,"new instance restores settled garden and fresh safe actor AI")
+ check(nb.world.keepsakes.values().filter(func(node): return node.visible).size()>=4,"four earned achievements have actual visible 3D rewards")
+ for size in [Vector2i(1280,720),Vector2i(1920,1080)]:
+  root.size=size
+  game.ui.show_notice("A good drink. Cook or rest to see it grow; sleep for a harvest.");await frames(6)
+  check(game.ui.root.get_global_rect().encloses(game.ui.notice.get_global_rect()),"long notice stays inside "+str(size))
+  game.home.neighborhood.journal();await frames(6)
+  check(game.ui.root.get_global_rect().encloses(game.home.panel.panel.get_global_rect()),"journal fits "+str(size))
+  nb.event_panel();await frames(6)
+  check(game.ui.root.get_global_rect().encloses(game.home.panel.panel.get_global_rect()),"event activity card fits "+str(size))
+  game.home.close()
+  nb.actors.mimi.invite();nb.actors.mimi.talk();nb.speaking="mimi";nb.conversation("mimi");await frames(6)
+  check(game.ui.root.get_global_rect().encloses(game.home.panel.panel.get_global_rect()),"friendship conversation fits "+str(size))
+  game.home.rules.data.day=8
+  nb.data().people.mimi.xp=12
+  nb.data().people.mimi.days=[1,2,3,4,5,6,7]
+  nb.data().people.mimi.request="mimi.good"
+  nb.conversation("mimi");await frames(6)
+  check(game.ui.root.get_global_rect().encloses(game.home.panel.panel.get_global_rect()),"long close-friend and request dialogue scrolls safely at "+str(size))
+  nb.request_panel("mimi");await frames(6)
+  check(game.ui.root.get_global_rect().encloses(game.home.panel.panel.get_global_rect()),"visitor request fits "+str(size))
+  var position_before: Vector3=game.player.position
+  await key(KEY_E,true);await key(KEY_E,false)
+  check(not game.activate_interaction() and game.player.position==position_before and game.state==game.State.HOME,"new social modal blocks world interaction")
+  game.home.close()
+ game.audio.stop_all();clone.audio.stop_all()
+ print("NEIGHBORHOOD SESSION: ",checks-failures,"/",checks)
+ quit(0 if failures==0 else 1)

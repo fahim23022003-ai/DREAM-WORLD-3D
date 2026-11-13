@@ -32,7 +32,13 @@ func _ready() -> void:
 	wall(Vector3(1.5,0.48,-5),Vector3(5.2,0.96,0.2))
 	wall(Vector3(1.5,3.5,-5),Vector3(5.2,0.6,0.2))
 	wall(Vector3(-6,1.9,0),Vector3(0.2,3.8,10))
-	wall(Vector3(6,1.9,0),Vector3(0.2,3.8,10))
+	wall(Vector3(6,1.9,-1.2),Vector3(0.2,3.8,7.6))
+	wall(Vector3(6,1.9,4.85),Vector3(0.2,3.8,0.3))
+	wall(Vector3(6,3.3,3.65),Vector3(0.2,1,2.1))
+	# Cream jambs make the new garden entrance read as part of the house.
+	for z in [2.55,4.75]: F.box(self,Vector3(5.91,1.4,z),Vector3(0.26,2.8,0.12),"fff0dc")
+	F.box(self,Vector3(5.91,2.84,3.65),Vector3(0.26,0.16,2.3),"fff0dc")
+	F.finish(F.box(self,Vector3(6.0,0.02,3.65),Vector3(0.4,0.03,2.0),"d6bfa0"),"wood")
 	# Two genuine 2.2m doorways lead into the kitchen and bedroom.
 	wall(Vector3(-5.05,1.9,5),Vector3(1.9,3.8,0.2))
 	wall(Vector3(0,1.9,5),Vector3(3.8,3.8,0.2))
@@ -40,10 +46,13 @@ func _ready() -> void:
 	wall(Vector3(0,3.3,5),Vector3(12,1.0,0.2))
 	# Painted lower panels bring mint and lavender into the architectural palette.
 	F.box(self,Vector3(0,0.58,-4.865),Vector3(11.85,0.9,0.035),"d9e5df",0.015)
-	for x in [-5.87,5.87]: F.box(self,Vector3(x,0.58,0),Vector3(0.035,0.9,9.8),"d9e5df",0.015)
 	for x in [-5.87,5.87]:
-		F.box(self,Vector3(x,0.15,0),Vector3(0.08,0.3,9.9),"fff0dc")
-		F.box(self,Vector3(x,1.05,0),Vector3(0.07,0.05,9.9),"e3d5c1")
+		for segment in ([[0.0,9.8]] if x<0 else [[-1.2,7.6],[4.85,0.3]]):
+			F.box(self,Vector3(x,0.58,segment[0]),Vector3(0.035,0.9,segment[1]),"d9e5df",0.015)
+	for x in [-5.87,5.87]:
+		for segment in ([[0.0,9.9]] if x<0 else [[-1.2,7.6],[4.85,0.3]]):
+			F.box(self,Vector3(x,0.15,segment[0]),Vector3(0.08,0.3,segment[1]),"fff0dc")
+			F.box(self,Vector3(x,1.05,segment[0]),Vector3(0.07,0.05,segment[1]),"e3d5c1")
 	F.box(self,Vector3(0,0.15,-4.86),Vector3(11.9,0.3,0.08),"fff0dc")
 	# Shallow wainscot panels and a cornice give the shell a finished silhouette.
 	for x in [-5.3,-4.0,-2.7,-1.4,0.0,1.4,2.8,4.2,5.4]:

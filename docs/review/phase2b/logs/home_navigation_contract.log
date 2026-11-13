@@ -1,0 +1,21 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS doorway at x=-3.0 is genuinely open
+PASS new room has continuous solid floor
+PASS doorway at x=3.0 is genuinely open
+PASS new room has continuous solid floor
+PASS doorway divider remains solid
+PASS rooms have a solid dividing wall
+PASS kitchen counter has physical collision
+PASS bed frame blocks walking through furniture
+PASS outer room wall stays solid
+PASS reachable shared resolver target kitchen.fridge
+PASS reachable shared resolver target kitchen.prep
+PASS reachable shared resolver target kitchen.stove
+PASS reachable shared resolver target bedroom.make
+PASS reachable shared resolver target bedroom.bed
+PASS reachable shared resolver target bedroom.lamp
+PASS reachable shared resolver target bedroom.rest
+PASS camera spring arm retracts before the central wall
+PASS night transitions change ambient window fill and indoor balance
+HOME NAVIGATION: 18/18
