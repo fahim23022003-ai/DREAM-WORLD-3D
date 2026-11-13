@@ -25,7 +25,7 @@ func _initialize() -> void:
 	check(save.appearance.display_name=="Dreamer" and save.decor.rug=="rosewater" and save.unlocks.is_empty(),"migration new fields safely default")
 	check(save.write_local(save.player_position)==OK,"versioned atomic save succeeds")
 	cfg.load(file)
-	check(cfg.get_value("meta","schema_version")==2 and cfg.get_value("future","preserved")==42,"schema and unknown fields retained")
+	check(cfg.get_value("meta","schema_version")==S.VERSION and cfg.get_value("future","preserved")==42,"schema and unknown fields retained")
 	check(FileAccess.get_file_as_bytes(file+".last_good")==original,"last good save retained")
 	var good_bytes := FileAccess.get_file_as_bytes(file)
 	DirAccess.make_dir_absolute(file+".tmp")

@@ -26,6 +26,7 @@ func _ready() -> void:
 	room = preload("res://scenes/room.tscn").instantiate()
 	add_child(room)
 	room.apply_decor(save.decor)
+	room.apply_state(save.room_state,save.cozy_corner_completed)
 	player = preload("res://scenes/player.tscn").instantiate()
 	player.position = save.player_position
 	add_child(player)
@@ -44,7 +45,12 @@ func _ready() -> void:
 	add_child(ui)
 	ui.personalize_requested.connect(func(): open_style(State.PERSONALIZE))
 	ui.decor_requested.connect(func(): open_style(State.DECOR))
-	ui.guidance_changed.connect(func(dismissed): save.onboarding.dismissed=dismissed; persist())
+	ui.guidance_changed.connect(func(dismissed):
+		save.onboarding.dismissed=dismissed
+		if dismissed: save.cozy_hint_dismissed=true
+		persist()
+		refresh_guidance())
+	ui.cozy_guidance_changed.connect(func(dismissed): save.cozy_hint_dismissed=dismissed; persist(); refresh_guidance())
 	ui.audio_changed.connect(func(volume,muted): save.ui_volume=volume; save.muted=muted; audio.configure(volume,muted); persist())
 	ui.sound_requested.connect(func(kind): audio.play(kind))
 	ui.start_requested.connect(start_game)
@@ -58,10 +64,12 @@ func _ready() -> void:
 	ui.ui_volume = save.ui_volume
 	ui.muted = save.muted
 	apply_settings(save.sensitivity,save.fullscreen,save.shadows,false)
+	room.state_changed.connect(room_state_changed)
+	room.plant_control.watered.connect(func(_first): room_state_changed("A little drink. Your plant looks happy."))
 	get_tree().auto_accept_quit = false
 
 func setup_input() -> void:
-	var bindings := {"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"run":KEY_SHIFT,"interact":KEY_E,"pause":KEY_ESCAPE,"personalize":KEY_C,"decorate":KEY_B}
+	var bindings := {"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"run":KEY_SHIFT,"interact":KEY_E,"pause":KEY_ESCAPE,"personalize":KEY_C,"decorate":KEY_B,"cozy_hint":KEY_H}
 	for action in bindings:
 		if InputMap.has_action(action): continue
 		InputMap.add_action(action)
@@ -76,11 +84,12 @@ func set_active(value: bool) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if value else Input.MOUSE_MODE_VISIBLE
 
 func start_game() -> void:
+	if not save.cozy_corner_completed and room.is_cozy(): room_state_changed()
 	resume_game()
 
 func resume_game() -> void:
 	ui.show_page("game")
-	ui.update_guidance(save.onboarding)
+	refresh_guidance()
 	ui.home_label.text = save.appearance.display_name+"  ·  ROSEWATER HOUSE"
 	set_active(true)
 
@@ -123,17 +132,38 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif ui.mode=="settings_main": ui.show_page("main")
 		get_viewport().set_input_as_handled()
 	elif state==State.PLAY:
-		if event.is_action_pressed("personalize"): open_style(State.PERSONALIZE)
+		if event.is_action_pressed("cozy_hint"):
+			ui.guidance_mode="cozy"
+			save.cozy_hint_dismissed=ui.guidance_kind=="cozy"
+			persist()
+			refresh_guidance()
+		elif event.is_action_pressed("personalize"): open_style(State.PERSONALIZE)
 		elif event.is_action_pressed("decorate"): open_style(State.DECOR)
-		elif event.is_action_pressed("interact"):
-			if player.seated: player.interact()
-			else:
-				interaction_target = preload("res://scripts/interaction.gd").resolve(player,camera_rig)
-				if interaction_target:
-					if interaction_target.interaction_id=="sofa":
-						player.nearby_seat = interaction_target
-						player.interact()
-					else: open_puzzle()
+		elif event.is_action_pressed("interact"): activate_interaction()
+
+func activate_interaction() -> bool:
+	if state!=State.PLAY: return false
+	if player.seated:
+		player.interact()
+		return true
+	interaction_target = preload("res://scripts/interaction.gd").resolve(player,camera_rig)
+	if not interaction_target: return false
+	match interaction_target.interaction_id:
+		"sofa":
+			player.nearby_seat = interaction_target
+			player.interact()
+		"cozy_pairs_box": open_puzzle()
+		"living_room.floor_lamp":
+			room.lamp_control.toggle()
+			audio.play("switch")
+		"living_room.curtains":
+			room.curtain_control.toggle()
+			audio.play("switch")
+		"living_room.houseplant":
+			if not room.plant_control.water(): return false
+			audio.play("water")
+		_: return false
+	return true
 
 func open_style(which: State) -> void:
 	if not state in [State.PLAY,State.PAUSE]: return
@@ -227,7 +257,7 @@ func open_puzzle() -> void:
 	feature.apply_theme_requested.connect(apply_reward)
 	feature.retry_save_requested.connect(func():
 		var result := persist()
-		feature.result_status.text = "Unlocked and saved." if result==OK else "Still unable to save. Previous file is safe.")
+		feature.set_save_status(result==OK))
 	feature.sound_requested.connect(func(kind): audio.play(kind))
 
 func puzzle_completed(result: Dictionary) -> void:
@@ -252,7 +282,7 @@ func apply_reward() -> void:
 	if persist()!=OK:
 		save.decor=old
 		save.onboarding.reward_applied=old_hint
-		feature.result_status.text="Could not save the theme. Retry Apply; previous room is safe."
+		feature.set_save_status(false,"Theme not saved yet. Previous room kept. Retry Apply or save the reward.")
 		return
 	room.apply_decor(save.decor)
 	close_feature()
@@ -273,3 +303,19 @@ func quit_game() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST: quit_game()
+
+func refresh_guidance() -> void:
+	ui.update_guidance(save.onboarding,room.capture_state(),save.cozy_corner_completed,save.cozy_hint_dismissed)
+
+func room_state_changed(message: String = "") -> void:
+	save.room_state=room.capture_state()
+	var first: bool = not save.cozy_corner_completed and room.is_cozy()
+	if first:
+		save.cozy_corner_completed=true
+		room.keepsake.show()
+	var written := persist()==OK
+	refresh_guidance()
+	if first:
+		audio.play("reward")
+		ui.show_notice("Cozy corner made! Shelf keepsake saved." if written else "Cozy corner made — not saved yet.")
+	elif written and not message.is_empty(): ui.show_notice(message)

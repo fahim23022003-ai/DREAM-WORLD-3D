@@ -17,6 +17,9 @@ var scheduled_round := 0
 var cards: Array[Button] = []
 var completion_handled := false
 var result_status: Label
+var retry_button: Button
+var result_apply: Button
+var result_saved := false
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -74,8 +77,8 @@ func restart() -> void:
 		grid.add_child(b)
 		cards.append(b)
 	var actions := HBoxContainer.new()
-	actions.add_child(ui.button("Restart",restart))
-	actions.add_child(ui.button("Exit",func(): abort(); exit_requested.emit()))
+	actions.add_child(ui.button("Restart",restart,false,"restart"))
+	actions.add_child(ui.button("Exit",func(): abort(); exit_requested.emit(),false,"close"))
 	col.add_child(actions)
 	refresh()
 
@@ -133,14 +136,18 @@ func show_result(moves: int, best: int, first: bool, saved: bool) -> void:
 	preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	col.add_child(preview)
 	col.add_child(ui.label("LAVENDER DREAM    ·    Rug + sofa cushions + curtains",16,"8b719b"))
-	result_status = ui.label("Unlocked and saved." if saved else "Save unavailable. Reward is kept this session; please retry.",14,"8b7588")
+	result_status = ui.label("",14,"8b7588")
 	col.add_child(result_status)
-	col.add_child(ui.button("Apply to My Room",func(): apply_theme_requested.emit(),true))
-	col.add_child(ui.button("Keep My Current Style",func(): keep_style_requested.emit()))
+	result_apply = ui.button("Apply to My Room",func(): apply_theme_requested.emit(),true,"check")
+	col.add_child(result_apply)
+	col.add_child(ui.button("Keep My Current Style",func(): keep_style_requested.emit(),false,"close"))
 	var row := HBoxContainer.new()
-	row.add_child(ui.button("Play again",restart))
-	row.add_child(ui.button("Retry save",func(): retry_save_requested.emit()))
+	row.add_child(ui.button("Play again",restart,false,"play"))
+	retry_button = ui.button("Retry save",func(): retry_save_requested.emit(),false,"restart")
+	row.add_child(retry_button)
 	col.add_child(row)
+	set_save_status(saved)
+	result_apply.grab_focus()
 
 func abort() -> void:
 	timer.stop()
@@ -149,3 +156,10 @@ func abort() -> void:
 func _exit_tree() -> void:
 	if is_instance_valid(timer): timer.stop()
 	rules.abort()
+
+func set_save_status(saved: bool, failure_text: String = "Not saved yet. Previous file is safe; please retry.") -> void:
+	result_saved = saved
+	result_status.text = "Unlocked and saved." if saved else failure_text
+	var had_focus := retry_button.has_focus()
+	retry_button.visible = not saved
+	if saved and had_focus: result_apply.grab_focus()

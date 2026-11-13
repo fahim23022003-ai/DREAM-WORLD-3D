@@ -2,7 +2,7 @@ extends "res://tests/phase_one.gd"
 const S = preload("res://scripts/save_data.gd")
 var legacy := false
 var file := ""
-var output := "res://docs/review/phase1c/after/"
+var output := "/tmp/dream-phase1c-review/"
 
 func key(code: Key, pressed: bool) -> void:
 	var event := InputEventKey.new()
@@ -84,6 +84,8 @@ func run() -> void:
 		quit(1)
 		return
 	legacy = "--legacy" in OS.get_cmdline_user_args()
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--output="): output=argument.trim_prefix("--output=").trim_suffix("/")+"/"
 	file="user://phase1c_flow_"+("legacy_" if legacy else "fresh_")+str(Time.get_ticks_usec())+".cfg"
 	root.size=Vector2i(1280,720)
 	DirAccess.make_dir_recursive_absolute(output)
@@ -247,7 +249,7 @@ func run() -> void:
 	await load_game()
 	await click("Continue home  →")
 	check(game.active and game.save.appearance.display_name=="Meadow" and game.save.decor.rug=="lavender_dream" and game.save.best_moves==6,"new instance Continue reloads appearance, room and record")
-	check(game.save.onboarding.dismissed and game.save.onboarding.reward_applied and not game.ui.guide.visible,"Continue does not repeat introductory guidance")
+	check(game.save.onboarding.dismissed and game.save.onboarding.reward_applied and game.ui.guidance_kind!="intro","Continue does not repeat introductory guidance")
 	await shot("continued_legacy" if legacy else "continued_room")
 	# Verify scaled layout and genuine high-resolution rendering without adding a second UI pipeline.
 	root.size=Vector2i(1920,1080)

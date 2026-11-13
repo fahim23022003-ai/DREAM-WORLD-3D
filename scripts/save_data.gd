@@ -1,6 +1,6 @@
 extends RefCounted
 const PATH := "user://rosewater.cfg"
-const VERSION := 2
+const VERSION := 3
 const SURFACES := ["rug", "cushions", "curtains"]
 var path := PATH
 var sensitivity := 1.0
@@ -15,6 +15,9 @@ var decor := {"rug":"rosewater", "cushions":"rosewater", "curtains":"rosewater"}
 var unlocks: Array[String] = []
 var best_moves := 0
 var onboarding := {"personalized":false,"decorated":false,"played":false,"reward_applied":false,"dismissed":false}
+var room_state := {"living_room.floor_lamp":true,"living_room.curtains":false,"living_room.houseplant":false}
+var cozy_corner_completed := false
+var cozy_hint_dismissed := false
 var load_error: Error = OK
 var write_blocked: Error = OK
 
@@ -43,8 +46,8 @@ func load_local() -> void:
 	has_save = true
 	var schema: Variant = cfg.get_value("meta","schema_version",1)
 	if schema is int and schema>VERSION: write_blocked = ERR_UNAVAILABLE
-	if not schema is int or schema<VERSION:
-		var backup := path+".v1.bak"
+	if (not schema is int or schema<VERSION) and write_blocked==OK:
+		var backup := path+(".v2.bak" if schema is int and schema==2 else ".v1.bak")
 		if not FileAccess.file_exists(backup):
 			var result := DirAccess.copy_absolute(path,backup)
 			if result != OK: write_blocked = result
@@ -65,6 +68,9 @@ func load_local() -> void:
 		var preset: Variant = cfg.get_value("decor",surface,"rosewater")
 		if preset in ["rosewater","mint"] or (preset=="lavender_dream" and "lavender_dream" in unlocks): decor[surface] = preset
 	for key in onboarding: onboarding[key] = read_bool(cfg,"onboarding",key,false)
+	for id in room_state: room_state[id]=read_bool(cfg,"room",id,room_state[id])
+	cozy_corner_completed=read_bool(cfg,"progress","first_cozy_corner",false)
+	cozy_hint_dismissed=read_bool(cfg,"guidance","cozy_corner_dismissed",onboarding.dismissed)
 
 func read_bool(cfg: ConfigFile, section: String, key: String, fallback: bool) -> bool:
 	var value: Variant = cfg.get_value(section,key,fallback)
@@ -89,6 +95,9 @@ func write_local(pos: Vector3) -> Error:
 	cfg.set_value("progress","lavender_dream","lavender_dream" in unlocks)
 	cfg.set_value("progress","cozy_pairs_best",best_moves)
 	for key in onboarding: cfg.set_value("onboarding",key,onboarding[key])
+	for id in room_state: cfg.set_value("room",id,room_state[id])
+	cfg.set_value("progress","first_cozy_corner",cozy_corner_completed)
+	cfg.set_value("guidance","cozy_corner_dismissed",cozy_hint_dismissed)
 	var result := cfg.save(path+".tmp")
 	if result != OK: return result
 	if FileAccess.file_exists(path):

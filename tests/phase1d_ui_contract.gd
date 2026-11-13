@@ -1,0 +1,46 @@
+extends "res://tests/session_contract.gd"
+func run() -> void:
+	root.size=Vector2i(1280,720)
+	game=load("res://scenes/main.tscn").instantiate()
+	game.save_path="user://phase1d_ui_"+str(Time.get_ticks_usec())+".cfg"
+	root.add_child(game)
+	game.start_game()
+	game.open_puzzle()
+	finish_round()
+	check(game.feature.result_saved and not game.feature.retry_button.visible and game.feature.result_status.text=="Unlocked and saved.","successful result has no Retry Save action")
+	game.feature.restart()
+	game.save.write_blocked=ERR_CANT_CREATE
+	finish_round()
+	check(not game.feature.result_saved and game.feature.retry_button.visible and game.feature.result_status.text.begins_with("Not saved"),"real save failure exposes truthful retry state")
+	game.feature.retry_save_requested.emit()
+	check(not game.feature.result_saved and game.feature.retry_button.visible,"continued failure remains not saved")
+	game.feature.retry_button.grab_focus()
+	game.save.write_blocked=OK
+	game.feature.retry_save_requested.emit()
+	check(game.feature.result_saved and not game.feature.retry_button.visible and root.gui_get_focus_owner()==game.feature.result_apply,"successful retry hides button and restores useful keyboard focus")
+	check(game.save.unlocks.size()==1 and game.save.best_moves==6,"retry does not duplicate progression")
+	check(game.feature.result_apply.icon.resource_path.ends_with("check.svg"),"Apply has a check action icon")
+	game.cancel_feature()
+	game.open_style(game.State.DECOR)
+	var f=game.feature
+	check(f.theme_choice.get_item_text(f.theme_choice.selected)=="Rosewater" and f.decor_buttons.rug_rosewater.get_meta("selected"),"initial decor selection matches data")
+	f.decor.rug="mint"
+	f.update_labels()
+	f.decor_preview.emit(f.decor)
+	check(f.theme_choice.get_item_text(f.theme_choice.selected)=="Mixed" and f.whole_preview.disabled,"mixed surfaces are represented truthfully")
+	check(f.decor_buttons.rug_mint.get_meta("selected") and not f.decor_buttons.rug_rosewater.get_meta("selected"),"selection check/border follows preview")
+	check(f.decor_buttons.rug_mint.get_theme_stylebox("normal").border_color!=f.decor_buttons.rug_mint.get_theme_stylebox("focus").border_color,"focus ring differs from selection border")
+	f.theme_choice.select(1)
+	f.theme_choice.item_selected.emit(1)
+	check(f.decor.values()==["mint","mint","mint"] and f.theme_choice.selected==1,"whole-room selection synchronizes actual preview")
+	game.cancel_feature()
+	game.save.unlocks.clear()
+	game.open_style(game.State.DECOR)
+	f=game.feature
+	check(f.decor.rug=="rosewater" and f.theme_choice.selected==0 and f.decor_buttons.rug_rosewater.get_meta("selected"),"Cancel restores room and reopened selection display")
+	check(f.decor_buttons.rug_lavender_dream.disabled and f.decor_buttons.rug_lavender_dream.icon.resource_path.ends_with("lock.svg"),"unavailable Lavender has a visible local lock icon")
+	game.cancel_feature()
+	game.audio.stop_all()
+	await frames(3)
+	print("PHASE 1D UI: ",checks-failures,"/",checks)
+	quit(0 if failures==0 else 1)

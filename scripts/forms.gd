@@ -149,7 +149,7 @@ static func lathe(parent: Node3D, pos: Vector3, profile: Array[Vector2], hex: St
 	st.generate_normals()
 	return mesh(parent,st.commit(),pos,hex)
 
-static func leaf(parent: Node3D, pos: Vector3, length: float, width: float, angles: Vector3, hex: String) -> void:
+static func leaf(parent: Node3D, pos: Vector3, length: float, width: float, angles: Vector3, hex: String) -> MeshInstance3D:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for i in range(8):
@@ -164,3 +164,4 @@ static func leaf(parent: Node3D, pos: Vector3, length: float, width: float, angl
 	m.cull_mode = BaseMaterial3D.CULL_DISABLED
 	m.roughness = 0.75
 	n.material_override = m
+	return n

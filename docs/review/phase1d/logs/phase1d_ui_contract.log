@@ -1,0 +1,31 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS successful result has no Retry Save action
+WARNING: Could not write local save: Can't create
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:112)
+         [1] puzzle_completed (res://scripts/main.gd:272)
+         [2] <anonymous lambda> (res://scripts/cozy_pairs.gd:39)
+         [3] settle (res://scripts/pairs_rules.gd:44)
+         [4] finish_round (res://tests/session_contract.gd:18)
+         [5] run (res://tests/phase1d_ui_contract.gd:13)
+PASS real save failure exposes truthful retry state
+WARNING: Could not write local save: Can't create
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:112)
+         [1] <anonymous lambda> (res://scripts/main.gd:259)
+         [2] run (res://tests/phase1d_ui_contract.gd:15)
+PASS continued failure remains not saved
+PASS successful retry hides button and restores useful keyboard focus
+PASS retry does not duplicate progression
+PASS Apply has a check action icon
+PASS initial decor selection matches data
+PASS mixed surfaces are represented truthfully
+PASS selection check/border follows preview
+PASS focus ring differs from selection border
+PASS whole-room selection synchronizes actual preview
+PASS Cancel restores room and reopened selection display
+PASS unavailable Lavender has a visible local lock icon
+PHASE 1D UI: 13/13

@@ -1,6 +1,14 @@
 extends Node3D
 const F = preload("res://scripts/forms.gd")
 const PROP = preload("res://scenes/prop.tscn")
+signal state_changed
+var lamp_control: Node3D
+var curtain_control: Node3D
+var plant_control: Node3D
+var keepsake: Node3D
+var curtain_panels: Array[MeshInstance3D] = []
+var curtain_ties: Array[MeshInstance3D] = []
+var window_fill: OmniLight3D
 
 func prop(kind: String, pos: Vector3, angle: float = 0.0) -> Node3D:
 	var p := PROP.instantiate()
@@ -52,9 +60,9 @@ func _ready() -> void:
 	cards.position = Vector3(0,0.835,-0.4)
 	add_child(cards)
 	prop("shelf",Vector3(-4.65,0,-4.52))
-	prop("lamp",Vector3(2.55,0,-3.55))
+	var floor_lamp := prop("lamp",Vector3(2.55,0,-3.55))
 	prop("plant",Vector3(4.85,0,-3.85)).scale = Vector3.ONE*1.6
-	prop("plant",Vector3(-3,0,-3.9))
+	var chosen_plant := prop("plant",Vector3(-3,0,-3.9))
 	prop("ottoman",Vector3(3.5,0,0.3))
 	# Console and framed botanical print on the left wall.
 	F.box(self,Vector3(-5.52,0.79,0.0),Vector3(0.65,0.16,2.5),"d7b389",0.07)
@@ -91,6 +99,23 @@ func _ready() -> void:
 	seat.position = Vector3(0,0,-3.25)
 	add_child(seat)
 	lighting()
+	lamp_control=preload("res://scripts/lamp_control.gd").new()
+	floor_lamp.add_child(lamp_control)
+	lamp_control.bind(floor_lamp.lamp_shade,floor_lamp.lamp_light)
+	curtain_control=preload("res://scripts/curtain_control.gd").new()
+	curtain_control.position=Vector3(3.9,0,-4.3)
+	add_child(curtain_control)
+	curtain_control.bind(curtain_panels,curtain_ties,window_fill)
+	plant_control=preload("res://scripts/plant_control.gd").new()
+	chosen_plant.add_child(plant_control)
+	plant_control.bind(chosen_plant.plant_leaves)
+	for control in [lamp_control,curtain_control]:
+		control.changed.connect(func(): state_changed.emit())
+		control.settled.connect(func(): state_changed.emit())
+	keepsake=preload("res://scripts/cozy_keepsake.gd").new()
+	keepsake.position=Vector3(-4.65,2.56,-4.47)
+	add_child(keepsake)
+	keepsake.hide()
 
 func wall(pos: Vector3, size: Vector3) -> void:
 	F.box(self,pos,size,"f2e9e7",0.015)
@@ -110,7 +135,7 @@ func window() -> void:
 	F.rod(self,Vector3(-1.65,3.4,-4.57),Vector3(4.65,3.4,-4.57),0.035,"ad885c")
 	for side in [-1,1]:
 		curtain(-1.13 if side<0 else 4.12)
-		F.box(self,Vector3(-1.13 if side<0 else 4.12,1.25,-4.42),Vector3(0.95,0.09,0.12),"d2a66f")
+		curtain_ties.append(F.box(self,Vector3(-1.13 if side<0 else 4.12,1.25,-4.42),Vector3(0.95,0.09,0.12),"d2a66f"))
 	# Window collision remains even across the opening.
 	F.solid(self,Vector3(1.5,2.1,-5),Vector3(5.2,2.3,0.15))
 	var glass := F.picture(self,Vector3(1.5,2.08,-4.97),Vector2(5.1,2.2),"res://assets/textures/linen.svg")
@@ -124,6 +149,8 @@ func window() -> void:
 func curtain(center: float) -> void:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var closed_st := SurfaceTool.new()
+	closed_st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for x in range(30):
 		for y in range(16):
 			for p in [Vector2(x,y),Vector2(x+1,y+1),Vector2(x+1,y),Vector2(x,y),Vector2(x,y+1),Vector2(x+1,y+1)]:
@@ -131,12 +158,20 @@ func curtain(center: float) -> void:
 				var t: float = p.y/16.0
 				var pinch := 1.0-0.4*exp(-pow((t-0.32)/0.16,2))
 				st.add_vertex(Vector3(center+(u-0.5)*1.1*pinch,0.36+t*2.95,-4.53+cos(u*TAU*5)*0.075*pinch))
+				var closed_x := (-1.12 if center<0 else 1.47)+u*2.65
+				closed_st.add_vertex(Vector3(closed_x,0.36+t*2.95,-4.53+(0.025 if center>0 else 0.0)+cos(u*TAU*5)*0.075))
 	st.generate_normals()
-	var n := F.finish(F.mesh(self,st.commit(),Vector3.ZERO,"e4bfcc"),"fabric")
+	closed_st.generate_normals()
+	var blend_mesh := ArrayMesh.new()
+	blend_mesh.blend_shape_mode=Mesh.BLEND_SHAPE_MODE_NORMALIZED
+	blend_mesh.add_blend_shape("Closed")
+	blend_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,st.commit().surface_get_arrays(0),[closed_st.commit().surface_get_arrays(0)])
+	var n := F.finish(F.mesh(self,blend_mesh,Vector3.ZERO,"e4bfcc"),"fabric")
 	var m := n.material_override.duplicate() as StandardMaterial3D
 	m.cull_mode = BaseMaterial3D.CULL_DISABLED
 	n.material_override = m
 	F.channel(n,"decor.curtains")
+	curtain_panels.append(n)
 
 func lighting() -> void:
 	var env := WorldEnvironment.new()
@@ -158,6 +193,7 @@ func lighting() -> void:
 	sun.directional_shadow_max_distance = 24
 	add_child(sun)
 	var fill := OmniLight3D.new()
+	window_fill=fill
 	fill.position = Vector3(1.4,3,-3.5)
 	fill.light_color = Color("fff0e1")
 	fill.light_energy = 0.12
@@ -175,3 +211,15 @@ func apply_decor(data: Dictionary) -> void:
 		var base: Color = node.get_meta("style_base")
 		node.material_override.albedo_color = base if preset=="rosewater" else presets[preset][surface]
 		node.set_meta("object_id",preload("res://scripts/style_data.gd").SURFACE_IDS[surface])
+
+func apply_state(data: Dictionary, completed: bool) -> void:
+	lamp_control.set_state(data.get("living_room.floor_lamp",true),false)
+	curtain_control.set_state(data.get("living_room.curtains",false),false)
+	plant_control.has_watered=data.get("living_room.houseplant",false)
+	keepsake.visible=completed
+
+func capture_state() -> Dictionary:
+	return {"living_room.floor_lamp":lamp_control.on,"living_room.curtains":curtain_control.closed,"living_room.houseplant":plant_control.has_watered}
+
+func is_cozy() -> bool:
+	return lamp_control.on and curtain_control.closed and plant_control.has_watered and lamp_control.is_settled() and curtain_control.is_settled()

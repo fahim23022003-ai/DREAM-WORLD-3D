@@ -5,6 +5,7 @@ signal main_requested
 signal sound_requested(kind: String)
 signal audio_changed(volume: float, muted: bool)
 signal guidance_changed(dismissed: bool)
+signal cozy_guidance_changed(dismissed: bool)
 signal personalize_requested
 signal decor_requested
 signal quit_requested
@@ -24,6 +25,11 @@ var muted := false
 var home_label: Label
 var guide: PanelContainer
 var notice_timer: Timer
+var guidance_kind := "intro"
+var guidance_mode := "auto"
+var cozy_context: Dictionary = {}
+var cozy_completed := false
+var cozy_dismissed := false
 
 func style(color: String, radius: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
@@ -47,11 +53,22 @@ func label(text: String, size: int, color: String = "554c48") -> Label:
 	l.add_theme_color_override("font_color",Color(color))
 	return l
 
-func button(text: String, callback: Callable, primary: bool = false) -> Button:
+func button(text: String, callback: Callable, primary: bool = false, action_icon: String = "") -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(274,48)
-	b.icon = load("res://assets/ui/home.svg" if primary else ("res://assets/ui/settings.svg" if text=="Settings" else "res://assets/ui/leaf.svg"))
+	var icon_id := action_icon
+	if icon_id.is_empty():
+		if text.begins_with("Apply"): icon_id="check"
+		elif text in ["Cancel","Exit","Quit","Save & quit","Done"]: icon_id="close"
+		elif text in ["Restart","Retry save"]: icon_id="restart"
+		elif text in ["Play again","Resume  →","Come on in  →","Continue home  →"]: icon_id="play"
+		elif text=="Save & main menu": icon_id="home"
+		elif text=="Settings": icon_id="gear"
+		else: icon_id="leaf"
+	b.icon = load("res://assets/ui/"+icon_id+".svg")
+	for icon_state in ["icon_normal_color","icon_hover_color","icon_pressed_color","icon_focus_color"]:
+		b.add_theme_color_override(icon_state,Color.WHITE if primary else Color("796179"))
 	b.add_theme_constant_override("h_separation",12)
 	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	b.add_theme_font_size_override("font_size",16)
@@ -102,7 +119,7 @@ func _ready() -> void:
 	legend.add_theme_stylebox_override("panel",style("fff8f0ed",18))
 	legend.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud.add_child(legend)
-	var controls := label("WASD Move  ·  SHIFT Run  ·  MOUSE Look  ·  SCROLL Zoom  ·  C Personalize  ·  B Decor  ·  ESC Pause",13,"756578")
+	var controls := label("WASD Move · SHIFT Run · MOUSE Look · SCROLL Zoom · C Personalize · B Decor · H Cozy hint · ESC Pause",13,"756578")
 	controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	legend.add_child(controls)
 	prompt = label("",17,"fff8ef")
@@ -216,28 +233,67 @@ func show_notice(text: String) -> void:
 	notice.text = text
 	notice_timer.start(3.5)
 
-func update_guidance(data: Dictionary) -> void:
+func update_guidance(data: Dictionary, room_data: Dictionary = {}, completed: bool = false, dismissed: bool = false) -> void:
+	if not room_data.is_empty():
+		cozy_context=room_data.duplicate()
+		cozy_completed=completed
+		cozy_dismissed=dismissed
 	if is_instance_valid(guide):
 		hud.remove_child(guide)
 		guide.queue_free()
-	guide = PanelContainer.new()
-	guide.position = Vector2(830,78)
+	guide=PanelContainer.new()
+	guide.position=Vector2(830,78)
 	guide.add_theme_stylebox_override("panel",style("fff8f0ed",16))
 	hud.add_child(guide)
-	var col := VBoxContainer.new()
+	var col:=VBoxContainer.new()
 	guide.add_child(col)
-	if data.dismissed or data.reward_applied:
-		var b := button("Tips",func(): guidance_changed.emit(false); data.dismissed=false; update_guidance(data))
+	var intro: bool=not data.dismissed and not data.reward_applied
+	if not cozy_context.is_empty() and (guidance_mode=="cozy" or not intro):
+		if cozy_completed:
+			guidance_kind="cozy_complete"
+			guide.hide()
+			return
+		if cozy_dismissed:
+			guidance_kind="cozy_collapsed"
+			guide.position.x=1050
+			var expand:=button("Cozy corner · H",func(): guidance_mode="cozy"; cozy_guidance_changed.emit(false))
+			expand.custom_minimum_size=Vector2(150,30)
+			col.add_child(expand)
+			return
+		guidance_kind="cozy"
+		col.add_child(label("Make a cozy corner  ·  H to hide",15,"796179"))
+		for entry in [["living_room.floor_lamp","Lamp on"],["living_room.curtains","Curtains closed"],["living_room.houseplant","Plant watered once"]]:
+			col.add_child(label(("✓  " if cozy_context.get(entry[0],false) else "○  ")+entry[1],13,"756578"))
+		var actions:=HBoxContainer.new()
+		var hide:=button("Hide tips",func(): cozy_guidance_changed.emit(true))
+		hide.custom_minimum_size=Vector2(110,30)
+		actions.add_child(hide)
+		if intro:
+			var back:=button("Home tips",func(): guidance_mode="auto"; update_guidance(data))
+			back.custom_minimum_size=Vector2(115,30)
+			actions.add_child(back)
+		col.add_child(actions)
+		return
+	if not intro:
+		guidance_kind="collapsed"
+		var b:=button("Tips",func(): guidance_changed.emit(false))
 		b.custom_minimum_size=Vector2(80,30)
 		col.add_child(b)
 		guide.position.x=1120
 		if data.reward_applied: guide.hide()
 		return
-	var text := "C  ·  Make your avatar your own"
+	guidance_kind="intro"
+	var text:="C  ·  Make your avatar your own"
 	if data.personalized: text="B  ·  Preview a palette for your room"
 	if data.personalized and data.decorated: text="E  ·  Try the card box on the coffee table"
 	if data.played: text="B  ·  Your Lavender Dream theme is unlocked"
 	col.add_child(label(text,14,"796179"))
-	var dismiss := button("Hide tips",func(): guidance_changed.emit(true); data.dismissed=true; update_guidance(data))
-	dismiss.custom_minimum_size=Vector2(110,30)
-	col.add_child(dismiss)
+	var actions:=HBoxContainer.new()
+	var hide:=button("Hide tips",func(): guidance_changed.emit(true))
+	hide.custom_minimum_size=Vector2(110,30)
+	actions.add_child(hide)
+	if not cozy_context.is_empty() and not cozy_completed:
+		var cozy:=button("Cozy corner",func(): guidance_mode="cozy"; cozy_guidance_changed.emit(false))
+		cozy.custom_minimum_size=Vector2(145,30)
+		actions.add_child(cozy)
+	col.add_child(actions)

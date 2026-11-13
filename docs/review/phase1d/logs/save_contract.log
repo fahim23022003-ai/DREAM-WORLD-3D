@@ -1,0 +1,20 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS legacy position/settings preserved
+PASS migration backed up exact legacy bytes
+PASS migration new fields safely default
+PASS versioned atomic save succeeds
+PASS schema and unknown fields retained
+PASS last good save retained
+PASS real temporary-write failure leaves current and last-good saves intact
+PASS malformed appearance/decor and locked IDs sanitized
+PASS malformed new fields do not wipe old position
+PASS trimmed plain-text name limited to 24
+PASS failed save reports error without claiming success
+ERROR: ConfigFile parse error at user://contract_131629/legacy.cfg:0: Unexpected EOF while parsing simple tag.
+   at: _parse (core/io/config_file.cpp:292)
+   GDScript backtrace (most recent call first):
+       [0] load_local (res://scripts/save_data.gd:40)
+       [1] _initialize (res://tests/save_contract.gd:54)
+PASS corrupt save recovers last good and blocks destructive overwrite
+SAVE CONTRACT: 12/12

@@ -79,9 +79,9 @@ func run() -> void:
 	saved.path=game.save_path
 	saved.load_local()
 	check(saved.best_moves==6 and saved.unlocks.size()==1 and saved.decor.rug=="lavender_dream" and saved.onboarding.reward_applied,"progression, theme and onboarding survive reload")
-	var audio_ok: bool = game.audio.players.size()==4
+	var audio_ok: bool = game.audio.players.has_all(["click","flip","match","reward"])
 	for player in game.audio.players.values(): audio_ok=audio_ok and player.stream is AudioStreamWAV and player.stream.get_length()>0
-	check(audio_ok,"all four original PCM cues decode")
+	check(audio_ok,"original and room PCM cues decode")
 	game.save.ui_volume=0.2
 	game.save.muted=true
 	game.persist()

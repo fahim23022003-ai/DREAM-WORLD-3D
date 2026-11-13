@@ -1,0 +1,79 @@
+{
+  "before_room.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "fcdb5e9392886ac606e1a5ab3addf3cca890ce28be6a43a314c9f6c7b7bbcb86"
+  },
+  "continued_room.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "3874c0cd919fb73e9c26cc7620638dec44bc40d89eaea670b68da4d8b2d0c099"
+  },
+  "cozy_corner.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "2bf9ff7c39fd478a57aefc14983af818192443befe5a0cfe6b053de74c37598f"
+  },
+  "curtains_closed.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "4e7bdc61c9e3199eab5bbd5d3dbd7f9869a90e3b65ac9d254c51fdd5dee7e1f8"
+  },
+  "curtains_open.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "a09b5019cfd9bd478f0bf211be1407a3ca0c2ec3eca850dcc2ecd614cc8201ed"
+  },
+  "decor_selected_locked.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "7c26656a9669dd7486c2aa42965cf4f1064ffe79be2137245f35174a49c488f3"
+  },
+  "keepsake_detail.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "0bfac7d8b21f3985ee6bf7221b680c47becb9375f74c374f0e401acfae4c633d"
+  },
+  "lamp_off.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "4e0836fce77d2ea2f4d975668cc906ce1db245f1f1a39869f1a49e12ed994f47"
+  },
+  "lamp_on.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "b721691bc6e1983c2bfeaa907673d5ec2bfae3b721c5860992c43a2a71ae76ae"
+  },
+  "puzzle_reward_saved.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "d5b6b7acff7a60dea878dbaafa9639b47b8d7628e418124ff6ce50459b1bf64d"
+  },
+  "watering.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "d43f64e54285ecb65f69becbe955c24043ca52981e9694efa41f28e6e8a388e9"
+  }
+}

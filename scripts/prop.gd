@@ -2,6 +2,9 @@ extends Node3D
 ## Small reusable catalogue. Each object is original geometry in a coherent palette.
 @export_enum("sofa", "table", "plant", "shelf", "lamp", "ottoman") var kind := "plant"
 const F = preload("res://scripts/forms.gd")
+var lamp_shade: MeshInstance3D
+var lamp_light: OmniLight3D
+var plant_leaves: Array[MeshInstance3D] = []
 
 func _ready() -> void:
 	call(kind)
@@ -62,7 +65,7 @@ func plant() -> void:
 		var h := 0.72 + (i%3)*0.27
 		var end := Vector3(cos(angle)*0.3,h,sin(angle)*0.3)
 		F.rod(self,Vector3(0,0.5,0),end,0.016,"6c8c65")
-		F.leaf(self,end-Vector3(0,0.08,0),0.46+(i%2)*0.12,0.13,Vector3(0.45,angle,-0.6),"89ac9a" if i%2 == 0 else "b0c8aa")
+		plant_leaves.append(F.leaf(self,end-Vector3(0,0.08,0),0.46+(i%2)*0.12,0.13,Vector3(0.45,angle,-0.6),"89ac9a" if i%2 == 0 else "b0c8aa"))
 
 func shelf() -> void:
 	F.box(self,Vector3(0,1.27,-0.21),Vector3(2.03,2.47,0.08),"bdcfd2",0.035)
@@ -86,12 +89,13 @@ func shelf() -> void:
 func lamp() -> void:
 	F.cylinder(self,Vector3(0,0.045,0),0.31,0.31,0.09,"c4a176")
 	F.cylinder(self,Vector3(0,1.0,0),0.03,0.03,1.94,"b28b58")
-	F.finish(F.lathe(self,Vector3(0,1.6,0),[Vector2(0.46,0),Vector2(0.47,0.03),Vector2(0.46,0.07),Vector2(0.31,0.53),Vector2(0.29,0.58),Vector2(0.27,0.58)],"f4e7d6"),"fabric")
+	lamp_shade = F.finish(F.lathe(self,Vector3(0,1.6,0),[Vector2(0.46,0),Vector2(0.47,0.03),Vector2(0.46,0.07),Vector2(0.31,0.53),Vector2(0.29,0.58),Vector2(0.27,0.58)],"f4e7d6"),"fabric")
 	for i in range(24):
 		var a := i*TAU/24
 		F.rod(self,Vector3(cos(a)*0.465,1.64,sin(a)*0.465),Vector3(cos(a)*0.29,2.15,sin(a)*0.29),0.005,"ded1c1")
 	F.cylinder(self,Vector3(0,1.61,0),0.46,0.46,0.035,"dbb987")
 	var light := OmniLight3D.new()
+	lamp_light = light
 	light.position = Vector3(0,1.63,0)
 	light.light_color = Color("ffd5a4")
 	light.light_energy = 0.12

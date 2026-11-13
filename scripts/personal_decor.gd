@@ -16,6 +16,8 @@ var panel: PanelContainer
 var theme_choice: OptionButton
 var selected_labels: Dictionary = {}
 var status: Label
+var decor_buttons: Dictionary = {}
+var whole_preview: Button
 
 func open(which: String, looks: Dictionary, room: Dictionary, unlocked: Array[String]) -> void:
 	kind = which
@@ -37,8 +39,8 @@ func open(which: String, looks: Dictionary, room: Dictionary, unlocked: Array[St
 	if kind=="personalize": build_personal(col)
 	else: build_decor(col)
 	var actions := HBoxContainer.new()
-	var apply_button: Button = ui.button("Apply",func(): apply_requested.emit(),true)
-	var cancel_button: Button = ui.button("Cancel",func(): cancel_requested.emit())
+	var apply_button: Button = ui.button("Apply",func(): apply_requested.emit(),true,"check")
+	var cancel_button: Button = ui.button("Cancel",func(): cancel_requested.emit(),false,"close")
 	for b in [apply_button,cancel_button]:
 		b.custom_minimum_size.x = 163
 		actions.add_child(b)
@@ -131,6 +133,7 @@ func build_decor(col: VBoxContainer) -> void:
 			b.disabled = id=="lavender_dream" and not id in unlocks
 			b.tooltip_text = "Win Cozy Pairs to unlock" if b.disabled else Styles.PRESETS[id].name
 			b.pressed.connect(func(): decor[surface]=id; update_labels(); decor_preview.emit(decor.duplicate(true)))
+			decor_buttons[surface+"_"+id] = b
 			row.add_child(b)
 		selected_labels[surface] = heading
 	col.add_child(ui.label("Whole-room preview",15))
@@ -140,22 +143,56 @@ func build_decor(col: VBoxContainer) -> void:
 		theme_choice.add_item(Styles.PRESETS[id].name)
 		theme_choice.set_item_metadata(theme_choice.item_count-1,id)
 		theme_choice.set_item_disabled(theme_choice.item_count-1,id=="lavender_dream" and not id in unlocks)
+	theme_choice.add_item("Mixed")
+	theme_choice.set_item_metadata(3,"mixed")
+	theme_choice.set_item_disabled(3,true)
+	theme_choice.item_selected.connect(func(_index): preview_whole_theme())
 	theme_choice.add_theme_color_override("font_color",Color("66566d"))
 	theme_choice.add_theme_color_override("font_focus_color",Color("66566d"))
 	theme_choice.add_theme_stylebox_override("normal",ui.style("eee8f0",10))
 	theme_choice.custom_minimum_size.y = 35
 	col.add_child(theme_choice)
-	var preview: Button = ui.button("Preview whole theme",func():
-		var id: String = theme_choice.get_item_metadata(theme_choice.selected)
-		for surface in decor: decor[surface]=id
-		update_labels()
-		decor_preview.emit(decor.duplicate(true)))
-	col.add_child(preview)
+	whole_preview = ui.button("Preview whole theme",preview_whole_theme)
+	col.add_child(whole_preview)
 	if not "lavender_dream" in unlocks: col.add_child(ui.label("Lavender Dream is locked. Win Cozy Pairs to unlock.",12,"8b7588"))
 	update_labels()
 
 func update_labels() -> void:
 	for surface in selected_labels: selected_labels[surface].text = surface.capitalize()+"  ·  "+Styles.PRESETS[decor[surface]].name
+	for surface in decor:
+		for id in Styles.PRESETS:
+			var b: Button = decor_buttons[surface+"_"+id]
+			var selected: bool = decor[surface]==id
+			b.set_meta("selected",selected)
+			b.text = ("Rosewater" if id=="rosewater" else ("Mint" if id=="mint" else "Lavender"))+(" ✓" if selected else "")
+			var normal = ui.style(Styles.PRESETS[id].cushions.to_html(),12)
+			normal.content_margin_left=8
+			normal.content_margin_right=8
+			if selected:
+				normal.border_color=Color("896181")
+				normal.set_border_width_all(3)
+			b.add_theme_stylebox_override("normal",normal)
+			b.add_theme_stylebox_override("hover",normal)
+			var focus = ui.style("00000000",12)
+			focus.border_color=Color("c1934e")
+			focus.set_border_width_all(2)
+			focus.set_expand_margin_all(3)
+			b.add_theme_stylebox_override("focus",focus)
+			if b.disabled:
+				b.icon=load("res://assets/ui/lock.svg")
+				b.add_theme_constant_override("icon_max_width",13)
+				b.add_theme_color_override("icon_disabled_color",Color("867b8c"))
+	var id: String = decor.rug
+	var mixed: bool = decor.cushions!=id or decor.curtains!=id
+	theme_choice.select(3 if mixed else Styles.PRESETS.keys().find(id))
+	whole_preview.disabled = mixed
+
+func preview_whole_theme() -> void:
+	var id: String = theme_choice.get_item_metadata(theme_choice.selected)
+	if id=="mixed" or (id=="lavender_dream" and not id in unlocks): return
+	for surface in decor: decor[surface]=id
+	update_labels()
+	decor_preview.emit(decor.duplicate(true))
 
 func dismiss_popup() -> bool:
 	if is_instance_valid(picker) and picker.get_popup().visible:
