@@ -2,6 +2,7 @@ extends Control
 signal appearance_preview(data: Dictionary)
 signal decor_preview(data: Dictionary)
 signal apply_requested
+signal home_catalog_requested
 signal cancel_requested
 const Styles = preload("res://scripts/style_data.gd")
 var ui: CanvasLayer
@@ -27,7 +28,7 @@ func open(which: String, looks: Dictionary, room: Dictionary, unlocked: Array[St
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel = PanelContainer.new()
-	panel.position = Vector2(30,76)
+	panel.position = Vector2(30,60 if kind=="decor" else 76)
 	panel.custom_minimum_size = Vector2(400,0)
 	panel.add_theme_stylebox_override("panel",ui.style("fff8f0fa",24))
 	add_child(panel)
@@ -155,6 +156,9 @@ func build_decor(col: VBoxContainer) -> void:
 	whole_preview = ui.button("Preview whole theme",preview_whole_theme)
 	col.add_child(whole_preview)
 	if not "lavender_dream" in unlocks: col.add_child(ui.label("Lavender Dream is locked. Win Cozy Pairs to unlock.",12,"8b7588"))
+	var catalog: Button=ui.button("Kitchen & bedroom catalog",func(): home_catalog_requested.emit(),false,"home")
+	catalog.custom_minimum_size.y=32
+	col.add_child(catalog)
 	update_labels()
 
 func update_labels() -> void:

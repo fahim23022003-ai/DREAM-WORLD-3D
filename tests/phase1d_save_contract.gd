@@ -28,7 +28,7 @@ func _initialize() -> void:
 	save.cozy_corner_completed=true
 	check(save.write_local(save.player_position)==OK,"schema-3 room state writes atomically")
 	cfg.load(file)
-	check(cfg.get_value("meta","schema_version")==3 and cfg.get_value("future","retained")==123,"new version retains unknown fields")
+	check(cfg.get_value("meta","schema_version")==S.VERSION and cfg.get_value("future","retained")==123,"new version retains unknown fields")
 	check(FileAccess.get_file_as_bytes(file+".last_good")==before,"last-good phase-1C file survives migration")
 	var loaded=S.new()
 	loaded.path=file

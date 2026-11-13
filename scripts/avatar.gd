@@ -1,4 +1,5 @@
 extends Node3D
+var home_action := ""
 ## Swappable original sculpted bob, layered pinafore and articulated doll limbs.
 const F = preload("res://scripts/forms.gd")
 var body: Node3D
@@ -145,6 +146,10 @@ func animate(delta: float, speed: float, running: bool, seated: bool) -> void:
 	body.rotation.x = lerpf(body.rotation.x,-0.09*run_blend*gait,1-exp(-10*delta))
 	skirt.rotation.x = -sit_blend*0.8
 	head.rotation.z = sin(idle_clock*1.5)*0.018*(1-gait)
+	if home_action!="":
+		left_arm.rotation.x=-1.0+sin(idle_clock*6)*0.12
+		right_arm.rotation.x=-1.1+cos(idle_clock*6)*0.2
+		if home_action=="sleep": head.rotation.z=sin(idle_clock)*0.05
 
 func apply_appearance(data: Dictionary) -> void:
 	for node in find_children("*","MeshInstance3D",true,false):

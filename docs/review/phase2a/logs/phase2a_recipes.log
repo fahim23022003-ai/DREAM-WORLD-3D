@@ -1,0 +1,35 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS actual movement reaches waypoint (-3.0, 0.0, 2.8)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.5, 0.0, 7.0)
+PASS one shared prompt resolves kitchen.fridge
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS ingredient-order recipe exposes three accessible ingredient choices
+PASS real ingredient order prepares berry_cupcakes
+PASS actual movement reaches waypoint (-3.55, 0.0, 11.75)
+PASS one shared prompt resolves kitchen.stove
+PASS real timing produces quality cooked berry_cupcakes
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS plating commits recipe result berry_cupcakes
+PASS genuine capture: 14_berry_cupcakes
+PASS actual movement reaches waypoint (-3.5, 0.0, 7.0)
+PASS one shared prompt resolves kitchen.fridge
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS ingredient-order recipe exposes three accessible ingredient choices
+PASS real ingredient order prepares starry_soup
+PASS actual movement reaches waypoint (-3.55, 0.0, 11.75)
+PASS one shared prompt resolves kitchen.stove
+PASS real timing produces quality cooked starry_soup
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS plating commits recipe result starry_soup
+PASS genuine capture: 15_starry_soup
+PASS two distinct genuine recipe completions earn bounded rewards
+PHASE 2A RECIPES: 29/29

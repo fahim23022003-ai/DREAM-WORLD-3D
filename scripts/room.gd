@@ -9,6 +9,7 @@ var keepsake: Node3D
 var curtain_panels: Array[MeshInstance3D] = []
 var curtain_ties: Array[MeshInstance3D] = []
 var window_fill: OmniLight3D
+var window_sky: MeshInstance3D
 
 func prop(kind: String, pos: Vector3, angle: float = 0.0) -> Node3D:
 	var p := PROP.instantiate()
@@ -32,7 +33,11 @@ func _ready() -> void:
 	wall(Vector3(1.5,3.5,-5),Vector3(5.2,0.6,0.2))
 	wall(Vector3(-6,1.9,0),Vector3(0.2,3.8,10))
 	wall(Vector3(6,1.9,0),Vector3(0.2,3.8,10))
-	wall(Vector3(0,1.9,5),Vector3(12,3.8,0.2))
+	# Two genuine 2.2m doorways lead into the kitchen and bedroom.
+	wall(Vector3(-5.05,1.9,5),Vector3(1.9,3.8,0.2))
+	wall(Vector3(0,1.9,5),Vector3(3.8,3.8,0.2))
+	wall(Vector3(5.05,1.9,5),Vector3(1.9,3.8,0.2))
+	wall(Vector3(0,3.3,5),Vector3(12,1.0,0.2))
 	# Painted lower panels bring mint and lavender into the architectural palette.
 	F.box(self,Vector3(0,0.58,-4.865),Vector3(11.85,0.9,0.035),"d9e5df",0.015)
 	for x in [-5.87,5.87]: F.box(self,Vector3(x,0.58,0),Vector3(0.035,0.9,9.8),"d9e5df",0.015)
@@ -124,6 +129,7 @@ func wall(pos: Vector3, size: Vector3) -> void:
 func window() -> void:
 	# Opaque sky panel beyond the opening; garden forms create parallax depth.
 	var sky := F.box(self,Vector3(1.5,2.08,-5.3),Vector3(5.25,2.3,0.05),"cde6ed",0.01)
+	window_sky=sky
 	var sky_material := F.material("cde6ed").duplicate() as StandardMaterial3D
 	sky_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	sky.material_override = sky_material

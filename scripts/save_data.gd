@@ -1,7 +1,9 @@
 extends RefCounted
 const PATH := "user://rosewater.cfg"
-const VERSION := 3
+const VERSION := 4
+const HOME=preload("res://scripts/home_rules.gd")
 const SURFACES := ["rug", "cushions", "curtains"]
+var home: Dictionary=HOME.defaults()
 var path := PATH
 var sensitivity := 1.0
 var fullscreen := false
@@ -47,7 +49,7 @@ func load_local() -> void:
 	var schema: Variant = cfg.get_value("meta","schema_version",1)
 	if schema is int and schema>VERSION: write_blocked = ERR_UNAVAILABLE
 	if (not schema is int or schema<VERSION) and write_blocked==OK:
-		var backup := path+(".v2.bak" if schema is int and schema==2 else ".v1.bak")
+		var backup := path+(".v%d.bak" % schema if schema is int and schema in [1,2,3] else ".v1.bak")
 		if not FileAccess.file_exists(backup):
 			var result := DirAccess.copy_absolute(path,backup)
 			if result != OK: write_blocked = result
@@ -57,7 +59,7 @@ func load_local() -> void:
 	ui_volume = number(cfg.get_value("settings","ui_volume",0.55),0.55,0,1)
 	muted = read_bool(cfg,"settings","muted",false)
 	var pos: Variant = cfg.get_value("player","position",player_position)
-	if pos is Vector3 and pos.is_finite() and absf(pos.x)<5.7 and pos.y>=-0.15 and pos.y<1 and absf(pos.z)<4.5: player_position = pos
+	if pos is Vector3 and pos.is_finite() and absf(pos.x)<5.7 and pos.y>=-0.15 and pos.y<1 and pos.z>-4.5 and pos.z<13.7: player_position = pos
 	appearance.display_name = clean_name(cfg.get_value("appearance","display_name","Dreamer"))
 	for key in ["hair","accent"]: appearance[key] = safe_color(cfg.get_value("appearance",key,appearance[key]),appearance[key])
 	var unlocked: Variant = cfg.get_value("progress","lavender_dream",false)
@@ -69,6 +71,8 @@ func load_local() -> void:
 		if preset in ["rosewater","mint"] or (preset=="lavender_dream" and "lavender_dream" in unlocks): decor[surface] = preset
 	for key in onboarding: onboarding[key] = read_bool(cfg,"onboarding",key,false)
 	for id in room_state: room_state[id]=read_bool(cfg,"room",id,room_state[id])
+	home=HOME.sanitize(cfg.get_value("home","life",{}))
+	if schema is int and schema<4: home.introduced=true
 	cozy_corner_completed=read_bool(cfg,"progress","first_cozy_corner",false)
 	cozy_hint_dismissed=read_bool(cfg,"guidance","cozy_corner_dismissed",onboarding.dismissed)
 
@@ -83,6 +87,7 @@ func write_local(pos: Vector3) -> Error:
 	# Retain unknown fields for forward-compatible additive changes.
 	if FileAccess.file_exists(path) and cfg.load(path)!=OK: return ERR_FILE_CORRUPT
 	cfg.set_value("meta","schema_version",VERSION)
+	cfg.set_value("home","life",home)
 	cfg.set_value("settings","sensitivity",sensitivity)
 	cfg.set_value("settings","fullscreen",fullscreen)
 	cfg.set_value("settings","shadows",shadows)

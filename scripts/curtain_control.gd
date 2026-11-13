@@ -13,6 +13,7 @@ var panels: Array[MeshInstance3D] = []
 var ties: Array[MeshInstance3D] = []
 var fill: OmniLight3D
 var baseline_fill := 0.12
+var day_factor := 1.0
 var transition: Tween
 func bind(meshes: Array[MeshInstance3D], tiebacks: Array[MeshInstance3D], window_fill: OmniLight3D) -> void:
 	panels=meshes
@@ -41,6 +42,6 @@ func set_state(value: bool, animate: bool) -> void:
 func update_visuals() -> void:
 	for panel in panels: panel.set_blend_shape_value(0,amount)
 	for tie in ties: tie.visible=amount<0.02
-	if is_instance_valid(fill): fill.light_energy=baseline_fill*lerpf(1,0.25,amount)
+	if is_instance_valid(fill): fill.light_energy=baseline_fill*lerpf(1,0.25,amount)*day_factor
 func _exit_tree() -> void:
 	if transition: transition.kill()

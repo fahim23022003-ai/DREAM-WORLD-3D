@@ -1,12 +1,13 @@
 extends Node
-## Four short locally synthesized PCM cues; no soundtrack or external assets.
+## Quiet original PCM cues; missing optional resources never interrupt gameplay.
 var volume := 0.55
 var muted := false
 var players: Dictionary = {}
 func _ready() -> void:
-	for kind in ["click","flip","match","reward","switch","water"]:
+	for kind in ["click","flip","match","reward","switch","water","fridge","prepare","cook","complete","purchase","bedroom","sleep","goal"]:
 		var player := AudioStreamPlayer.new()
-		player.stream = load("res://assets/audio/"+kind+".wav")
+		var file: String = "res://assets/audio/"+kind+".wav"
+		if ResourceLoader.exists(file): player.stream = load(file)
 		add_child(player)
 		players[kind] = player
 func configure(value: float, silent: bool) -> void:
@@ -18,7 +19,7 @@ func configure(value: float, silent: bool) -> void:
 func play(kind: String) -> void:
 	# Headless rule/save tests have no audio device or audible output to validate.
 	if DisplayServer.get_name()=="headless": return
-	if muted or volume<=0 or not players.has(kind): return
+	if muted or volume<=0 or not players.has(kind) or not players[kind].stream: return
 	var player: AudioStreamPlayer = players[kind]
 	player.volume_db = linear_to_db(maxf(volume*0.35,0.001))
 	player.play()

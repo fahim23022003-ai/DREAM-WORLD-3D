@@ -1,4 +1,4 @@
-# Original Phase 1B art
+# Original project art and audio
 
 All geometry, vector artwork and short UI audio cues in this project were created for Dream World 3D.
 No externally downloaded meshes, textures, audio, fonts or copyrighted game art are included.
@@ -9,7 +9,7 @@ No externally downloaded meshes, textures, audio, fonts or copyrighted game art 
 - `textures/meadow_print.svg`: original stylized meadow illustration.
 - `ui/*.svg`: original house, leaf, settings and semantic action/lock symbols.
 - `pairs/*.svg`: six original teacup/flower/ribbon/cloud/cake/star icons and a leaf card back.
-- `audio/*.wav`: original locally synthesized short click, flip, match, reward, lamp-switch and watering cues (mono 16-bit PCM, 22,050 Hz); no sampled music or external recordings.
+- `audio/*.wav`: original locally synthesized short click, flip, match, reward, lamp-switch, watering, fridge, preparation, cooking, completion, purchasing, bedroom, sleeping and goal cues (mono 16-bit PCM, 22,050 Hz); no sampled music or external recordings.
 
 Material profiles in `scripts/forms.gd` distinguish matte fabric, satin wood, glazed ceramic,
 soft skin, hair and brass. Mipmaps are enabled for repeating material textures.
@@ -18,3 +18,7 @@ ordinary Godot materials, 4× MSAA and filtered directional shadows; no expensiv
 
 Phase 1D adds an original procedural miniature house keepsake, animated existing curtain meshes,
 and a reusable nine-drop watering effect. No external art or audio was introduced.
+
+Phase 2A furnishings, three ingredient/preparation/finished-food sets, cookware and the
+three-day/seven-day keepsakes are original procedural geometry. Eight additional quiet
+mono PCM cues were synthesized locally, with no downloaded samples or music.

@@ -5,7 +5,7 @@ var save = SaveData.new()
 var player: CharacterBody3D
 var camera_rig: Node3D
 var ui: CanvasLayer
-enum State { MENU, PLAY, PAUSE, PERSONALIZE, DECOR, PUZZLE }
+enum State { MENU, PLAY, PAUSE, PERSONALIZE, DECOR, PUZZLE, HOME }
 var state := State.MENU
 var active: bool:
 	get: return state == State.PLAY
@@ -18,6 +18,7 @@ var feature_return := State.PLAY
 var camera_backup: Dictionary = {}
 var interaction_target: Node3D
 var audio: Node
+var home: Node
 
 func _ready() -> void:
 	setup_input()
@@ -66,10 +67,13 @@ func _ready() -> void:
 	apply_settings(save.sensitivity,save.fullscreen,save.shadows,false)
 	room.state_changed.connect(room_state_changed)
 	room.plant_control.watered.connect(func(_first): room_state_changed("A little drink. Your plant looks happy."))
+	home=preload("res://scripts/home_controller.gd").new()
+	add_child(home)
+	home.setup(self)
 	get_tree().auto_accept_quit = false
 
 func setup_input() -> void:
-	var bindings := {"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"run":KEY_SHIFT,"interact":KEY_E,"pause":KEY_ESCAPE,"personalize":KEY_C,"decorate":KEY_B,"cozy_hint":KEY_H}
+	var bindings := {"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"run":KEY_SHIFT,"interact":KEY_E,"pause":KEY_ESCAPE,"personalize":KEY_C,"decorate":KEY_B,"cozy_hint":KEY_H,"daily_goals":KEY_Q,"home_catalog":KEY_J}
 	for action in bindings:
 		if InputMap.has_action(action): continue
 		InputMap.add_action(action)
@@ -91,6 +95,10 @@ func resume_game() -> void:
 	ui.show_page("game")
 	refresh_guidance()
 	ui.home_label.text = save.appearance.display_name+"  ·  ROSEWATER HOUSE"
+	# Bound long display names before the adjacent day/coins badge.
+	ui.home_label.clip_text=true
+	ui.home_label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+	ui.home_label.custom_minimum_size.x=minf(310,ui.home_label.get_theme_font("font").get_string_size(ui.home_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,ui.home_label.get_theme_font_size("font_size")).x)
 	set_active(true)
 
 func pause_game() -> void:
@@ -105,10 +113,10 @@ func main_menu() -> void:
 	state = State.MENU
 	ui.show_page("main")
 
-func persist() -> Error:
+func persist(silent: bool = false) -> Error:
 	var pos: Vector3 = player.current_seat.stand_position() if player.seated else player.global_position
 	var result: Error = save.write_local(pos)
-	ui.show_notice("Home saved  ✓" if result == OK else "Save unavailable — previous save retained")
+	if not silent or result!=OK: ui.show_notice("Home saved  ✓" if result == OK else "Save unavailable — previous save retained")
 	if result != OK: push_warning("Could not write local save: " + error_string(result))
 	return result
 
@@ -129,10 +137,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif state==State.PLAY: pause_game()
 		elif state==State.PAUSE: resume_game()
 		elif state==State.PUZZLE: cancel_feature()
+		elif state==State.HOME: home.close()
 		elif ui.mode=="settings_main": ui.show_page("main")
 		get_viewport().set_input_as_handled()
 	elif state==State.PLAY:
-		if event.is_action_pressed("cozy_hint"):
+		if event.is_action_pressed("daily_goals"): home.open_goals()
+		elif event.is_action_pressed("home_catalog"): home.open_catalog()
+		elif event.is_action_pressed("cozy_hint"):
 			ui.guidance_mode="cozy"
 			save.cozy_hint_dismissed=ui.guidance_kind=="cozy"
 			persist()
@@ -156,13 +167,17 @@ func activate_interaction() -> bool:
 		"living_room.floor_lamp":
 			room.lamp_control.toggle()
 			audio.play("switch")
+			if room.lamp_control.on: home.record("lamp")
 		"living_room.curtains":
 			room.curtain_control.toggle()
 			audio.play("switch")
+			home.record("curtains")
 		"living_room.houseplant":
 			if not room.plant_control.water(): return false
 			audio.play("water")
-		_: return false
+		_:
+			if home.handles(interaction_target.interaction_id): home.activate(interaction_target.interaction_id)
+			else: return false
 	return true
 
 func open_style(which: State) -> void:
@@ -177,6 +192,7 @@ func open_style(which: State) -> void:
 	feature.ui = ui
 	ui.root.add_child(feature)
 	feature.open("personalize" if which==State.PERSONALIZE else "decor",save.appearance,save.decor,save.unlocks)
+	feature.home_catalog_requested.connect(func(): cancel_feature(); home.open_catalog())
 	feature.appearance_preview.connect(func(data): player.avatar.apply_appearance(data))
 	feature.decor_preview.connect(func(data): room.apply_decor(data))
 	feature.apply_requested.connect(confirm_feature)
@@ -269,6 +285,7 @@ func puzzle_completed(result: Dictionary) -> void:
 	var moves: int = result.moves
 	if save.best_moves==0 or moves<save.best_moves: save.best_moves=moves
 	save.onboarding.played = true
+	home.stage_puzzle_goal()
 	var written := persist()==OK
 	feature.show_result(moves,save.best_moves,first,written)
 	audio.play("reward")
@@ -296,6 +313,9 @@ func _process(delta: float) -> void:
 		autosave_time = 0
 
 func quit_game() -> void:
+	if state==State.HOME:
+		home.sleep_busy=false
+		home.close()
 	if state in [State.PERSONALIZE,State.DECOR,State.PUZZLE]: cancel_feature()
 	persist()
 	audio.stop_all()
@@ -319,3 +339,4 @@ func room_state_changed(message: String = "") -> void:
 		audio.play("reward")
 		ui.show_notice("Cozy corner made! Shelf keepsake saved." if written else "Cozy corner made — not saved yet.")
 	elif written and not message.is_empty(): ui.show_notice(message)
+	if not message.is_empty() and home: home.record("water")

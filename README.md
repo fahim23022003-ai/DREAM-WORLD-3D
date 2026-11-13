@@ -1,6 +1,6 @@
 # Dream World 3D — Rosewater House
 
-Phase 1 playable slice with **Phase 1D A Home That Responds**. Godot **4.6.x**, GDScript, Windows PC target.
+Phase 1 playable slice with **Phase 2A A Living, Playable Cozy Home**. Godot **4.6.x**, GDScript, Windows PC target.
 Entry point: `scenes/main.tscn`. Open `project.godot` in Godot 4.6.x and press **F5**.
 No downloads, asset packs, services, accounts or application network access required.
 
@@ -11,6 +11,11 @@ No downloads, asset packs, services, accounts or application network access requ
 - Approach the front of the sofa from either side of the coffee table. Press **E** at the prompt to sit; E stands.
 - Approach the floor lamp, curtain pull by the right window edge, or left houseplant and press **E** at its prompt. Toggle the lamp, open/close the curtains, or water the plant.
 - **H** toggles the optional cozy-corner checklist. Lamp on + curtains closed + a watered plant earns a permanent bookshelf keepsake; there is no timer.
+- Walk through the **left rear arch** into the kitchen or **right rear arch** into the bedroom. Both rooms connect physically; no teleport buttons.
+- Kitchen: **E at the blue fridge** chooses free recipe ingredients → E at the wooden board prepares → E at the stove cooks → E at the board plates. Space/click times actions; cupcakes and soup also use ingredient choices **1/2/3**. Every attempt produces Cozy, Good or Perfect food; supplies are never lost.
+- **Q** opens Daily Cozy Goals and **J** opens kitchen/bedroom finishes. Catalog previews cost nothing. Buy & equip confirms cost and permanent ownership together; owned finishes equip free.
+- Meals, the card game and the bedroom rest bench advance Morning → Afternoon → Evening → Night. At the bed, **E near its foot makes it**, and **E by the left pillow offers sleep**. Sleeping saves a new morning and fresh goals; there is no hunger, energy or offline penalty.
+- Three daily goals pay 3 coins each; completing the set pays 6. First meal per recipe/day pays 6, second pays 2, further practice pays no meal coins. Goals and milestones never pay twice. Complete three cozy days for a bedside keepsake and seven for a commemorative frame; daily play continues afterward.
 - **C** opens Personalize; name, hair and outfit colors preview on the actual avatar. Apply saves; Cancel/Esc restores.
 - **B** opens Decor: choose rug/cushion/curtain palettes independently or preview a whole theme. Apply confirms.
 - Approach the little card box on the coffee table, face it and press **E** for Cozy Pairs. Find six pairs; no timer or failure penalty.
@@ -21,7 +26,7 @@ No downloads, asset packs, services, accounts or application network access requ
 - Position and settings save every 20 seconds, on pause, on menu return and on quit.
   A seated player reloads at the clear standing point, rather than inside the sofa.
 - Local save: `user://rosewater.cfg` (Windows: `%APPDATA%/Godot/app_userdata/Dream World 3D/`).
-  Schema 3 migration preserves prior data and makes a `.v1.bak` or `.v2.bak`; atomic writes retain `.last_good`.
+  Schema 4 migration preserves prior data and makes a `.v1.bak`, `.v2.bak` or `.v3.bak`; atomic writes retain `.last_good`.
   Failed writes retain the previous save. Previews and unfinished puzzle rounds are never saved.
 
 ## Structure
@@ -29,7 +34,7 @@ No downloads, asset packs, services, accounts or application network access requ
 `scenes/` contains independent room, prop, avatar, player, camera, interaction and menu scenes.
 `scripts/forms.gd` shares rounded original geometry and cached materials; `prop.gd` is a small reusable furniture catalogue.
 The avatar separates hair, face, blouse, pinafore and pivoted limbs. `save_data.gd` keeps persistence separate from gameplay.
-`docs/MASTER_SPEC.md` retains the supplied future vision; only the bounded Phase 1/1B/1C/1D features are implemented.
+`docs/MASTER_SPEC.md` retains the supplied future vision; only the bounded Phase 1/1B/1C/1D/2A features are implemented.
 Future creator/catalogue/house/minigame systems can add content alongside these scenes without replacing movement or UI.
 `assets/textures/` contains original vector linen, ash wood, botanical print and rug art; no downloaded assets are used.
 The root `AGENTS.md` requires genuine committed gameplay screenshots at the end of future tasks.
@@ -68,12 +73,13 @@ tailored furnishings, tapered hair, expressive facial detail, layered clothes, a
 production character sculpting and high quality contact shadows.
 Idle/walk/run and sitting use procedural part animation, not a production skeletal animation set.
 The room has no ceiling to preserve the playable slice's open composition. Windows show a stylized static garden.
-Phase 1C adds lightweight personalization, palette decor and one memory game. No furniture placement editor, second floor or profiles.
-Six short original UI/interaction sounds are bundled; cloud audible playback remains unverified.
+Phase 2A adds two rooms, three station-based recipes, day/goal progression and six purchasable room finishes. The seven daily combinations repeat after the first week; there is no furniture placement editor, second floor, NPC simulation or profiles.
+Fourteen short original UI/interaction sounds are bundled; cloud audible playback remains unverified.
 Linux Godot 4.6.3 was used for verification; Windows executable export and desktop performance remain unverified.
 For Windows distribution, install matching Godot export templates and create a Windows Desktop export in the editor.
 The project uses the Compatibility renderer for broad desktop support. Geometry and materials are original;
 there are no third-party art assets.
 
 Current scope, save schema and actual extension points: [PROJECT_STATUS.md](docs/PROJECT_STATUS.md).
-Latest commands, results and genuine review images: [Phase 1D report](docs/review/phase1d/RESULTS.md).
+Phase 2A passed **482/482 checks**, including the original regression baseline.
+Latest commands, results and genuine review images: [Phase 2A report](docs/review/phase2a/RESULTS.md).

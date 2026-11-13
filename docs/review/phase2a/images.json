@@ -1,0 +1,114 @@
+{
+  "01_living_room_preserved.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "1746ec2cd9ac89eaa6ed1fcd395a01c6e689370caf6789a071139ce939c70d74"
+  },
+  "02_kitchen_wide.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "39f63904c0806d7f31468fffa7427e42f0de458e55d84fd7972a96af181e4287"
+  },
+  "03_kitchen_interaction.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "be9cff951722fe03ada1a7fe9474502e463f591d0cbbbce330e1ec8592ec941e"
+  },
+  "04_cooking_preparation.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "498efa01bf7e1272bb0e521799cf40e5fd06210d8a02ae2a74fd23a2b9503723"
+  },
+  "05_cooking_active.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "e78bd44c9d31b286bfed3cdb69aa44cc4a2773d3fbe6e80c8ff1bdff93e42d02"
+  },
+  "06_finished_food.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "70e43340aeab8559ef08d592027a2599c837c5503f734198cac0593b25987845"
+  },
+  "07_bedroom_wide.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "7ab6c9b1db77b1687f6507292c5419f804553360922369b5681df96b6b16ae38"
+  },
+  "08_bedroom_sleep.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "3d6ed3f4cad241b33507104eb39f14d0b5456ece2f22d263b0c64a65911fb206"
+  },
+  "09_daily_goals.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "959c0e991b6ebc3b9b5b51aa46c0889503d9906c331951be2243703f80ea1da9"
+  },
+  "10_decor_unlock.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "69278a23cca94af01e26e291e59e3b0a64d6407a36e4533436f94e7c41f57931"
+  },
+  "11_day_progression.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "078c3a82e6d22d2bd3a9ca5c70aa6cdc4d930ed5ab6eab8b00ebbaf7a5271df3"
+  },
+  "12_quit_continue_restored.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "9a4463f1c1d55f2303715adf056fa4b4956625c3d3894d8d9cb7a434050acccd"
+  },
+  "13_decor_preview.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "f868c081a8e0a0bd7a0dc6b547230d2df5ac71758b6b906f9e1f48a3a1bc4b16"
+  },
+  "14_berry_cupcakes.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "c477a3bcc6b822feca0dfdf572b3b6465dbd722cef8117e9fee9d46adcbcd22e"
+  },
+  "15_starry_soup.png": {
+    "dimensions": [
+      1280,
+      720
+    ],
+    "sha256": "62a9c62e7fa3c19056f7e993002668f3d7c0f27f44232b761d7f7bbae0700af0"
+  },
+  "16_catalog_1920x1080.png": {
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "sha256": "daa176a7ef9005edbf9814723440e775e1387b0045ddc7f159c455f436a86717"
+  }
+}

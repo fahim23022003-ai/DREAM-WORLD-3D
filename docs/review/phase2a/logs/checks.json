@@ -1,0 +1,86 @@
+{
+  "home_layout_contract": {
+    "passed": 24,
+    "checks": 24
+  },
+  "home_navigation_contract": {
+    "passed": 18,
+    "checks": 18
+  },
+  "home_rules_contract": {
+    "passed": 45,
+    "checks": 45
+  },
+  "home_session_contract": {
+    "passed": 32,
+    "checks": 32
+  },
+  "pairs_contract": {
+    "passed": 16,
+    "checks": 16
+  },
+  "phase1c_fresh": {
+    "passed": 33,
+    "checks": 33
+  },
+  "phase1c_legacy": {
+    "passed": 31,
+    "checks": 31
+  },
+  "phase1d_continue": {
+    "passed": 5,
+    "checks": 5
+  },
+  "phase1d_flow": {
+    "passed": 46,
+    "checks": 46
+  },
+  "phase1d_room_contract": {
+    "passed": 34,
+    "checks": 34
+  },
+  "phase1d_save_contract": {
+    "passed": 10,
+    "checks": 10
+  },
+  "phase1d_ui_contract": {
+    "passed": 13,
+    "checks": 13
+  },
+  "phase2a_continue": {
+    "passed": 6,
+    "checks": 6
+  },
+  "phase2a_effects": {
+    "passed": 14,
+    "checks": 14
+  },
+  "phase2a_flow": {
+    "passed": 51,
+    "checks": 51
+  },
+  "phase2a_recipes": {
+    "passed": 29,
+    "checks": 29
+  },
+  "phase_one": {
+    "passed": 22,
+    "checks": 22
+  },
+  "save_contract": {
+    "passed": 12,
+    "checks": 12
+  },
+  "session_contract": {
+    "passed": 17,
+    "checks": 17
+  },
+  "style_contract": {
+    "passed": 17,
+    "checks": 17
+  },
+  "ui_focus": {
+    "passed": 7,
+    "checks": 7
+  }
+}
