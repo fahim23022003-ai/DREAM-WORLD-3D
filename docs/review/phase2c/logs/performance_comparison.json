@@ -1,0 +1,61 @@
+{
+  "renderer": "Compatibility / Mesa llvmpipe, Linux",
+  "viewport": [
+    1280,
+    720
+  ],
+  "warmup_frames": 40,
+  "measured_frames_per_view": 120,
+  "visitors": "inactive in both builds",
+  "hardware_fps": "UNVERIFIED",
+  "views": [
+    {
+      "view": "01_living_room",
+      "before_median_ms": 492.044,
+      "after_median_ms": 327.685,
+      "median_improvement_percent": 33.4,
+      "before_p95_ms": 555.279,
+      "after_p95_ms": 396.757,
+      "before_draws": 2283,
+      "after_draws": 1337,
+      "before_primitives": 1324590,
+      "after_primitives": 516310
+    },
+    {
+      "view": "02_kitchen",
+      "before_median_ms": 302.066,
+      "after_median_ms": 219.795,
+      "median_improvement_percent": 27.24,
+      "before_p95_ms": 360.463,
+      "after_p95_ms": 263.905,
+      "before_draws": 672,
+      "after_draws": 497,
+      "before_primitives": 420804,
+      "after_primitives": 138732
+    },
+    {
+      "view": "03_bedroom",
+      "before_median_ms": 288.2,
+      "after_median_ms": 196.902,
+      "median_improvement_percent": 31.68,
+      "before_p95_ms": 336.829,
+      "after_p95_ms": 232.169,
+      "before_draws": 520,
+      "after_draws": 427,
+      "before_primitives": 331134,
+      "after_primitives": 95130
+    },
+    {
+      "view": "04_garden",
+      "before_median_ms": 320.57,
+      "after_median_ms": 251.598,
+      "median_improvement_percent": 21.52,
+      "before_p95_ms": 370.202,
+      "after_p95_ms": 300.551,
+      "before_draws": 2202,
+      "after_draws": 1057,
+      "before_primitives": 1253388,
+      "after_primitives": 598424
+    }
+  ]
+}

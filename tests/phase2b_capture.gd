@@ -1,7 +1,7 @@
 extends "res://tests/phase2b_flow.gd"
 # A separate fresh fixture keeps the arrival and first-water views readable.
 func run() -> void:
- output="res://docs/review/phase2b/";root.size=Vector2i(1280,720)
+ output="/tmp/dream-phase2b-review/";root.size=Vector2i(1280,720)
  file="user://phase2b_capture_"+str(Time.get_unix_time_from_system())+".cfg"
  await load_game();await click("Come on in  →")
  await walk_to(Vector3(3,0,3.6));await walk_to(Vector3(7.2,0,3.6))

@@ -1,0 +1,27 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS explicit avatar and room channels registered
+PASS live appearance preview changes only avatar channel
+PASS shared material cache untouched
+PASS skin, eyes, buttons and all untagged avatar surfaces remain unchanged
+PASS appearance cannot leak to another avatar instance
+PASS style UI blocks movement and camera
+PASS autosave boundary excludes appearance preview
+PASS Cancel restores appearance, camera and gameplay
+PASS Apply trims name and persists appearance
+PASS decor previews real rug material
+PASS decor retains original pattern texture and roughness
+PASS locked decor cannot be selected
+PASS preview decor excluded from writes
+PASS Cancel restores room
+PASS per-surface Apply persists stable IDs
+PASS pause-launched panel returns to pause
+WARNING: Could not write local save: Can't create
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] confirm_feature (res://scripts/main.gd:231)
+         [2] run (res://tests/style_contract.gd:80)
+         [3] frames (res://tests/phase_one.gd:18)
+PASS failed Apply keeps preview open and confirmed data unchanged
+STYLE CONTRACT: 17/17

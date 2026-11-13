@@ -51,7 +51,8 @@ func _ready() -> void:
  b(self,Vector3(8.4,0.015,3.05),Vector3(4.6,0.04,3.5),"d7c3ae","wood")
  for i in range(11):
   var p:=Vector3(6.7+i*0.8,0.045,2.6-sin(i*0.5)*0.7)
-  var stone:=F.cylinder(self,p,0.48,0.52,0.06,["d9c7d7","c8d8cf","e6d3bf"][i%3]);stone.scale.z=0.8
+  var stone:=F.cylinder(self,p,0.48,0.52,0.06,["d9c7d7","c8d8cf","e6d3bf"][i%3]);stone.scale=Vector3(1+sin(i)*0.08,1,0.7+cos(i)*0.1);stone.rotation.y=i*0.47
+ for i in range(15): preload("res://scripts/cozy_art.gd").flower(self,Vector3(6.7+fmod(i*1.73,9.8),0,-4.15+sin(i)*0.25),i)
  # Curved lawn borders, blossoms and path branches soften the working beds.
  for i in range(9):
   var stone:=F.cylinder(self,Vector3(8.0+i,0.04,0.55+sin(i*0.6)*0.16),0.32,0.37,0.055,["d5c4d8","d2dfcc","e3cdb8"][i%3])
@@ -136,14 +137,14 @@ func _ready() -> void:
  station("garden.bloom",Vector3(10.4,0,-3.5),"Enjoy the flower patch")
  for i in range(7):
   var p:=Vector3(18.5+(i%2)*1.5,0, -7+i*2.4)
-  F.rod(self,p,p+Vector3(0,2,0),0.16,"b6a389")
-  F.ball(self,p+Vector3(0,2.2,0),Vector3(2.3,2.6,2.1),"a8bda2" if i%2 else "b6c8b0")
+  preload("res://scripts/cozy_art.gd").tree(self,p,i)
  for i in range(3):
   var butterfly:=Node3D.new();add_child(butterfly);butterflies.append(butterfly)
   for side in [-1,1]: F.ball(butterfly,Vector3(side*0.06,0,0),Vector3(0.13,0.03,0.18),"dab5d0" if i%2 else "ecd5a5")
  # A visiting board and optional event actors are all real world objects.
  b(self,Vector3(7.05,1.0,1.1),Vector3(0.12,2,0.12),"bda58c")
  b(self,Vector3(7.05,1.6,1.1),Vector3(0.9,0.6,0.1),"e8d5df")
+ var board_label:=Label3D.new();board_label.text="GARDEN\nCLUB";board_label.font_size=24;board_label.pixel_size=0.004;board_label.position=Vector3(7.05,1.6,1.16);board_label.modulate=Color("856a7e");board_label.outline_size=0;add_child(board_label)
  station("garden.board",Vector3(7.3,0,1.5),"Neighbors & garden journal")
  moon=Node3D.new();add_child(moon)
  F.cylinder(moon,Vector3(12.2,0.05,3.6),0.22,0.22,0.1,"b7c6bc")

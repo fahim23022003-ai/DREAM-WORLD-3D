@@ -50,7 +50,7 @@ func resume_garden() -> void:
  if failures: quit(1);return
  await click("Quit")
 func run() -> void:
- output="res://docs/review/phase2b/"
+ output="/tmp/dream-phase2b-review/"
  root.size=Vector2i(1280,720)
  DirAccess.make_dir_recursive_absolute(output)
  if "--resume" in OS.get_cmdline_user_args(): await resume_garden();return

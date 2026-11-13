@@ -1,0 +1,93 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS schema 1 preserves currency, garden and shared days
+PASS schema 1 keeps its exact backup
+PASS schema 1 preserves old receipts with safe story defaults
+PASS schema 1 migrates atomically to schema 6
+PASS schema 1 retains unknown configuration
+PASS schema 2 preserves currency, garden and shared days
+PASS schema 2 keeps its exact backup
+PASS schema 2 preserves old receipts with safe story defaults
+PASS schema 2 migrates atomically to schema 6
+PASS schema 2 retains unknown configuration
+PASS schema 3 preserves currency, garden and shared days
+PASS schema 3 keeps its exact backup
+PASS schema 3 preserves old receipts with safe story defaults
+PASS schema 3 migrates atomically to schema 6
+PASS schema 3 retains unknown configuration
+PASS schema 4 preserves currency, garden and shared days
+PASS schema 4 keeps its exact backup
+PASS schema 4 preserves old receipts with safe story defaults
+PASS schema 4 migrates atomically to schema 6
+PASS schema 4 retains unknown configuration
+PASS schema 5 preserves currency, garden and shared days
+PASS schema 5 keeps its exact backup
+PASS schema 5 preserves old receipts with safe story defaults
+PASS schema 5 migrates atomically to schema 6
+PASS schema 5 retains unknown configuration
+PASS story begins through existing atomic commit
+WARNING: Could not write local save: Can't open file
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] commit (res://scripts/home_controller.gd:89)
+         [2] transact (res://scripts/neighborhood_controller.gd:50)
+         [3] run (res://tests/cozy_life_session_contract.gd:27)
+PASS failed harvest rolls back story ingredient, crop, inventory and coins together
+PASS retry reserves one strawberry and advances the chapter once
+PASS harvest/story retry cannot duplicate a reward
+PASS story chapter and receipt survive a real filesystem round trip
+PASS a plated cupcake fixture prepares the final story chapter
+WARNING: Could not write local save: Can't open file
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] commit (res://scripts/home_controller.gd:89)
+         [2] finish_activity (res://scripts/cozy_life_controller.gd:158)
+         [3] run (res://tests/cozy_life_session_contract.gd:41)
+PASS failed shared-activity write retains a retryable pose with no friendship loss
+PASS shared-activity retry awards the bounded friendship benefit once
+PASS retry saves the final story reward and first-chat keepsake exactly once
+PASS completed activity cannot be claimed again
+PASS closing recovers the activity controller safely
+PASS mimi reserves a distinct bench place
+PASS noah reserves a distinct bench place
+PASS mimi walks to the bench before actually sitting
+PASS mimi seated hips match the assigned physical bench location
+PASS noah walks to the bench before actually sitting
+PASS noah seated hips match the assigned physical bench location
+PASS seated collision follows the bench occupant and leaves the garden walkway clear
+PASS two seated visitors never share a bench slot
+PASS interrupted seated visitor stands and recovers before conversation
+PASS standing releases the seat reservation
+PASS departure finishes the standing transition without retaining a seated offset
+PASS visitor can walk away from a nearby player instead of deadlocking the corridor
+PASS visitor still yields before moving toward the player
+PASS friends journal page fits (1280, 720)
+PASS keepsakes journal page fits (1280, 720)
+PASS discoveries journal page fits (1280, 720)
+PASS future keepsakes page fits (1280, 720)
+PASS journal headings cannot be sliced by scrolling at (1280, 720)
+PASS complete story chapter card fits (1280, 720) baking
+PASS complete story chapter card fits (1280, 720) garden
+PASS complete story chapter card fits (1280, 720) warming
+PASS shared activities picker fits (1280, 720)
+PASS end of day summary fits (1280, 720)
+PASS friends journal page fits (1920, 1080)
+PASS keepsakes journal page fits (1920, 1080)
+PASS discoveries journal page fits (1920, 1080)
+PASS future keepsakes page fits (1920, 1080)
+PASS journal headings cannot be sliced by scrolling at (1920, 1080)
+PASS complete story chapter card fits (1920, 1080) baking
+PASS complete story chapter card fits (1920, 1080) garden
+PASS complete story chapter card fits (1920, 1080) warming
+PASS shared activities picker fits (1920, 1080)
+PASS end of day summary fits (1920, 1080)
+PASS shared approach owns both animation controllers
+PASS Esc-equivalent close interrupts approach and restores both controls
+PASS interrupted approach cannot change friendship, story, inventory or currency
+PASS ringing an unattended gathering bell safely waits in the playable world
+PASS the bell invites both absent guests through actual arrival states
+PASS settled story and garden refreshes do not allocate new materials
+PASS new local audio is loaded through existing settings-aware players
+COZY LIFE SESSION: 76/76

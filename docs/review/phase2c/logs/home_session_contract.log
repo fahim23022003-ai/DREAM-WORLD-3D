@@ -1,0 +1,60 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS schema 1 gets exact migration backup
+PASS schema 1 retains existing progress and skips new-player guidance
+PASS schema 1 saves expanded home position
+PASS expanded room position survives schema 1 reload
+PASS schema 1 retains unknown data
+PASS schema 2 gets exact migration backup
+PASS schema 2 retains existing progress and skips new-player guidance
+PASS schema 2 saves expanded home position
+PASS expanded room position survives schema 2 reload
+PASS schema 2 retains unknown data
+PASS schema 3 gets exact migration backup
+PASS schema 3 retains existing progress and skips new-player guidance
+PASS schema 3 saves expanded home position
+PASS expanded room position survives schema 3 reload
+PASS schema 3 retains unknown data
+PASS all seven physical new stations and fresh home exist
+PASS six catalog finishes map to actual furnished surfaces
+PASS real E switches actual bedside light off
+PASS bedside light state persists independently of decor
+PASS controller persists genuine daily events together
+WARNING: Could not write local save: Can't create
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] commit (res://scripts/home_controller.gd:85)
+         [2] run (res://tests/home_session_contract.gd:60)
+PASS failed purchase rolls back cost ownership and equipment together
+PASS retry purchase charges exactly once
+PASS preview and Cancel change no coins ownership or saved equipment
+PASS catalog opened from paused Decor restores Pause without leaking world input
+PASS new modal blocks E and movement
+PASS closing prep preserves retryable session stage and stops effects
+WARNING: Could not write local save: Can't create
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] commit (res://scripts/home_controller.gd:85)
+         [2] sleep (res://scripts/home_controller.gd:357)
+         [3] run (res://tests/home_session_contract.gd:88)
+         [4] key (res://tests/phase_one.gd:25)
+         [5] frames (res://tests/phase_one.gd:18)
+PASS failed sleep keeps previous day and remains retryable
+PASS reload retains transaction daily claim and equipped purchase
+PASS reload never restores transient cooking and keeps equipment
+PASS milestone records map to distinct physical rewards
+WARNING: Could not write local save: Can't create
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] puzzle_completed (res://scripts/main.gd:297)
+         [2] <anonymous lambda> (res://scripts/cozy_pairs.gd:39)
+         [3] settle (res://scripts/pairs_rules.gd:44)
+         [4] run (res://tests/home_session_contract.gd:115)
+         [5] key (res://tests/phase_one.gd:25)
+         [6] frames (res://tests/phase_one.gd:18)
+PASS pending puzzle reward includes its daily goal receipt after save failure
+PASS puzzle retry saves both rewards once without duplicating coins
+HOME SESSION: 32/32

@@ -1,0 +1,73 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS housewarming has an honest preparation prerequisite
+PASS optional baking story begins
+PASS story introduction cannot restart
+PASS baking out of chapter order cannot skip ingredient gathering
+PASS one legitimately gathered berry is set aside once
+PASS replayed ingredient observation cannot underflow inventory
+PASS the special treat uses its actual recipe
+PASS actual cupcakes advance the next chapter
+PASS shared tea concludes the full baking story with one permanent reward
+PASS repeat shared activities cannot duplicate story coins or friendship
+PASS a repeat tea choice has a persistent visible blend distinction
+PASS tea and picnic share the same person/day bonus cap
+PASS picnic choice keeps a real outcome distinction
+PASS a later in-game day permits a legitimate shared activity benefit
+PASS Noah can begin his own independent story
+PASS Noah requires planting, watering and harvesting lavender in order
+PASS garden help concludes Noah's four-step story
+PASS both met friends and a completed personal story unlock housewarming
+PASS one visitor cannot substitute for a physical gathering
+PASS a shared picnic with both friends advances gathering preparation
+PASS a real group toast concludes housewarming
+PASS all three memories have durable single-award receipts
+PASS shared activity cannot exceed existing friendship cap
+PASS all story chapters, choices and receipts survive sanitize round trip
+PASS compact summary keeps earned coins and permanent memories
+PASS next-day summary counters reset without resetting permanent progress
+PASS invalid and duplicate story values are bounded
+PASS malformed choices default while additive future fields survive
+PASS malformed end-of-day summary cannot reach UI with missing fields
+PASS summary fields and authored memories are safely bounded
+PASS three valid objectives remain available on day 1
+PASS three valid objectives remain available on day 2
+PASS three valid objectives remain available on day 3
+PASS three valid objectives remain available on day 4
+PASS three valid objectives remain available on day 5
+PASS three valid objectives remain available on day 6
+PASS three valid objectives remain available on day 7
+PASS three valid objectives remain available on day 8
+PASS three valid objectives remain available on day 9
+PASS three valid objectives remain available on day 10
+PASS three valid objectives remain available on day 11
+PASS three valid objectives remain available on day 12
+PASS three valid objectives remain available on day 13
+PASS three valid objectives remain available on day 14
+PASS three valid objectives remain available on day 15
+PASS three valid objectives remain available on day 16
+PASS three valid objectives remain available on day 17
+PASS three valid objectives remain available on day 18
+PASS three valid objectives remain available on day 19
+PASS three valid objectives remain available on day 20
+PASS three valid objectives remain available on day 21
+PASS three valid objectives remain available on day 22
+PASS three valid objectives remain available on day 23
+PASS three valid objectives remain available on day 24
+PASS three valid objectives remain available on day 25
+PASS three valid objectives remain available on day 26
+PASS three valid objectives remain available on day 27
+PASS three valid objectives remain available on day 28
+PASS three valid objectives remain available on day 29
+PASS three valid objectives remain available on day 30
+PASS three valid objectives remain available on day 31
+PASS three valid objectives remain available on day 32
+PASS three valid objectives remain available on day 33
+PASS three valid objectives remain available on day 34
+PASS three valid objectives remain available on day 35
+PASS three valid objectives remain available on day 36
+PASS three valid objectives remain available on day 37
+PASS three valid objectives remain available on day 38
+PASS three valid objectives remain available on day 39
+PASS three valid objectives remain available on day 40
+COZY STORY RULES: 70/70

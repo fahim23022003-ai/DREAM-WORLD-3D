@@ -195,16 +195,17 @@ func lighting() -> void:
 	env.environment.background_color = Color("c6d9dd")
 	env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.environment.ambient_light_color = Color("e5e9f6")
-	env.environment.ambient_light_energy = 0.48
+	env.environment.ambient_light_energy = 0.54
 	env.environment.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	add_child(env)
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-54,-18,0)
 	sun.light_color = Color("fff1e5")
-	sun.light_energy = 0.22
+	sun.light_energy = 0.18
 	sun.shadow_enabled = true
 	sun.shadow_blur = 3.0
-	sun.shadow_normal_bias = 0.4
+	sun.shadow_normal_bias = 0.6
+	sun.light_angular_distance = 0.8
 	sun.directional_shadow_max_distance = 24
 	add_child(sun)
 	var fill := OmniLight3D.new()

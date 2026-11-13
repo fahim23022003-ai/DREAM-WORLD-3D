@@ -1,0 +1,37 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS fresh/legacy session starts at truthful Start/Continue
+PASS legacy backup and settings migration visible in real session
+PASS Start enters play and captures cursor
+PASS C opens actual personalization UI
+PASS typing B stays in name field; no gameplay shortcut
+PASS movement and orbit blocked while typing/previewing
+PASS preview is absent from actual disk save
+PASS Cancel restores entire camera and gameplay
+PASS built-in HSV wheel opens on actual avatar preview
+PASS first Esc closes topmost picker without resuming world
+PASS actual Apply saves name and outfit selection
+PASS B opens decor with honest locked reward
+PASS Esc cancels decor preview
+PASS whole-theme preview and Apply persist all surfaces
+PASS guidance can be dismissed and saved
+PASS walk to card box; single prompt agrees with E
+PASS E launches puzzle without triggering sofa
+PASS puzzle exclusively owns world input
+PASS real same-card clicks ignored
+PASS real rapid third click ignored while mismatch resolves
+PASS real mismatch timer closes cards
+PASS Restart cancels delayed resolution and resets input lock
+PASS real twelve-card completion earns one permanent theme and best
+PASS actual deferral keeps unlock without replacing current style
+PASS deferred theme is available in Decor
+PASS earned theme applies immediately to actual room
+PASS save and return to menu
+PASS new instance Continue reloads appearance, room and record
+PASS Continue does not repeat introductory guidance
+PASS genuine capture: continued_legacy
+PASS 1920x1080 personalization layout is in bounds
+PHASE 1C LEGACY: 31/31

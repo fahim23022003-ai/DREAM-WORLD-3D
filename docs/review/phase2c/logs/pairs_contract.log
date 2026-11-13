@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS each round shuffles twelve cards into six valid pairs
+PASS out-of-range choices ignored
+PASS same-card click is not a move
+PASS second different card counts one move and locks
+PASS rapid extra clicks ignored during resolution
+PASS mismatch settles without an award
+PASS Restart invalidates prior callbacks and clears locks
+PASS abort cancels unfinished round and completion
+PASS matched cards cannot be replayed: 0
+PASS matched cards cannot be replayed: 1
+PASS matched cards cannot be replayed: 2
+PASS matched cards cannot be replayed: 3
+PASS matched cards cannot be replayed: 4
+PASS matched cards cannot be replayed: 5
+PASS one legitimate completion result contains ID and move count
+PASS completion cannot emit twice
+PAIRS CONTRACT: 16/16

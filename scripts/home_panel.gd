@@ -88,7 +88,7 @@ func card(title: String,body: String,reward: String,done: bool=false,width: floa
 
 func speech(words: String) -> void:
  var scroll:=ScrollContainer.new()
- scroll.custom_minimum_size=Vector2(430,104)
+ scroll.custom_minimum_size=Vector2(430,80)
  col.add_child(scroll)
  var line: Label=ui.label(words,14)
  line.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART

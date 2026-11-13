@@ -2,6 +2,7 @@ extends Node
 const N=preload("res://scripts/neighborhood_rules.gd")
 const F=preload("res://scripts/friendship_rules.gd")
 const G=preload("res://scripts/garden_rules.gd")
+var life: Node
 var home: Node
 var game: Node3D
 var world: Node3D
@@ -18,15 +19,18 @@ func setup(controller: Node) -> void:
  game.player.collision_mask=3
  for id in F.PEOPLE:
   var npc:=preload("res://scripts/neighbor_actor.gd").new();npc.person=id;npc.game=game;game.add_child(npc);actors[id]=npc
+ life=preload("res://scripts/cozy_life_controller.gd").new();add_child(life);life.setup(self)
  refresh()
 func data() -> Dictionary: return home.rules.data.neighborhood
 func refresh() -> void:
  if not is_instance_valid(world): return
  if last_day!=home.rules.data.day:
   if last_day>0:
-   for npc in actors.values(): npc.end_talk(true)
+   for npc in actors.values():
+    if npc.mode!=npc.Mode.AWAY: npc.end_talk(true)
   last_day=home.rules.data.day
  world.apply(data(),home.rules.data)
+ if life: life.refresh()
 func handles(id: String) -> bool: return id.begins_with("neighbor.") or world.stations.has(id)
 func activate(id: String) -> void:
  if id.begins_with("neighbor."):
@@ -34,6 +38,8 @@ func activate(id: String) -> void:
   actors[person].talk();speaking=person;conversation(person)
  elif id.begins_with("garden.plot"): plot_panel(int(id.trim_prefix("garden.plot")))
  elif id=="garden.board": journal()
+ elif id=="garden.picnic": life.open_activities("mimi" if actors.mimi.visible else "noah")
+ elif id=="garden.gathering": life.begin_activity("gathering","mimi","stories") if home.rules.data.life.arcs.warming>=3 else game.ui.show_notice("A future gathering · L → Stories of Rosewater")
  elif id=="garden.rest":
   home.record("rest");home.gesture("rest");game.audio.play("bedroom");game.ui.show_notice("A slow breath · "+home.rules.period())
  elif id=="garden.bloom": event_action("bloom")
@@ -42,7 +48,12 @@ func activate(id: String) -> void:
 func transact(kind: String,info: Dictionary={}) -> Dictionary:
  var result: Dictionary={}
  var ok: bool=home.commit(func():
+  var crop: String=info.get("crop","")
+  if kind in ["garden_water","harvest"] and info.get("plot",-1) in [0,1,2]: crop=data().plots[info.plot].crop
   result.merge(N.action(home.rules.data,kind,info),true)
+  if result.get("ok",false):
+   var detail:=info.duplicate();detail.crop=crop
+   home.RULES.LIFE.observe(home.rules.data,kind,detail)
   if result.get("ok",false):
    for goal in result.matches:
     var token: String="%d:nb:%s:%s" % [home.rules.data.day,goal,info.get("npc",info.get("plot","event"))]
@@ -94,12 +105,21 @@ func conversation(id: String) -> void:
   else: b.disabled=data().event.id!="friendship" or data().event.done or home.rules.data.period<1
   actions.add_child(b)
  home.panel.button("Visitor request",func(): request_panel(id),true,"home")
+ var plans:=HBoxContainer.new();home.panel.col.add_child(plans)
+ for entry in [["Shared activities",0],["Our stories",1]]:
+  var b: Button=game.ui.button(entry[0],func(): life.open_activities(id) if entry[1]==0 else life.open_stories(id));b.custom_minimum_size=Vector2(205,36);plans.add_child(b)
  home.panel.button("See you later",func(): home.close();actors[id].end_talk(true),false,"close")
  home.panel.footer()
+ for button in home.panel.panel.find_children("*","Button",true,false):
+  button.custom_minimum_size.y=34
+  if button.text not in ["Visitor request","Shared activities"]: button.add_theme_stylebox_override("normal",game.ui.style("f6eff3",10))
+ home.panel.col.add_theme_constant_override("separation",7)
  # Eye-level side framing keeps the player out of the foreground.
- var point: Vector3=actors[id].global_position+Vector3(0.4,1.05,0)
+ var point: Vector3=(actors[id].global_position+game.player.global_position)*0.5+Vector3(0,1.05,0)
+ var yaw: float=conversation_yaw(actors[id],point)
+ point+=Vector3(cos(yaw),0,-sin(yaw))*0.85
  game.camera_rig.focus_offset=point-game.player.position-Vector3(0,1.25,0)
- game.camera_rig.yaw=conversation_yaw(actors[id],point);game.camera_rig.pitch=0.10;game.camera_rig.distance=4.6
+ game.camera_rig.yaw=yaw;game.camera_rig.pitch=0.10;game.camera_rig.distance=4.6
 func conversation_yaw(npc: CharacterBody3D,point: Vector3) -> float:
  var delta: Vector3=game.player.global_position-npc.global_position
  var facing: float=atan2(delta.x,delta.z)
@@ -140,7 +160,7 @@ func request_panel(id: String) -> void:
   home.panel.button("Share & claim reward",func():
    var result:=transact("claim",{"npc":id})
    message=result.message
-   if result.ok: game.audio.play("friendship");conversation(id)
+   if result.ok: actors[id].react("give");home.gesture("give");game.audio.play("friendship");conversation(id)
    else: home.panel.status.text=result.message,true,"check")
   home.panel.button("Maybe another time",func():
    transact("decline",{"npc":id});message="No worries. You can ask again whenever you're ready.";conversation(id))
@@ -148,44 +168,52 @@ func request_panel(id: String) -> void:
  home.panel.footer()
  home.panel.status.text=message
 func end_talk() -> void:
+ if life: life.cancel()
  if not speaking.is_empty() and actors.has(speaking): actors[speaking].end_talk()
  speaking="";message=""
 func event_action(id: String) -> void:
  var result:=transact("event",{"id":id})
  if result.ok: game.audio.play("event")
  game.ui.show_notice(result.message)
-func journal() -> void:
+func journal(section: String="friends",page: int=0) -> void:
  home.open_shell("Cozy Connections",true)
- var scroll:=ScrollContainer.new();scroll.custom_minimum_size=Vector2(840,375);scroll.follow_focus=true;home.panel.col.add_child(scroll)
- var col:=VBoxContainer.new();col.size_flags_horizontal=Control.SIZE_EXPAND_FILL;scroll.add_child(col)
+ home.panel.panel.custom_minimum_size=Vector2(900,0);home.panel.panel.size=Vector2(900,0)
+ var navigation:=HBoxContainer.new();home.panel.col.add_child(navigation)
+ for entry in [["Friends","friends"],["Stories","stories"],["Keepsakes","keepsakes"],["Discoveries","discoveries"]]:
+  var tab: Button=game.ui.button(entry[0],func(): life.open_stories() if entry[1]=="stories" else journal(entry[1]),section==entry[1]);tab.custom_minimum_size=Vector2(205,38);navigation.add_child(tab)
  var event: Dictionary=data().event
- var today: Button=game.ui.button("Today's moment · "+N.E.DEFINITIONS[event.id].name+(" ✓" if event.done else ""),event_panel,false,"leaf")
- col.add_child(today)
- var friends:=HBoxContainer.new();friends.add_theme_constant_override("separation",12);col.add_child(friends)
- for id in F.PEOPLE:
-  var p: Dictionary=data().people[id]
-  var card: PanelContainer=home.panel.card(F.PEOPLE[id].name+" · "+F.title(p.xp,p.days.size()),F.PEOPLE[id].preference,"%d/12 XP · %d/7 shared days" % [p.xp,mini(p.days.size(),7)],F.level(p.xp,p.days.size())>=2,400,p.xp/12.0)
-  home.panel.col.remove_child(card);friends.add_child(card)
-  var content: VBoxContainer=card.get_child(0)
-  var invite: Button=game.ui.button("Invite "+F.PEOPLE[id].name,func(): invite_message(id))
-  invite.custom_minimum_size=Vector2(330,40);content.add_child(invite)
-  if not p.request.is_empty():
-   var promise: Label=game.ui.label("Promise: "+F.REQUESTS[p.request].name,13);promise.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;promise.custom_minimum_size.x=350;content.add_child(promise)
- col.add_child(game.ui.label("BASKET · Strawberries %d/9 · Carrots %d/9 · Lavender %d/9" % [data().produce.strawberry,data().produce.carrot,data().produce.lavender],16))
- var discoveries:=""
- for crop in G.CROPS: discoveries+=("✓ " if crop in data().discoveries else "○ ")+G.CROPS[crop].name+"   "
- col.add_child(game.ui.label(discoveries,14))
- col.add_child(game.ui.label("KEEPSAKES · Displayed by the flower fence",17))
- var row: HBoxContainer
- var index:=0
- for id in N.ACHIEVEMENTS:
-  if index%2==0:
-   row=HBoxContainer.new();row.add_theme_constant_override("separation",12);col.add_child(row)
-  var earned: bool=id in data().achievements
-  var reward_card: PanelContainer=home.panel.card(("✓ " if earned else "○ ")+N.ACHIEVEMENTS[id],"Earned and displayed" if earned else N.CONDITIONS[id],N.REWARDS[id],earned,400)
-  home.panel.col.remove_child(reward_card);row.add_child(reward_card)
-  index+=1
- home.panel.text("Close friends: 10 XP + 7 shared in-game days. No offline or daily-login pressure.",13)
+ var today: Button=home.panel.button("Today's moment · "+N.E.DEFINITIONS[event.id].name+(" ✓" if event.done else ""),event_panel,false,"leaf");today.custom_minimum_size.y=38
+ # Fixed-page collection keeps headings and complete cards inside the viewport.
+ # Retain a ScrollContainer for keyboard focus traversal, with scrolling disabled.
+ var scroll:=ScrollContainer.new();scroll.custom_minimum_size=Vector2(840,310 if section=="keepsakes" else 220 if section=="friends" else 140);scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;scroll.vertical_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;home.panel.col.add_child(scroll)
+ var col:=VBoxContainer.new();col.size_flags_horizontal=Control.SIZE_EXPAND_FILL;scroll.add_child(col)
+ if section=="friends":
+  var friends:=HBoxContainer.new();friends.add_theme_constant_override("separation",12);col.add_child(friends)
+  for id in F.PEOPLE:
+   var person: Dictionary=data().people[id]
+   var card: PanelContainer=home.panel.card(F.PEOPLE[id].name+" · "+F.title(person.xp,person.days.size()),F.PEOPLE[id].preference,"%d/12 XP · %d/7 shared days" % [person.xp,mini(person.days.size(),7)],F.level(person.xp,person.days.size())>=2,400,person.xp/12.0)
+   home.panel.col.remove_child(card);friends.add_child(card)
+   var content: VBoxContainer=card.get_child(0)
+   var invite: Button=game.ui.button("Invite "+F.PEOPLE[id].name,func(): invite_message(id));invite.custom_minimum_size=Vector2(330,36);content.add_child(invite)
+   if not person.request.is_empty():
+    var promise: Label=game.ui.label("Promise: "+F.REQUESTS[person.request].name,13);promise.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;promise.custom_minimum_size.x=350;content.add_child(promise)
+  col.add_child(game.ui.label("Shared days grow through moments together, never through offline waiting.",14))
+ elif section=="keepsakes":
+  var ids: Array=N.ACHIEVEMENTS.keys().slice(page*4,page*4+4)
+  var row: HBoxContainer
+  for index in range(ids.size()):
+   if index%2==0:
+    row=HBoxContainer.new();row.add_theme_constant_override("separation",12);col.add_child(row)
+   var id: String=ids[index]
+   var earned: bool=id in data().achievements
+   var reward_card: PanelContainer=home.panel.card(("✓ " if earned else "○ ")+N.ACHIEVEMENTS[id],"Earned and displayed" if earned else N.CONDITIONS[id],N.REWARDS[id],earned,400)
+   home.panel.col.remove_child(reward_card);row.add_child(reward_card)
+  var turn: Button=game.ui.button("More keepsakes →" if page==0 else "← First keepsakes",func(): journal("keepsakes",1-page));turn.custom_minimum_size.y=32;col.add_child(turn)
+ else:
+  for crop in G.CROPS:
+   var l: Label=game.ui.label(("✓ " if crop in data().discoveries else "○ ")+G.CROPS[crop].name+" · basket %d/9" % data().produce[crop]+" · optional topping for "+home.RULES.RECIPES[G.CROPS[crop].recipe].name,17);col.add_child(l)
+  col.add_child(game.ui.label("Free seeds. No wilting while you are away. Your first harvest is a discovery.",14))
+ home.panel.text("Close friends: 10 XP + 7 shared in-game days. Memories are displayed in your world.",13)
  home.panel.footer()
 func event_panel() -> void:
  var event: Dictionary=data().event
@@ -215,7 +243,10 @@ func priority_hint() -> String:
   if not data().engaged: return "Your garden → E at a planter · free seeds\nMimi is walking in from the gate."
   if data().plots.any(func(p): return p.stage==4): return "A crop is ready! E at its planting spot to harvest."
   if not data().people.mimi.met: return "A friendly hello → approach Mimi and press E"
-  return "L: promises, friends & today's event\n"+N.E.DEFINITIONS[data().event.id].name
+  for arc in home.RULES.LIFE.ARCS:
+   var chapter: int=home.rules.data.life.arcs[arc]
+   if chapter>0 and chapter<=home.RULES.LIFE.ARCS[arc].steps.size(): return "Our stories · L → Stories\n"+home.RULES.LIFE.ARCS[arc].steps[chapter-1]
+  return "Ask a friend → Shared activities or Our stories\nL keeps your memories and today's event"
  for id in data().people:
   var p: Dictionary=data().people[id]
   if not p.request.is_empty():
@@ -237,7 +268,7 @@ func _process(delta: float) -> void:
   for id in actors:
    var ready: bool=id=="mimi" or data().people.mimi.met or home.rules.data.day>=2
    if ready and invited_day[id]!=home.rules.data.day and actors[id].mode==actors[id].Mode.AWAY: invite(id)
-  if audio_clock>22: game.audio.play("garden");audio_clock=0
+  if audio_clock>45: game.audio.play("garden");audio_clock=0
  if home.rules.data.period==3:
   for npc in actors.values():
-   if npc.mode==npc.Mode.WAITING and npc.elapsed>18: npc.end_talk(true)
+   if not npc.activity_owned and npc.mode==npc.Mode.WAITING and npc.elapsed>18: npc.end_talk(true)

@@ -144,7 +144,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif ui.mode=="settings_main": ui.show_page("main")
 		get_viewport().set_input_as_handled()
 	elif state==State.PLAY:
-		if event.is_action_pressed("hint_toggle"): toggle_hints()
+		if event is InputEventKey and event.pressed and event.keycode==KEY_F1:
+			set_active(false);ui.show_page("help")
+		elif event.is_action_pressed("hint_toggle"): toggle_hints()
 		elif event.is_action_pressed("journal"): home.neighborhood.journal()
 		elif event.is_action_pressed("daily_goals"): home.open_goals()
 		elif event.is_action_pressed("home_catalog"): home.open_catalog()
@@ -332,6 +334,7 @@ func _notification(what: int) -> void:
 
 func refresh_guidance() -> void:
 	ui.update_guidance(save.onboarding,room.capture_state(),save.cozy_corner_completed,save.cozy_hint_dismissed)
+	if home: home.update_hint()
 
 func room_state_changed(message: String = "") -> void:
 	save.room_state=room.capture_state()

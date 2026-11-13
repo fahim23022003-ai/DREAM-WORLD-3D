@@ -1,0 +1,58 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS visual review starts on the genuinely completed three-story fixture
+PASS real F1 opens the full controls without persistent HUD clutter
+PASS genuine capture: 19_controls_help
+PASS real T dismisses or restores contextual guidance
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS participants physically reach their assigned activity places
+PASS player sitting animation retains ownership while the UI is open
+PASS recordable shared tea scene is live
+PASS actual lavender choice changes the visible cup palette
+PASS genuine capture: 09_shared_tea_time
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS participants physically reach their assigned activity places
+PASS completed housewarming unlocks repeat group picnics
+PASS actual cloud choice changes picnic fabric and outcome
+PASS genuine capture: 10_garden_picnic
+PASS picnic stand-up clears crossed-leg pose for mimi
+PASS picnic stand-up clears crossed-leg pose for noah
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS mimi face remains in the world beside the dialogue panel
+PASS genuine capture: 06_mimi_expressions
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects noah
+PASS real E opens authored conversation with noah
+PASS noah face remains in the world beside the dialogue panel
+PASS genuine capture: 07_noah_expressions
+PASS actual movement reaches waypoint (11.0, 0.0, 1.0)
+PASS repeat visitor bench approach remains valid after picnic
+PASS genuine capture: 08_actual_seated_npc
+PASS actual movement reaches waypoint (14.4, 0.0, 2.1)
+PASS shared E resolver reaches garden.gathering
+PASS participants physically reach their assigned activity places
+PASS a real repeat gathering cannot replay a story chapter reward
+PASS standing gathering uses neutral leg stance for mimi
+PASS standing gathering uses neutral leg stance for noah
+PASS genuine capture: 12_housewarming_gathering
+PASS genuine capture: 13_improved_daily_ui
+PASS genuine capture: 14_improved_journal
+PASS genuine capture: 20_future_keepsakes
+PASS genuine capture: 18_noah_garden_memory
+PASS actual movement reaches waypoint (10.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.0)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS genuine capture: 11_story_event
+PHASE 2C REVIEW: 52/52

@@ -273,8 +273,8 @@ func _process(delta: float) -> void:
  var t:=period_blend-lo
  if env:
   env.ambient_light_color=colors[lo].lerp(colors[hi],t)
-  env.ambient_light_energy=lerpf(0.48,0.32,period_blend/3)
- if sun: sun.light_energy=lerpf(0.22,0.045,period_blend/3)
+  env.ambient_light_energy=lerpf(0.54,0.34,period_blend/3)
+ if sun: sun.light_energy=lerpf(0.18,0.045,period_blend/3)
  if is_instance_valid(living_room):
   living_room.window_sky.material_override.albedo_color=skies[lo].lerp(skies[hi],t)
   living_room.curtain_control.day_factor=lerpf(1,0.3,period_blend/3)

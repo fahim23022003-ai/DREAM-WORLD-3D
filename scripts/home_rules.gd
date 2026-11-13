@@ -1,4 +1,5 @@
 extends RefCounted
+const LIFE=preload("res://scripts/cozy_story_rules.gd")
 const NB=preload("res://scripts/neighborhood_rules.gd")
 ## Persistent life-simulation rules. Presentation and filesystem writes live elsewhere.
 const RECIPES := {
@@ -20,7 +21,7 @@ const WEEK := [["meal","water","bed"],["pancakes","lamp","rest"],["cupcakes","cu
 const PERIODS := ["Morning","Afternoon","Evening","Night"]
 var data: Dictionary
 static func defaults() -> Dictionary:
- return {"day":1,"period":0,"coins":0,"owned":[],"equipped":{"bedding":"starter","lamp":"starter","cabinets":"starter","ceramics":"starter"},"goals_done":[],"set_paid":false,"completed_days":[],"milestones":[],"receipts":[],"cook_serial":0,"meal_counts":{"cloud_pancakes":0,"berry_cupcakes":0,"starry_soup":0},"bed_made":false,"bedside_on":true,"introduced":false,"neighborhood":NB.defaults()}
+ return {"day":1,"period":0,"coins":0,"owned":[],"equipped":{"bedding":"starter","lamp":"starter","cabinets":"starter","ceramics":"starter"},"goals_done":[],"set_paid":false,"completed_days":[],"milestones":[],"receipts":[],"cook_serial":0,"meal_counts":{"cloud_pancakes":0,"berry_cupcakes":0,"starry_soup":0},"bed_made":false,"bedside_on":true,"introduced":false,"neighborhood":NB.defaults(),"life":LIFE.defaults()}
 static func sanitize(value: Variant) -> Dictionary:
  var clean:=defaults()
  var catalog_defs:=catalog()
@@ -33,6 +34,7 @@ static func sanitize(value: Variant) -> Dictionary:
   var v: Variant=value.get(key,clean[key])
   if v is int and v>=0: clean[key]=mini(v,1000000)
  clean.day=maxi(clean.day,1)
+ clean.life=LIFE.sanitize(value.get("life"))
  clean.neighborhood=NB.sanitize(value.get("neighborhood"),clean.day)
  clean.period=clampi(clean.period,0,3)
  for slot in NB.CATALOG.values(): clean.equipped[slot.slot]="starter"
@@ -84,6 +86,7 @@ func event(kind: String, token: String, info: Dictionary = {}) -> int:
     var n: int=data.meal_counts.get(id,0)
     # First two meals per recipe/day earn coins; further practice still has quality feedback.
     matches.append_array(NB.observe_meal(data,id,info.quality,info.get("garden_bonus",false)))
+    LIFE.observe(data,"meal",info)
     if n<2: data.coins+=6 if n==0 else 2
     data.meal_counts[id]=mini(n+1,2)
     data.cook_serial+=1
@@ -112,6 +115,7 @@ func event(kind: String, token: String, info: Dictionary = {}) -> int:
     data.coins+=10 if entry[0]==3 else 20
  return data.coins-before
 func sleep_next_day() -> void:
+ LIFE.finish_day(data)
  data.day+=1
  data.period=0
  data.goals_done=[]

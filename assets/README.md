@@ -28,3 +28,11 @@ visitor silhouettes, six social/garden keepsakes and six catalog upgrades. Eight
 quiet mono PCM cues (plant, water, harvest, arrival, conversation, friendship, event,
 garden chime ambience) were synthesized locally with no samples or copyrighted music.
 All 22 cues use the existing volume/mute system; audible playback remains unverified.
+
+Phase 2C adds original branching foliage, household details, seating/tea/picnic geometry,
+a cake cloche, lavender memory corner and a supported lantern gathering arch. Existing
+procedural avatar parts gain blinking, expressive mouth motion and reusable social poses.
+Eight more locally synthesized PCM cues cover sitting, standing, social/shared moments,
+story completion, day-end and restrained interior/evening ambience. All 30 cues respect
+the existing mute/volume settings. No downloaded art, third-party samples or runtime network
+services are used. Audible playback remains unverified under the cloud Dummy driver.

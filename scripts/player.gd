@@ -2,6 +2,7 @@ extends CharacterBody3D
 var camera_rig: Node3D
 var enabled := false
 var seated := false
+var social_owned := false
 var current_seat: Node3D
 var nearby_seat: Node3D
 var pose_target := Vector3.ZERO
@@ -18,6 +19,7 @@ func _ready() -> void:
 	floor_snap_length = 0.25
 
 func _physics_process(delta: float) -> void:
+	if social_owned: return
 	nearby_seat = null
 	for seat in get_tree().get_nodes_in_group("seats"):
 		if seat.available(global_position): nearby_seat = seat

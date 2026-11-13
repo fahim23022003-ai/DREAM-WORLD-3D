@@ -10,7 +10,7 @@ func scroll_keepsakes() -> void:
   await frames(1)
  await RenderingServer.frame_post_draw
 func run() -> void:
- output="res://docs/review/phase2b/";root.size=Vector2i(1280,720)
+ output="/tmp/dream-phase2b-review/";root.size=Vector2i(1280,720)
  file=FileAccess.get_file_as_string(BNOTE).strip_edges()
  await load_game();await click("Continue home  →")
  if "--resume" in OS.get_cmdline_user_args():

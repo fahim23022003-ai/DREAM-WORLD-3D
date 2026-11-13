@@ -1,0 +1,152 @@
+{
+  "passed": 1149,
+  "total": 1149,
+  "prior_regression_checks": 762,
+  "new_checks": 387,
+  "suites": {
+    "home_layout_contract": {
+      "passed": 24,
+      "total": 24
+    },
+    "home_navigation_contract": {
+      "passed": 18,
+      "total": 18
+    },
+    "home_rules_contract": {
+      "passed": 45,
+      "total": 45
+    },
+    "home_session_contract": {
+      "passed": 32,
+      "total": 32
+    },
+    "neighbor_navigation_contract": {
+      "passed": 11,
+      "total": 11
+    },
+    "neighborhood_rules_contract": {
+      "passed": 87,
+      "total": 87
+    },
+    "neighborhood_session_contract": {
+      "passed": 47,
+      "total": 47
+    },
+    "pairs_contract": {
+      "passed": 16,
+      "total": 16
+    },
+    "phase1c_fresh": {
+      "passed": 33,
+      "total": 33
+    },
+    "phase1c_legacy": {
+      "passed": 31,
+      "total": 31
+    },
+    "phase1d_continue": {
+      "passed": 5,
+      "total": 5
+    },
+    "phase1d_flow": {
+      "passed": 46,
+      "total": 46
+    },
+    "phase1d_room_contract": {
+      "passed": 34,
+      "total": 34
+    },
+    "phase1d_save_contract": {
+      "passed": 10,
+      "total": 10
+    },
+    "phase1d_ui_contract": {
+      "passed": 13,
+      "total": 13
+    },
+    "phase2a_continue": {
+      "passed": 6,
+      "total": 6
+    },
+    "phase2a_effects": {
+      "passed": 14,
+      "total": 14
+    },
+    "phase2a_flow": {
+      "passed": 51,
+      "total": 51
+    },
+    "phase2a_recipes": {
+      "passed": 29,
+      "total": 29
+    },
+    "phase2b_camera": {
+      "passed": 6,
+      "total": 6
+    },
+    "phase2b_capture": {
+      "passed": 9,
+      "total": 9
+    },
+    "phase2b_continue": {
+      "passed": 9,
+      "total": 9
+    },
+    "phase2b_flow": {
+      "passed": 89,
+      "total": 89
+    },
+    "phase2b_social": {
+      "passed": 14,
+      "total": 14
+    },
+    "phase2b_social_continue": {
+      "passed": 8,
+      "total": 8
+    },
+    "phase_one": {
+      "passed": 22,
+      "total": 22
+    },
+    "save_contract": {
+      "passed": 12,
+      "total": 12
+    },
+    "session_contract": {
+      "passed": 17,
+      "total": 17
+    },
+    "style_contract": {
+      "passed": 17,
+      "total": 17
+    },
+    "ui_focus": {
+      "passed": 7,
+      "total": 7
+    },
+    "cozy_story_contract": {
+      "passed": 70,
+      "total": 70
+    },
+    "cozy_life_session_contract": {
+      "passed": 76,
+      "total": 76
+    },
+    "phase2c_flow": {
+      "passed": 173,
+      "total": 173
+    },
+    "phase2c_continue": {
+      "passed": 9,
+      "total": 9
+    },
+    "phase2c_review": {
+      "passed": 52,
+      "total": 52
+    },
+    "phase2c_review_continue": {
+      "passed": 7,
+      "total": 7
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "images": [
+    {
+      "path": "docs/review/phase2c/01_living_room_after.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 714265,
+      "sha256": "fb626b874d11486c3021b2bc9674491638b221cd7a1a5ddab5ebd475d8b2cc46"
+    },
+    {
+      "path": "docs/review/phase2c/01_living_room_before.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 895813,
+      "sha256": "d7f756e6b52110890e75aab8046baad030bf267683faf718d893b33b30abed00"
+    },
+    {
+      "path": "docs/review/phase2c/02_kitchen_after.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 555962,
+      "sha256": "b410450d1da025bd966ba4ecc3112d9cf26b19710d227b339b4c3eff0cc801c6"
+    },
+    {
+      "path": "docs/review/phase2c/02_kitchen_before.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 652383,
+      "sha256": "f0f23ca647476c82e4c0d042e72bbb47e18c8842668c1f4c9aa7babb97eb637c"
+    },
+    {
+      "path": "docs/review/phase2c/03_bedroom_after.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 584893,
+      "sha256": "9589f3b1b669833b660730f43e5b3806532981c9dd407f4209e5c3e5e334c680"
+    },
+    {
+      "path": "docs/review/phase2c/03_bedroom_before.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 678880,
+      "sha256": "95ca56a001cb5b5dfdf3096bfd0333639dd9df11bd1d9e5f86c148438863f7df"
+    },
+    {
+      "path": "docs/review/phase2c/04_garden_after.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 451951,
+      "sha256": "30985182a24f5cff9d0363463577377d76a36be6e5bf492d96a3181d5bc3dd7e"
+    },
+    {
+      "path": "docs/review/phase2c/04_garden_before.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 660563,
+      "sha256": "ba4700979c94314dfcab78fba5d2d34357060e4423880b2b40242021e85856d0"
+    },
+    {
+      "path": "docs/review/phase2c/05_avatar_closeup.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 647423,
+      "sha256": "ff21b86fb3210d21c98c90e12b2c9a289ad245f709dcbaa0819a1205d6969914"
+    },
+    {
+      "path": "docs/review/phase2c/06_mimi_expressions.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 206682,
+      "sha256": "4cfd881540921b6c8d8dc75ff67aa407485a72090fe98c04d200c2c27a62d1df"
+    },
+    {
+      "path": "docs/review/phase2c/07_noah_expressions.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 284424,
+      "sha256": "2e4e2a5d3b9a755f6ee86f9b96ab33b080923608b3abf19aa59d2003f4f58e7c"
+    },
+    {
+      "path": "docs/review/phase2c/08_actual_seated_npc.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 584028,
+      "sha256": "d0f0f7e22bc87b8186a28f6e79ccaa510a73a5bcab93b043ac978e3f8f48f538"
+    },
+    {
+      "path": "docs/review/phase2c/09_shared_tea_time.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 261118,
+      "sha256": "630d26ef89b37c845df26bc2c62add2a6aa6d1b895a48d4145127b33b54eddd9"
+    },
+    {
+      "path": "docs/review/phase2c/10_garden_picnic.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 198096,
+      "sha256": "65faa1b63ab93e4ed5e101b48b50e613025ef37c7134a7d2c3fef44cac022416"
+    },
+    {
+      "path": "docs/review/phase2c/11_story_event.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 209801,
+      "sha256": "dfb025049aeb31542d2050cdb8f764df0ea5bf1e0b86aa4d6b51dce8ce606a5d"
+    },
+    {
+      "path": "docs/review/phase2c/12_housewarming_gathering.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 209115,
+      "sha256": "e6e7e3514857cc74eacbc7a7629d4a560c0cbe156160c7991f0dd6b7d35e0dc3"
+    },
+    {
+      "path": "docs/review/phase2c/13_improved_daily_ui.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 147234,
+      "sha256": "bde826babfbf0a648f6a7e314b9806cfe9ca7d70db9e6f90adc2c8f035458965"
+    },
+    {
+      "path": "docs/review/phase2c/14_improved_journal.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 176233,
+      "sha256": "dad6034beae1b1927c28f8f574466d633ca57909ad52af5a80ca150998538542"
+    },
+    {
+      "path": "docs/review/phase2c/15_end_of_day_summary.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 326414,
+      "sha256": "f76b072f9d33aeca910faeea2b4febb11440c70e63c01f16886bfaa105287b7a"
+    },
+    {
+      "path": "docs/review/phase2c/16_camera_comparison.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 341671,
+      "sha256": "019c00b8c37fe7ffc085001c85d6c12603d10c5e4d5f39d1757bade0497b4647"
+    },
+    {
+      "path": "docs/review/phase2c/17_quit_continue.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 494272,
+      "sha256": "3207d2e4795d6de4d9aa7441cb8f4da3fee45706c267a9399b8af48f756a67bb"
+    },
+    {
+      "path": "docs/review/phase2c/18_noah_garden_memory.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 621943,
+      "sha256": "cf2be0953577ce6af4c06aab544c494bad23c990cc6ed554fc8f9756e7c9ffe0"
+    },
+    {
+      "path": "docs/review/phase2c/19_controls_help.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 766994,
+      "sha256": "267e84f61e0732b35f2118917b2897c5cbc6aaf54356c87f3663c157c9ad5a8f"
+    },
+    {
+      "path": "docs/review/phase2c/20_future_keepsakes.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 154968,
+      "sha256": "9611729bc4b26c8d40cf4fca25872b79dd7174b7e6a9f3e52f615f6d0eace7ab"
+    },
+    {
+      "path": "docs/review/phase2c/21_journal_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 637954,
+      "sha256": "de5af5dc5825fc9a9afcc4b64ec9870ced1b9c0235009d94f6a9ab718d4a884d"
+    }
+  ],
+  "video": {
+    "path": "docs/review/phase2c/22_shared_activity.mp4",
+    "seconds": 12,
+    "width": 1280,
+    "height": 720,
+    "audio": false,
+    "sha256": "ef8fb88db4746e436703449977a130e1fe1361eed7159a06bd226448a0c3e120"
+  }
+}

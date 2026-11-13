@@ -1,6 +1,6 @@
 extends RefCounted
 const PATH := "user://rosewater.cfg"
-const VERSION := 5
+const VERSION := 6
 const HOME=preload("res://scripts/home_rules.gd")
 const SURFACES := ["rug", "cushions", "curtains"]
 var home: Dictionary=HOME.defaults()
@@ -49,7 +49,7 @@ func load_local() -> void:
 	var schema: Variant = cfg.get_value("meta","schema_version",1)
 	if schema is int and schema>VERSION: write_blocked = ERR_UNAVAILABLE
 	if (not schema is int or schema<VERSION) and write_blocked==OK:
-		var backup := path+(".v%d.bak" % schema if schema is int and schema in [1,2,3,4] else ".v1.bak")
+		var backup := path+(".v%d.bak" % schema if schema is int and schema in [1,2,3,4,5] else ".v1.bak")
 		if not FileAccess.file_exists(backup):
 			var result := DirAccess.copy_absolute(path,backup)
 			if result != OK: write_blocked = result

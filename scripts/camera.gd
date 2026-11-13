@@ -35,7 +35,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	if not target: return
 	global_position = global_position.lerp(target.global_position+focus_offset+Vector3(0,1.25,0),1-exp(-10*delta))
-	rotation = Vector3(-pitch,yaw,0)
+	var turn_speed: float=16.0 if enabled else 7.0
+	rotation.x=lerp_angle(rotation.x,-pitch,1-exp(-turn_speed*delta))
+	rotation.y=lerp_angle(rotation.y,yaw,1-exp(-turn_speed*delta))
 	var small_room: bool=target.position.z>5 and target.position.x<6 and focus_offset.length()<0.2
 	arm.spring_length = lerpf(arm.spring_length,distance,1-exp(-12*delta))
 	if enabled:

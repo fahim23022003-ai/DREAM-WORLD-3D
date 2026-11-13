@@ -1,0 +1,5 @@
+view,before_median_ms,after_median_ms,median_improvement_percent,before_p95_ms,after_p95_ms,before_draws,after_draws,before_primitives,after_primitives
+01_living_room,492.044,327.685,33.4,555.279,396.757,2283,1337,1324590,516310
+02_kitchen,302.066,219.795,27.24,360.463,263.905,672,497,420804,138732
+03_bedroom,288.2,196.902,31.68,336.829,232.169,520,427,331134,95130
+04_garden,320.57,251.598,21.52,370.202,300.551,2202,1057,1253388,598424

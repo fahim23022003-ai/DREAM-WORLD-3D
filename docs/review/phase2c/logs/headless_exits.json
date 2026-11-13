@@ -1,0 +1,16 @@
+{
+  "save_contract": 0,
+  "style_contract": 0,
+  "pairs_contract": 0,
+  "session_contract": 0,
+  "phase1d_ui_contract": 0,
+  "phase1d_room_contract": 0,
+  "phase1d_save_contract": 0,
+  "home_rules_contract": 0,
+  "home_session_contract": 0,
+  "home_navigation_contract": 0,
+  "home_layout_contract": 0,
+  "neighborhood_rules_contract": 0,
+  "neighborhood_session_contract": 0,
+  "neighbor_navigation_contract": 0
+}

@@ -115,11 +115,11 @@ func _ready() -> void:
 	home_label = label("✦   ROSEWATER HOUSE",13,"756578")
 	badge.add_child(home_label)
 	var legend := PanelContainer.new()
-	legend.position = Vector2(216,660)
+	legend.position = Vector2(26,666)
 	legend.add_theme_stylebox_override("panel",style("fff8f0ed",18))
 	legend.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud.add_child(legend)
-	var controls := label("WASD Move · SHIFT Run · MOUSE Look · SCROLL Zoom · C Personalize · B Decor · H Cozy hint · ESC Pause",13,"756578")
+	var controls := label("F1 Controls · Esc Pause",13,"756578")
 	controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	legend.add_child(controls)
 	prompt = label("",17,"fff8ef")
@@ -171,12 +171,17 @@ func show_page(page: String) -> void:
 		col.add_child(button("Settings",func(): show_page("settings_main")))
 		col.add_child(button("Quit",func(): quit_requested.emit()))
 		col.add_child(label("THE LIVING ROOM     /     01",11,"9a8694"))
+	elif page == "help":
+		col.add_child(label("Make yourself at home",24))
+		col.add_child(label("WASD move · Shift run\nMouse orbit · Wheel zoom\nE interact · Esc back/pause\nC personalize · B decorate\nQ goals · J catalog · L journal\nH cozy corner · T hints · F1 help",17))
+		col.add_child(button("Back to home",func(): resume_requested.emit(),true))
 	elif page == "pause":
 		col.add_child(label("Take a little breath",27,"73505a"))
 		col.add_child(label("Your corner of the world can wait.",15,"8b7569"))
 		col.add_child(button("Resume  →",func(): resume_requested.emit(),true))
 		col.add_child(button("Personalize  ·  C",func(): personalize_requested.emit()))
 		col.add_child(button("Decorate  ·  B",func(): decor_requested.emit()))
+		col.add_child(button("Controls · F1",func(): show_page("help")))
 		col.add_child(button("Settings",func(): show_page("settings_pause")))
 		col.add_child(button("Save & main menu",func(): main_requested.emit()))
 		col.add_child(button("Save & quit",func(): quit_requested.emit()))

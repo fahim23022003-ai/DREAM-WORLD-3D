@@ -1,0 +1,179 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS genuine capture: 05_avatar_closeup
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.5, 0.0, 7.0)
+PASS one shared prompt resolves kitchen.fridge
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.2)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS real story choice begins Mimi's baking surprise
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS participants physically reach their assigned activity places
+PASS tea has visible cups and a seated player
+PASS genuine capture: 09_shared_tea_time
+PASS actual activity claims its saved result
+PASS repeated GUI claim cannot duplicate a shared reward
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS genuine capture: 06_mimi_expressions
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects noah
+PASS real E opens authored conversation with noah
+PASS real story choice begins Noah's little garden
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects noah
+PASS real E opens authored conversation with noah
+PASS genuine capture: 07_noah_expressions
+PASS actual movement reaches waypoint (11.0, 0.0, 1.0)
+PASS Noah actually walks to and sits on the garden bench
+PASS genuine capture: 08_actual_seated_npc
+PASS actual movement reaches waypoint (9.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot0
+PASS shared E resolver reaches garden.plot0
+PASS actual movement reaches waypoint (12.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot1
+PASS shared E resolver reaches garden.plot1
+PASS actual movement reaches waypoint (15.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot2
+PASS shared E resolver reaches garden.plot2
+PASS real planting and watering advance two Noah chapters
+PASS actual movement reaches waypoint (10.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.0)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.5, 0.0, 7.0)
+PASS one shared prompt resolves kitchen.fridge
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS actual movement reaches waypoint (-3.55, 0.0, 11.75)
+PASS one shared prompt resolves kitchen.stove
+PASS genuine capture: 16_camera_comparison
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS legitimate station sequence plates cloud_pancakes
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (2.0, 0.0, 10.5)
+PASS one shared prompt resolves bedroom.bed
+PASS sleep presents the real compact end-of-day summary
+PASS genuine capture: 15_end_of_day_summary
+PASS actual movement reaches waypoint (3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS sleep grows the three cared-for crops without real-world waiting
+PASS actual movement reaches waypoint (9.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot0
+PASS actual movement reaches waypoint (12.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot1
+PASS actual movement reaches waypoint (15.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot2
+PASS genuine harvest advances both personal stories
+PASS actual movement reaches waypoint (12.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot1
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects noah
+PASS real E opens authored conversation with noah
+PASS participants physically reach their assigned activity places
+PASS actual activity claims its saved result
+PASS repeated GUI claim cannot duplicate a shared reward
+PASS Noah's complete story earns its physical garden memory through real care
+PASS actual movement reaches waypoint (10.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.0)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.5, 0.0, 7.0)
+PASS one shared prompt resolves kitchen.fridge
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS actual movement reaches waypoint (-3.55, 0.0, 11.75)
+PASS one shared prompt resolves kitchen.stove
+PASS genuine capture: 16_camera_comparison
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS legitimate station sequence plates berry_cupcakes
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.2)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS participants physically reach their assigned activity places
+PASS actual activity claims its saved result
+PASS repeated GUI claim cannot duplicate a shared reward
+PASS Mimi's full ingredient, cooking and celebration story concludes legitimately
+PASS real story choice begins Rosewater housewarming
+PASS actual movement reaches waypoint (10.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.0)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.5, 0.0, 7.0)
+PASS one shared prompt resolves kitchen.fridge
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS actual movement reaches waypoint (-3.55, 0.0, 11.75)
+PASS one shared prompt resolves kitchen.stove
+PASS genuine capture: 16_camera_comparison
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS legitimate station sequence plates cloud_pancakes
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.2)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS genuine movement safely reaches a seated or returning visitor
+PASS real E interrupts a seated visitor safely
+PASS participants physically reach their assigned activity places
+PASS both friends physically join the housewarming picnic with visible food
+PASS genuine capture: 10_garden_picnic
+PASS actual activity claims its saved result
+PASS repeated GUI claim cannot duplicate a shared reward
+PASS real group picnic completes gathering preparation
+PASS actual movement reaches waypoint (14.4, 0.0, 2.1)
+PASS shared E resolver reaches garden.gathering
+PASS participants physically reach their assigned activity places
+PASS group toast concludes the complete housewarming story with permanent lanterns
+PASS genuine capture: 12_housewarming_gathering
+PASS genuine capture: 13_improved_daily_ui
+PASS genuine capture: 14_improved_journal
+PASS genuine capture: 20_future_keepsakes
+PASS actual movement reaches waypoint (10.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 1.8)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.0)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS genuine capture: 11_story_event
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (2.0, 0.0, 10.5)
+PASS one shared prompt resolves bedroom.bed
+PASS sleep presents the real compact end-of-day summary
+PASS genuine capture: 15_end_of_day_summary
+PASS actual movement reaches waypoint (3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS sleep summary records all completed stories
+PHASE 2C FLOW: 173/173

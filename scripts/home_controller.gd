@@ -45,7 +45,9 @@ func setup(owner_game: Node3D) -> void:
  hint_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE
  game.ui.hud.add_child(hint_panel)
  hint.mouse_filter=Control.MOUSE_FILTER_IGNORE
- hint_panel.add_child(hint)
+ var guidance_row:=HBoxContainer.new();hint_panel.add_child(guidance_row);guidance_row.add_child(hint)
+ var dismiss: Button=game.ui.button("Hide tips",func(): game.ui.guidance_changed.emit(true))
+ dismiss.custom_minimum_size=Vector2(84,26);dismiss.add_theme_font_size_override("font_size",12);dismiss.icon=null;dismiss.size_flags_vertical=Control.SIZE_SHRINK_CENTER;guidance_row.add_child(dismiss)
  refresh()
 func refresh() -> void:
  strip.text="Day %d · %s · %d Cozy Coins   |   Q Goals · J Catalog · L Journal" % [rules.data.day,rules.period(),rules.data.coins]
@@ -72,12 +74,17 @@ func update_hint() -> void:
   var priority: String=neighborhood.priority_hint()
   if not priority.is_empty(): next=priority
  # One guidance surface owns automatic hints; H still explicitly opens the cozy checklist.
- if is_instance_valid(game.ui.guide) and game.ui.guidance_mode!="cozy": game.ui.guide.hide()
+ if is_instance_valid(game.ui.guide) and game.ui.guidance_mode!="cozy":
+  game.ui.guide.hide()
+  for button in game.ui.guide.find_children("*","Button",true,false): button.text="";button.hide()
  hint.text=next
- hint_panel.visible=not next.is_empty() and not game.save.onboarding.dismissed
+ hint_panel.visible=not next.is_empty() and not game.save.onboarding.dismissed and not (game.ui.guidance_mode=="cozy" and is_instance_valid(game.ui.guide) and game.ui.guide.visible)
 func commit(mutate: Callable) -> bool:
  var before: Dictionary=rules.data.duplicate(true)
+ if rules.data.life.morning_friends.is_empty():
+  for id in rules.data.neighborhood.people: rules.data.life.morning_friends[id]=rules.data.neighborhood.people[id].xp
  mutate.call()
+ rules.data.life.earned+=maxi(0,rules.data.coins-before.coins)
  game.save.home=rules.data
  if game.persist(true)!=OK:
   rules.data=before
@@ -85,6 +92,7 @@ func commit(mutate: Callable) -> bool:
   refresh()
   return false
  refresh()
+ if rules.data.life.rewards.size()>before.life.rewards.size(): game.audio.play("story")
  return true
 func record(kind: String,detail: Dictionary={}) -> bool:
  var token: String="%d:%s" % [rules.data.day,kind]
@@ -375,4 +383,5 @@ func sleep() -> void:
   sleep_busy=false
   close()
   refresh()
-  game.ui.show_notice("Good morning · Day %d · three fresh cozy goals" % rules.data.day))
+  game.ui.show_notice("Good morning · Day %d · three fresh cozy goals" % rules.data.day)
+  if rules.data.life.engaged and neighborhood: neighborhood.life.summary())

@@ -1,5 +1,9 @@
 extends Node3D
 var home_action := ""
+var social_pose := ""
+var expression := "warm"
+var mouth: Node3D
+var eyelids: Array[MeshInstance3D]=[]
 ## Swappable original sculpted bob, layered pinafore and articulated doll limbs.
 const F = preload("res://scripts/forms.gd")
 var body: Node3D
@@ -50,7 +54,7 @@ func _ready() -> void:
 	var hair := Node3D.new()
 	hair.name = "Hair_ChestnutBob"
 	head.add_child(hair)
-	F.channel(F.finish(F.ball(hair,Vector3(0,0.045,-0.095),Vector3(0.73,0.67,0.58),"77574f"),"hair"),"hair",0.9)
+	F.channel(F.finish(F.ball(hair,Vector3(0,0.045,-0.095),Vector3(0.70,0.64,0.55),"77574f"),"hair"),"hair",0.9)
 	F.finish(F.ball(head,Vector3(0,-0.055,0.105),Vector3(0.59,0.5,0.455),"f4cfb8"),"skin")
 	for i in range(5):
 		var x := -0.225+i*0.108
@@ -67,17 +71,22 @@ func _ready() -> void:
 		F.rod(head,Vector3(x-0.037,0.052,0.31),Vector3(x+0.025,0.064,0.312),0.011,"8b6658")
 		F.ball(head,Vector3(x*1.62,-0.115,0.302),Vector3(0.095,0.043,0.012),"ebb2ad")
 	F.finish(F.ball(head,Vector3(0,-0.096,0.344),Vector3(0.044,0.035,0.033),"e8b9a0"),"skin")
+	mouth=Node3D.new();head.add_child(mouth)
+	for x in [-0.118,0.118]:
+		var lid:=F.ball(head,Vector3(x,-0.034,0.367),Vector3(0.092,0.11,0.018),"f4cfb8");eyelids.append(lid);lid.hide()
 	for i in range(5):
 		var a := Vector3(-0.032+i*0.013,-0.151-0.013*sin(i*PI/4),0.328)
 		var b := Vector3(-0.032+(i+1)*0.013,-0.151-0.013*sin((i+1)*PI/4),0.328)
-		F.rod(head,a,b,0.005,"a67671")
+		F.rod(mouth,a,b,0.007,"a67671")
 	for x in [-0.06,0.06]:
 		var bow := F.ball(hair,Vector3(0.305+x,0.19,0.13),Vector3(0.15,0.12,0.075),"d9cade")
 		bow.rotation.z = x*5
-	F.ball(hair,Vector3(0.305,0.19,0.17),Vector3.ONE*0.06,"eee3eb")
+		bow.name="RibbonAccessory"
+	var knot:=F.ball(hair,Vector3(0.305,0.19,0.17),Vector3.ONE*0.06,"eee3eb");knot.name="RibbonAccessory"
 	for side in [-1,1]:
 		var ribbon := F.box(hair,Vector3(0.3+side*0.035,0.11,0.13),Vector3(0.048,0.12,0.022),"d9cade",0.01)
 		ribbon.rotation.z = side*0.25
+		ribbon.name="RibbonAccessory"
 	left_leg = limb(Vector3(-0.13,0.59,0),true)
 	right_leg = limb(Vector3(0.13,0.59,0),true)
 	left_arm = limb(Vector3(-0.27,1.17,0),false)
@@ -95,9 +104,9 @@ func lock(parent: Node3D, points: Array[Vector3], color: String, width: float) -
 		centers.append(points[segment].cubic_interpolate(points[segment+1],points[maxi(0,segment-1)],points[mini(3,segment+2)],t))
 		radii.append(lerpf(widths[segment],widths[segment+1],smoothstep(0,1,t)))
 	for row in range(12):
-		for i in range(20):
+		for i in range(12):
 			for c in [Vector2(i,row),Vector2(i+1,row+1),Vector2(i+1,row),Vector2(i,row),Vector2(i,row+1),Vector2(i+1,row+1)]:
-				var a: float = c.x*TAU/20
+				var a: float = c.x*TAU/12
 				var ring := int(c.y)
 				st.add_vertex(centers[ring]+Vector3(cos(a)*radii[ring],0,sin(a)*radii[ring]*0.6))
 	st.generate_normals()
@@ -134,6 +143,8 @@ func animate(delta: float, speed: float, running: bool, seated: bool) -> void:
 	gait = lerpf(gait,minf(speed/2.3,1.0)*(1-sit_blend),1-exp(-10*delta))
 	run_blend = lerpf(run_blend,1.0 if running and speed>2.5 else 0.0,1-exp(-8*delta))
 	var amplitude := lerpf(0.66,0.88,run_blend)
+	left_leg.rotation.z=lerpf(left_leg.rotation.z,0,1-exp(-10*delta))
+	right_leg.rotation.z=lerpf(right_leg.rotation.z,0,1-exp(-10*delta))
 	left_leg.rotation.x = sin(clock)*amplitude*gait - sit_blend*1.48
 	right_leg.rotation.x = -sin(clock)*amplitude*gait - sit_blend*1.48
 	left_leg.get_node("Knee").rotation.x = maxf(0,-sin(clock))*0.7*gait + sit_blend*0.92
@@ -146,9 +157,21 @@ func animate(delta: float, speed: float, running: bool, seated: bool) -> void:
 	body.rotation.x = lerpf(body.rotation.x,-0.09*run_blend*gait,1-exp(-10*delta))
 	skirt.rotation.x = -sit_blend*0.8
 	head.rotation.z = sin(idle_clock*1.5)*0.018*(1-gait)
+	for lid in eyelids: lid.visible=fmod(idle_clock,4.8)>4.66
+	if is_instance_valid(mouth): mouth.scale=Vector3(1.18,1.5 if expression=="happy" else 0.85 if expression=="shy" else 1.0,1)
+	for leg in [left_leg,right_leg]: leg.get_node("Knee").scale.y=lerpf(1.0,1.8 if social_pose!="picnic" else 1.0,sit_blend)
+	if social_pose=="picnic":
+		left_leg.rotation=Vector3(-1.25,0,0.55);right_leg.rotation=Vector3(-1.25,0,-0.55)
+		left_leg.get_node("Knee").rotation.x=2.0;right_leg.get_node("Knee").rotation.x=2.0
 	if home_action!="":
 		left_arm.rotation.x=-1.0+sin(idle_clock*6)*0.12
 		right_arm.rotation.x=-1.1+cos(idle_clock*6)*0.2
+		if home_action=="wave":
+			right_arm.rotation.x=-2.3;right_arm.rotation.z=-0.35+sin(idle_clock*7)*0.25;left_arm.rotation.x=0
+		elif home_action=="happy":
+			left_arm.rotation.z=0.4;right_arm.rotation.z=-0.4;head.rotation.z=sin(idle_clock*5)*0.07
+		elif home_action=="give":
+			left_arm.rotation.x=-1.5;right_arm.rotation.x=-1.5
 		if home_action=="sleep": head.rotation.z=sin(idle_clock)*0.05
 
 func apply_appearance(data: Dictionary) -> void:

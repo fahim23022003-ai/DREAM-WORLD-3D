@@ -1,0 +1,95 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS genuine physical house-to-garden entrance traverses safely
+PASS genuine capture: 05_mimi_arrival
+PASS Mimi really walks in from the gate
+PASS genuine capture: 01_garden_wide
+PASS actual movement reaches waypoint (9.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot0
+PASS real GUI seed selection plants spot 0
+PASS shared E resolver reaches garden.plot0
+PASS actual watering produces sprout and reusable drops
+PASS genuine capture: 02_garden_planting
+PASS actual movement reaches waypoint (12.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot1
+PASS real GUI seed selection plants spot 1
+PASS shared E resolver reaches garden.plot1
+PASS actual watering produces sprout and reusable drops
+PASS actual movement reaches waypoint (15.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot2
+PASS real GUI seed selection plants spot 2
+PASS shared E resolver reaches garden.plot2
+PASS actual watering produces sprout and reusable drops
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS genuine conversation earns one capped friendship point
+PASS genuine capture: 07_visitor_conversation
+PASS actual request acceptance records Mimi's pancake promise
+PASS genuine capture: 08_visitor_request
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.0)
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.5, 0.0, 7.0)
+PASS one shared prompt resolves kitchen.fridge
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS actual movement reaches waypoint (-3.55, 0.0, 11.75)
+PASS one shared prompt resolves kitchen.stove
+PASS genuine capture: 15_camera_improvement
+PASS actual movement reaches waypoint (-3.55, 0.0, 9.25)
+PASS one shared prompt resolves kitchen.prep
+PASS real completed cooking satisfies visitor condition
+PASS cooking advances watered sprouts into growing plants
+PASS actual movement reaches waypoint (-3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (-3.0, 0.0, 3.2)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS genuine capture: 03_garden_growing
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects mimi
+PASS real E opens authored conversation with mimi
+PASS real request claim increases friendship to Friend
+PASS surprise visit completes through actual request with a durable receipt
+PASS genuine capture: 09_friendship_reward
+PASS genuine movement approaches visitor without crossing their collision
+PASS normal social prompt selects noah
+PASS real E opens authored conversation with noah
+PASS genuine capture: 06_noah_garden
+PASS genuine capture: 11_new_daily_goals
+PASS genuine capture: 10_dynamic_event
+PASS earned coins buy and equip a real garden furnishing
+PASS genuine capture: 13_garden_decor
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (2.0, 0.0, 10.5)
+PASS one shared prompt resolves bedroom.bed
+PASS actual sleep advances crops to safe harvest without real-world waiting
+PASS actual movement reaches waypoint (3.0, 0.0, 6.2)
+PASS actual movement reaches waypoint (3.0, 0.0, 3.6)
+PASS actual movement reaches waypoint (7.2, 0.0, 3.6)
+PASS actual movement reaches waypoint (9.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot0
+PASS actual movement reaches waypoint (12.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot1
+PASS actual movement reaches waypoint (15.0, 0.0, 0.25)
+PASS shared E resolver reaches garden.plot2
+PASS legitimate harvesting fills bounded basket and empties all plots once
+PASS genuine capture: 04_garden_harvest
+PASS genuine capture: 12_progress_journal
+PASS journal UI fits rendered 1920x1080
+PASS actual movement reaches waypoint (10.4, 0.0, -2.75)
+PASS shared E resolver reaches garden.bloom
+PASS real flower-patch interaction completes next-day bloom event
+PASS actual movement reaches waypoint (14.5, 0.0, -2.7)
+PASS shared E resolver reaches garden.rest
+PASS shared E resolver reaches garden.rest
+PASS genuine capture: 14_evening_garden
+PHASE 2B FLOW: 89/89

@@ -1,0 +1,74 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS schema 1 retains exact migration backup
+PASS schema 1 preserves money ownership claims and original achievements
+PASS schema 1 writes safely into expanded garden
+PASS schema 1 retains new position and unknown fields
+PASS schema 2 retains exact migration backup
+PASS schema 2 preserves money ownership claims and original achievements
+PASS schema 2 writes safely into expanded garden
+PASS schema 2 retains new position and unknown fields
+PASS schema 3 retains exact migration backup
+PASS schema 3 preserves money ownership claims and original achievements
+PASS schema 3 writes safely into expanded garden
+PASS schema 3 retains new position and unknown fields
+PASS schema 4 retains exact migration backup
+PASS schema 4 preserves money ownership claims and original achievements
+PASS schema 4 writes safely into expanded garden
+PASS schema 4 retains new position and unknown fields
+PASS garden entrance is a physical doorway
+PASS old solid wall assertion remains valid at z=2
+PASS garden has safe collision floor
+PASS garden fence safely bounds traversal
+PASS away visitors leave no invisible collision
+PASS planting transaction updates real model state
+WARNING: Could not write local save: Can't open file
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] commit (res://scripts/home_controller.gd:85)
+         [2] transact (res://scripts/neighborhood_controller.gd:50)
+         [3] run (res://tests/neighborhood_session_contract.gd:32)
+         [4] frames (res://tests/phase_one.gd:18)
+PASS real failed water save rolls back growth and retains prior file
+PASS retry waters exactly once
+PASS duplicate water cannot progress or reward
+WARNING: Could not write local save: Can't open file
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] commit (res://scripts/home_controller.gd:85)
+         [2] transact (res://scripts/neighborhood_controller.gd:50)
+         [3] run (res://tests/neighborhood_session_contract.gd:42)
+         [4] frames (res://tests/phase_one.gd:18)
+PASS failed visitor claim preserves request money friendship and file together
+PASS claim retry succeeds once with valid friendship progression
+PASS repeated visitor claim never duplicates economic reward
+PASS saved sleep readies watered crop
+WARNING: Could not write local save: Can't open file
+     at: push_warning (core/variant/variant_utility.cpp:1034)
+     GDScript backtrace (most recent call first):
+         [0] persist (res://scripts/main.gd:123)
+         [1] commit (res://scripts/home_controller.gd:85)
+         [2] transact (res://scripts/neighborhood_controller.gd:50)
+         [3] run (res://tests/neighborhood_session_contract.gd:54)
+         [4] frames (res://tests/phase_one.gd:18)
+PASS failed harvest keeps ripe crop basket and previous file intact
+PASS schema 5 saves crop harvest and friendship consistently
+PASS new instance restores settled garden and fresh safe actor AI
+PASS four earned achievements have actual visible 3D rewards
+PASS long notice stays inside (1280, 720)
+PASS journal fits (1280, 720)
+PASS event activity card fits (1280, 720)
+PASS friendship conversation fits (1280, 720)
+PASS long close-friend and request dialogue scrolls safely at (1280, 720)
+PASS visitor request fits (1280, 720)
+PASS new social modal blocks world interaction
+PASS long notice stays inside (1920, 1080)
+PASS journal fits (1920, 1080)
+PASS event activity card fits (1920, 1080)
+PASS friendship conversation fits (1920, 1080)
+PASS long close-friend and request dialogue scrolls safely at (1920, 1080)
+PASS visitor request fits (1920, 1080)
+PASS new social modal blocks world interaction
+NEIGHBORHOOD SESSION: 47/47
