@@ -1,0 +1,78 @@
+{
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source": "running Godot game viewport, unedited",
+  "captures": [
+    {
+      "path": "after/avatar_closeup.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "fdc81c785ceef95e183a58cb529c91dca8f211e37328a657f9da33013f99e6c2"
+    },
+    {
+      "path": "after/main_menu.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "3d2047ed5aebe0ff23abbac9a0bfb9647fda6c6541b6ce4b3a83907b20f66ad8"
+    },
+    {
+      "path": "after/pause.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "53ad19c9c7c3a0fec29421d0752c24aec1ba3b4904602dd0e8e0dbe9e3fca74a"
+    },
+    {
+      "path": "after/room_comparison.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "33583ac6a8adcd418057be09df55b05a51f8010b29f1664129772f8e00236c74"
+    },
+    {
+      "path": "after/room_wide.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "aecddec3e36c3e2d623ff3349852dc9a81e9e59b27177e591da893d7146792a2"
+    },
+    {
+      "path": "after/settings.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "cb24b0742caa7ac85b5569d76c5eec1f6167beac36d7f0cf148c5c17c1f5ce59"
+    },
+    {
+      "path": "after/sofa_interaction.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "4b08a2203874ad85cd42d308dbc4223ca43b17be2aec3f13996551a64a0a11ac"
+    },
+    {
+      "path": "before/avatar_menu.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "b5b38468d06c67781661b9dd87d636d82e37c1d7a81974bb0b4a17e53da6bd7a"
+    },
+    {
+      "path": "before/room_gameplay.png",
+      "pixels": [
+        1280,
+        720
+      ],
+      "sha256": "3be5fbcfde73369e0060833fbf8859622649b5baa92cf5e19a30c4a955b17bd1"
+    }
+  ]
+}

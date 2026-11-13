@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+CAPTURE main_menu (1280, 720)
+CAPTURE settings (1280, 720)
+CAPTURE room_comparison (1280, 720)
+CAPTURE room_wide (1280, 720)
+CAPTURE sofa_interaction (1280, 720)
+CAPTURE avatar_closeup (1280, 720)
+CAPTURE pause (1280, 720)
